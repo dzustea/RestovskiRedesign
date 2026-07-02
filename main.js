@@ -1,0 +1,158 @@
+// theme toggle
+(function () {
+  const root = document.documentElement;
+  const btn  = document.getElementById('theme-toggle');
+  const icon = document.getElementById('theme-icon');
+  if (!btn) return;
+
+  const flash = document.createElement('div');
+  flash.className = 'theme-flash';
+  document.body.appendChild(flash);
+
+  function syncIcon() {
+    const dark = (root.getAttribute('data-theme') || 'dark') === 'dark';
+    icon.textContent = dark ? '☾' : '☀';
+    btn.setAttribute('aria-pressed', dark ? 'false' : 'true');
+  }
+  syncIcon();
+
+  btn.addEventListener('click', () => {
+    const next = (root.getAttribute('data-theme') || 'dark') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('rest-theme', next); } catch (e) {}
+    syncIcon();
+    flash.classList.remove('flashing');
+    void flash.offsetWidth;
+    flash.classList.add('flashing');
+  });
+
+  // respect OS preference on first visit
+  try {
+    if (!localStorage.getItem('rest-theme') && window.matchMedia?.('(prefers-color-scheme: light)').matches) {
+      root.setAttribute('data-theme', 'light');
+      syncIcon();
+    }
+  } catch (e) {}
+})();
+
+// nav — hide on scroll down, show on scroll up
+(function () {
+  const nav = document.querySelector('nav');
+  if (!nav) return;
+  let lastY = window.scrollY;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    nav.classList.toggle('nav-hidden', y > lastY && y > 120);
+    lastY = y;
+  }, { passive: true });
+})();
+
+// scroll reveal — blocks
+(function () {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (!e.isIntersecting) return;
+      setTimeout(() => e.target.classList.add('in'), i * 50);
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+})();
+
+// scroll reveal — hero headline (fires on load, not scroll)
+(function () {
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      document.querySelectorAll('.reveal-line').forEach(el => el.classList.add('in'));
+    }, 120);
+  });
+})();
+
+// hero portrait parallax
+(function () {
+  const img = document.querySelector('.hero-portrait img');
+  if (!img) return;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y < window.innerHeight) {
+      img.style.transform = `translateY(${Math.min(y * 0.08, 40)}px) scale(1.03)`;
+    }
+  }, { passive: true });
+})();
+
+// tour date filters
+(function () {
+  const btns  = document.querySelectorAll('.filter-btn');
+  const items = document.querySelectorAll('.tour-item');
+  const ACTIVE = ['border-[var(--ink)]', 'bg-[var(--ink)]', 'text-[var(--invert)]', 'font-bold'];
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => { b.classList.remove(...ACTIVE); b.classList.add('border-[var(--line)]'); b.setAttribute('aria-pressed', 'false'); });
+      btn.classList.add(...ACTIVE);
+      btn.classList.remove('border-[var(--line)]');
+      btn.setAttribute('aria-pressed', 'true');
+
+      const filter = btn.dataset.filter;
+      items.forEach(item => {
+        item.style.display = (filter === 'all' || item.dataset.type === filter) ? '' : 'none';
+      });
+    });
+  });
+})();
+
+// discography accordion — single open
+(function () {
+  const details = document.querySelectorAll('#disco details');
+  details.forEach(d => {
+    d.addEventListener('toggle', () => {
+      if (d.open) details.forEach(other => { if (other !== d) other.open = false; });
+    });
+  });
+})();
+
+// booking form — event type selector
+(function () {
+  const ACTIVE = ['border-[var(--ink)]', 'bg-[var(--ink)]', 'text-[var(--invert)]', 'font-bold'];
+  document.querySelectorAll('.event-type-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.event-type-btn').forEach(b => {
+        b.classList.remove(...ACTIVE);
+        b.classList.add('border-[var(--line)]');
+        b.removeAttribute('data-active');
+      });
+      btn.classList.add(...ACTIVE);
+      btn.classList.remove('border-[var(--line)]');
+      btn.setAttribute('data-active', 'true');
+    });
+  });
+})();
+
+// booking form — submit: hide form, show confirmation
+(function () {
+  const form = document.querySelector('#kontakt form');
+  if (!form) return;
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    form.style.transition = 'opacity 0.3s';
+    form.style.opacity    = '0';
+
+    setTimeout(() => {
+      const msg = document.createElement('div');
+      // mirrors the form's grid span; inline styles are intentional for runtime-generated markup
+      msg.style.cssText = 'grid-column: span 3; display: flex; flex-direction: column; gap: 1.25rem; justify-content: center; padding: 1rem 0;';
+      msg.innerHTML = `
+        <p style="font-family:var(--font-display);font-weight:800;text-transform:uppercase;font-size:clamp(2rem,5vw,3rem);line-height:0.96;color:var(--ink);">
+          Poptávka<br>přijata. ✓
+        </p>
+        <p style="font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.06em;text-transform:uppercase;line-height:1.8;color:var(--ink-dim);max-width:26rem;">
+          Demo verze — backend zatím není napojený.<br>
+          Ozvi se přímo na <a href="mailto:booking@tynikdy.cz" style="color:var(--ink);text-decoration:underline;text-underline-offset:3px;">booking@tynikdy.cz</a>
+        </p>
+      `;
+      form.replaceWith(msg);
+    }, 300);
+  });
+})();
