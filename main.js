@@ -22,6 +22,9 @@
     try { localStorage.setItem('rest-theme', next); } catch (e) {}
     syncIcon();
     flash.classList.remove('flashing');
+    // Reading offsetWidth forces a synchronous layout flush — without it, removing
+    // and re-adding the class in the same frame is batched by the browser and the
+    // CSS animation never restarts from the beginning.
     void flash.offsetWidth;
     flash.classList.add('flashing');
   });
@@ -141,18 +144,93 @@
 
     setTimeout(() => {
       const msg = document.createElement('div');
-      // mirrors the form's grid span; inline styles are intentional for runtime-generated markup
-      msg.style.cssText = 'grid-column: span 3; display: flex; flex-direction: column; gap: 1.25rem; justify-content: center; padding: 1rem 0;';
-      msg.innerHTML = `
-        <p style="font-family:var(--font-display);font-weight:800;text-transform:uppercase;font-size:clamp(2rem,5vw,3rem);line-height:0.96;color:var(--ink);">
-          Poptávka<br>přijata. ✓
-        </p>
-        <p style="font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.06em;text-transform:uppercase;line-height:1.8;color:var(--ink-dim);max-width:26rem;">
-          Demo verze — backend zatím není napojený.<br>
-          Ozvi se přímo na <a href="mailto:booking@tynikdy.cz" style="color:var(--ink);text-decoration:underline;text-underline-offset:3px;">booking@tynikdy.cz</a>
-        </p>
-      `;
+      msg.className = 'lg:col-span-3 flex flex-col gap-5 justify-center py-4';
+
+      const title = document.createElement('p');
+      title.className = 'font-display font-extrabold uppercase text-[var(--ink)]';
+      title.style.fontSize = 'clamp(2rem, 5vw, 3rem)';
+      title.style.lineHeight = '0.96';
+      title.textContent = 'Poptávka přijata. ✓';
+
+      const subtitle = document.createElement('p');
+      subtitle.className = 'font-mono text-[0.7rem] tracking-[0.06em] uppercase leading-[1.8] text-[var(--ink-dim)] max-w-[26rem]';
+
+      const line1 = document.createTextNode('Demo verze — backend zatím není napojený.');
+      const br    = document.createElement('br');
+      const line2 = document.createTextNode('Ozvi se přímo na ');
+
+      const link = document.createElement('a');
+      link.href        = 'mailto:booking@tynikdy.cz';
+      link.className   = 'underline underline-offset-[3px] text-[var(--ink)]';
+      link.textContent = 'booking@tynikdy.cz';
+
+      subtitle.append(line1, br, line2, link);
+      msg.append(title, subtitle);
       form.replaceWith(msg);
     }, 300);
+  });
+})();
+// press-kit demo notice
+(function () {
+  const link = document.getElementById('press-kit-download');
+  if (!link) return;
+
+  // build overlay once, reuse on subsequent clicks
+  const overlay = document.createElement('div');
+  overlay.className = 'pk-overlay';
+  overlay.setAttribute('role', 'dialog');
+  overlay.setAttribute('aria-modal', 'true');
+  overlay.setAttribute('aria-label', 'Press-kit nedostupný');
+  overlay.innerHTML = `
+    <div class="pk-box">
+      <button class="pk-close" aria-label="Zavřít">[ zavřít × ]</button>
+      <p style="font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:1.25rem;">
+        Press kit / Demo
+      </p>
+      <p style="font-family:var(--font-display);font-weight:800;text-transform:uppercase;font-size:clamp(1.6rem,4vw,2.4rem);line-height:0.96;color:var(--ink);margin-bottom:1.5rem;">
+        Soubor<br>není k dispozici.
+      </p>
+      <p style="font-family:var(--font-mono);font-size:0.7rem;line-height:1.85;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink-dim);">
+        Toto je fanouškovský redesign.<br>
+        Reálný ZIP s bio, riderem a fotkami<br>
+        není součástí demo verze.<br><br>
+        Pro oficiální materiály piš na<br>
+        <a href="mailto:booking@tynikdy.cz"
+           style="color:var(--ink);text-decoration:underline;text-underline-offset:3px;"
+           onclick="event.stopPropagation()">
+          booking@tynikdy.cz
+        </a>
+      </p>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  function open() {
+    overlay.style.display = 'flex';
+    requestAnimationFrame(() => overlay.classList.add('visible'));
+    overlay.querySelector('.pk-close').focus();
+  }
+
+  function close() {
+    overlay.classList.remove('visible');
+    overlay.addEventListener('transitionend', () => {
+      overlay.style.display = 'none';
+    }, { once: true });
+  }
+
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    open();
+  });
+
+  // close on backdrop click or close button
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) close();
+  });
+  overlay.querySelector('.pk-close').addEventListener('click', close);
+
+  // close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay.classList.contains('visible')) close();
   });
 })();
