@@ -94,6 +94,30 @@
           >
           <span class="knob"><span id="theme-icon">☾</span></span>
         </button>
+
+        <!-- cart toggle -->
+        <button
+          type="button"
+          id="cart-toggle"
+          class="relative p-1.5 transition-colors"
+          style="color:var(--ink-dim);"
+          aria-label="Otevřít košík"
+          aria-expanded="false"
+          aria-controls="cart-drawer"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.75"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+          <span id="cart-badge" class="cart-badge"
+                aria-live="polite"
+                aria-label="Počet položek v košíku"
+                hidden>0</span>
+        </button>
+
         <a
           href="#tour"
           class="btn-primary hidden sm:inline-flex font-mono text-xs uppercase tracking-[0.1em] px-5 py-2.5 font-bold"
@@ -258,7 +282,7 @@
             class="w-full max-w-[min(80vw,26rem)] mx-auto md:max-w-[26rem] md:ml-auto relative"
           >
             <div class="hero-portrait aspect-square w-full">
-              <img src="rest.jpg" alt="Rest / Restovski — live na koncertě" />
+              <img src="rest.webp" alt="Rest / Restovski — live na koncertě" />
             </div>
             <span class="frame-corner tl" aria-hidden="true"></span>
             <span class="frame-corner tr" aria-hidden="true"></span>
@@ -1208,7 +1232,7 @@
           </p>
           <div class="grid grid-cols-3 gap-2">
             <div
-              class="aspect-[3/4] col-span-2 row-span-2 bg-[url('https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=600&q=70')] bg-cover bg-center hover:opacity-70 transition-opacity cursor-pointer [filter:grayscale(1)]"
+              class="aspect-[3/4] col-span-2 row-span-2 bg-[url('./rest3.png')] bg-cover bg-center hover:opacity-70 transition-opacity cursor-pointer [filter:grayscale(1)]"
             ></div>
             <div
               class="aspect-square bg-[url('https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=400&q=70')] bg-cover bg-center hover:opacity-70 transition-opacity cursor-pointer [filter:grayscale(1)]"
@@ -1286,92 +1310,9 @@
         >
       </div>
 
-      <div
-        class="grid grid-cols-2 md:grid-cols-4 gap-px bg-[var(--line)] border border-[var(--line)]"
-      >
-        <a
-          href="https://shop.tynikdy.cz/"
-          target="_blank"
-          rel="noopener"
-          class="card-tilt reveal bg-[var(--bg)] border border-transparent group block"
-        >
-          <div
-            class="aspect-square bg-[var(--bg-soft)] relative overflow-hidden flex items-center justify-center"
-          >
-            <span
-              class="font-display text-4xl opacity-40 group-hover:opacity-100 transition-opacity"
-              >⬛</span
-            >
-            <span
-              class="absolute top-3 left-3 font-mono text-[9px] uppercase tracking-wide bg-[var(--ink)] text-[var(--invert)] px-2 py-1"
-              >Nové</span
-            >
-          </div>
-          <div class="p-4">
-            <p class="font-display text-base uppercase">Hoodie „52 Řádků"</p>
-            <p class="font-mono text-xs text-[var(--ink-dim)] mt-1">890 Kč</p>
-          </div>
-        </a>
-
-        <a
-          href="https://shop.tynikdy.cz/"
-          target="_blank"
-          rel="noopener"
-          class="card-tilt reveal bg-[var(--bg)] border border-transparent group block"
-        >
-          <div
-            class="aspect-square bg-[var(--bg-soft)] relative overflow-hidden flex items-center justify-center"
-          >
-            <span
-              class="font-display text-4xl opacity-40 group-hover:opacity-100 transition-opacity"
-              >⬜</span
-            >
-          </div>
-          <div class="p-4">
-            <p class="font-display text-base uppercase">Triko „V Rapu"</p>
-            <p class="font-mono text-xs text-[var(--ink-dim)] mt-1">390 Kč</p>
-          </div>
-        </a>
-
-        <a
-          href="https://shop.tynikdy.cz/"
-          target="_blank"
-          rel="noopener"
-          class="card-tilt reveal bg-[var(--bg)] border border-transparent group block"
-        >
-          <div
-            class="aspect-square bg-[var(--bg-soft)] relative overflow-hidden flex items-center justify-center"
-          >
-            <span
-              class="font-display text-4xl opacity-40 group-hover:opacity-100 transition-opacity"
-              >◉</span
-            >
-          </div>
-          <div class="p-4">
-            <p class="font-display text-base uppercase">Vinyl „Střepy" 2LP</p>
-            <p class="font-mono text-xs text-[var(--ink-dim)] mt-1">990 Kč</p>
-          </div>
-        </a>
-
-        <a
-          href="https://shop.tynikdy.cz/"
-          target="_blank"
-          rel="noopener"
-          class="card-tilt reveal bg-[var(--bg)] border border-transparent group block"
-        >
-          <div
-            class="aspect-square bg-[var(--bg-soft)] relative overflow-hidden flex items-center justify-center"
-          >
-            <span
-              class="font-display text-4xl opacity-40 group-hover:opacity-100 transition-opacity"
-              >▲</span
-            >
-          </div>
-          <div class="p-4">
-            <p class="font-display text-base uppercase">Crewneck „Restart"</p>
-            <p class="font-mono text-xs text-[var(--ink-dim)] mt-1">490 Kč</p>
-          </div>
-        </a>
+      <!-- produkty generuje merch.js z PRODUCTS konfigurace -->
+      <div id="product-grid"
+           class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
       </div>
     </section>
 
@@ -1561,5 +1502,101 @@
     </footer>
 
     <script src="main.js"></script>
+
+    <!-- ── CART BACKDROP ──────────────────────────────────────────── -->
+    <div
+      id="cart-backdrop"
+      class="fixed inset-0 z-[490] transition-opacity duration-300 opacity-0 pointer-events-none"
+      style="background:rgba(0,0,0,.65);"
+      aria-hidden="true"
+    ></div>
+
+    <!-- ── CART DRAWER ────────────────────────────────────────────── -->
+    <aside
+      id="cart-drawer"
+      class="fixed top-0 right-0 h-full w-full sm:w-[420px] z-[500] flex flex-col translate-x-full transition-transform duration-300"
+      style="background:var(--bg-soft);border-left:1px solid var(--line);"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Nákupní košík"
+      tabindex="-1"
+    >
+      <!-- header -->
+      <div
+        class="flex items-center justify-between px-6 py-5 shrink-0"
+        style="border-bottom:1px solid var(--line);"
+      >
+        <h2 class="font-display text-2xl uppercase" style="color:var(--ink);">Košík</h2>
+        <div class="flex items-center gap-4">
+          <button type="button" id="cart-clear"
+                  class="cart-action-btn" style="visibility:hidden;"
+                  aria-label="Vyprázdnit košík">Vyprázdnit</button>
+          <button type="button" id="cart-close"
+                  class="cart-close-btn"
+                  aria-label="Zavřít košík">[ zavřít × ]</button>
+        </div>
+      </div>
+
+      <!-- items list -->
+      <div id="cart-items" class="flex-1 overflow-y-auto px-6 py-4">
+        <!-- prázdný stav -->
+        <div id="cart-empty" class="flex flex-col items-center justify-center h-full text-center py-16">
+          <div class="cart-empty-icon mb-4" aria-hidden="true">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.25"
+                 style="color:var(--ink-faint);">
+              <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 0 1-8 0"/>
+            </svg>
+          </div>
+          <p class="font-display text-2xl uppercase mb-2" style="color:var(--ink-dim);">
+            Košík je prázdný
+          </p>
+          <p class="font-mono text-xs uppercase tracking-wide mb-6" style="color:var(--ink-faint);">
+            Vyber si produkt níže
+          </p>
+          <button type="button" id="cart-go-merch" class="btn-outline text-xs px-5 py-2.5">
+            Přejít do Merche ↓
+          </button>
+        </div>
+      </div>
+
+      <!-- footer — skryté dokud košík není prázdný -->
+      <div id="cart-footer" class="shrink-0 px-6 py-5 hidden"
+           style="border-top:1px solid var(--line);">
+        <div class="flex justify-between items-baseline mb-1">
+          <span class="font-mono text-sm uppercase tracking-wide" style="color:var(--ink-dim);">Mezisoučet</span>
+          <span id="cart-subtotal" class="font-mono text-sm" style="color:var(--ink-dim);">0 Kč</span>
+        </div>
+        <div class="flex justify-between items-baseline mb-5">
+          <span class="font-mono text-xs uppercase tracking-wide" style="color:var(--ink-faint);">Doprava</span>
+          <span class="font-mono text-xs" style="color:var(--ink-faint);">Vypočítá se při platbě</span>
+        </div>
+        <div class="flex justify-between items-baseline mb-6 pt-4"
+             style="border-top:1px solid var(--line);">
+          <span class="font-mono text-xs uppercase tracking-[0.15em]" style="color:var(--ink-dim);">Celkem</span>
+          <span id="cart-total" class="font-display text-3xl uppercase" style="color:var(--ink);">0 Kč</span>
+        </div>
+        <button type="button" id="cart-checkout" class="btn-primary w-full py-4 justify-center text-lg mb-3">
+          Pokračovat k platbě →
+        </button>
+        <div class="flex items-center justify-center gap-3 mb-3">
+          <span class="payment-icon" aria-label="Visa">VISA</span>
+          <span class="payment-icon" aria-label="Mastercard">MC</span>
+          <span class="payment-icon" aria-label="Apple Pay">⌘ Pay</span>
+          <span class="payment-icon" aria-label="Google Pay">G Pay</span>
+        </div>
+        <p class="font-mono text-[9px] uppercase tracking-wide text-center"
+           style="color:var(--ink-faint);">Demo — v produkci napojit na platební bránu</p>
+      </div>
+    </aside>
+
+    <!-- ── TOAST ──────────────────────────────────────────────────── -->
+    <div id="cart-toast" class="cart-toast" role="status" aria-live="polite" aria-atomic="true">
+      <span id="cart-toast-text"></span>
+    </div>
+
+    <script src="merch.js"></script>
   </body>
 </html>
