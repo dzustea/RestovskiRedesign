@@ -922,3 +922,266 @@ textarea:focus-visible {
 @media (min-width: 1024px) {
   .cart-toast { bottom: 1.5rem; }   /* na desktopu bez tab baru */
 }
+/* ═══════════════════════════════════════════════════════════════════════════
+   GALERIE — filmový kontaktní arch + lightbox
+   Závisí na CSS proměnných webu → automaticky dark/light mode.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* filter tabs — stejný styl jako tour filtry */
+.gallery-filter-btn {
+  font-family:    var(--font-mono);
+  font-size:      0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  border:         1.5px solid var(--line);
+  background:     transparent;
+  color:          var(--ink-dim);
+  cursor:         pointer;
+  transition:     border-color 0.2s, background 0.2s, color 0.2s;
+}
+.gallery-filter-btn:hover { border-color: var(--ink-dim); color: var(--ink); }
+.gallery-filter-btn.active {
+  border-color: var(--ink);
+  background:   var(--ink);
+  color:        var(--invert);
+}
+
+/* grid item — "kontaktní arch" */
+.gallery-item {
+  position:     relative;
+  overflow:     hidden;
+  cursor:       pointer;
+  aspect-ratio: 1 / 1;
+  background:   var(--bg-raised);
+  outline:      1px solid var(--line);
+  transition:   outline-color 0.2s;
+}
+.gallery-item:hover         { outline-color: var(--ink-dim); }
+.gallery-item:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.gallery-item img {
+  width:      100%;
+  height:     100%;
+  object-fit: cover;
+  filter:     grayscale(1) contrast(1.1);
+  transition: transform 0.5s var(--ease-out), filter 0.35s;
+  display:    block;
+}
+.gallery-item:hover img {
+  transform: scale(1.06);
+  filter:    grayscale(1) contrast(1.2) brightness(0.72);
+}
+
+/* hover overlay: frame no + caption */
+.gallery-item__overlay {
+  position:       absolute;
+  inset:          0;
+  display:        flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding:        0.55rem 0.6rem;
+  opacity:        0;
+  transition:     opacity 0.22s var(--ease-out);
+  pointer-events: none;
+}
+.gallery-item:hover .gallery-item__overlay { opacity: 1; }
+
+.gallery-item__no {
+  font-family:    var(--font-mono);
+  font-size:      0.58rem;
+  font-weight:    700;
+  color:          rgba(255,255,255,0.5);
+  letter-spacing: 0.1em;
+  align-self:     flex-start;
+}
+.gallery-item__cap {
+  font-family:    var(--font-mono);
+  font-size:      0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color:          rgba(255,255,255,0.65);
+  align-self:     flex-end;
+}
+
+/* lightbox */
+#gallery-lightbox {
+  display:    none;
+  opacity:    0;
+  transition: opacity 0.22s var(--ease-out);
+}
+.gallery-lightbox-open {
+  display:  flex !important;
+  opacity:  1   !important;
+}
+
+.gallery-lb-img {
+  max-width:    100%;
+  max-height:   100%;
+  object-fit:   contain;
+  filter:       grayscale(1) contrast(1.1);
+  opacity:      1;
+  transition:   opacity 0.13s ease;
+  box-shadow:   0 0 0 1px rgba(255,255,255,0.07), 0 20px 70px rgba(0,0,0,0.85);
+  display:      block;
+}
+
+.gallery-lb-btn {
+  background:     none;
+  border:         none;
+  cursor:         pointer;
+  font-family:    var(--font-mono);
+  color:          rgba(255,255,255,0.4);
+  padding:        0.5rem 0.75rem;
+  letter-spacing: 0.06em;
+  transition:     color 0.18s;
+  user-select:    none;
+}
+.gallery-lb-btn:hover          { color: rgba(255,255,255,0.9); }
+.gallery-lb-btn:focus-visible  { outline: 2px solid rgba(255,255,255,0.35); outline-offset: 3px; }
+.gallery-lb-btn[disabled]      { opacity: 0.2; cursor: not-allowed; }
+/* ── Gallery teaser (v disco sekci místo mini galerie) ──────────────────── */
+
+.gallery-teaser {
+  display:    block;
+  background: var(--bg-soft);
+  transition: border-color 0.25s, background 0.25s;
+}
+.gallery-teaser:hover {
+  border-color: var(--ink-dim);
+  background:   var(--bg-raised);
+}
+
+/* ── Entrance animace pro každou fotku v gridu ──────────────────────────── */
+
+@keyframes gallery-item-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.gallery-item {
+  position:     relative;
+  overflow:     hidden;
+  cursor:       pointer;
+  aspect-ratio: 1 / 1;
+  background:   var(--bg-raised);
+  outline:      1px solid var(--line);
+  transition:   outline-color 0.22s;
+  /* každá fotka přijde s animací (animation-delay nastavuje JS) */
+  animation:    gallery-item-in 0.4s var(--ease-out) both;
+}
+.gallery-item:hover         { outline-color: var(--ink-dim); }
+.gallery-item:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.gallery-item img {
+  width:      100%;
+  height:     100%;
+  object-fit: cover;
+  filter:     grayscale(1) contrast(1.1);
+  transition: transform 0.5s var(--ease-out), filter 0.35s;
+  display:    block;
+}
+.gallery-item:hover img {
+  transform: scale(1.06);
+  filter:    grayscale(1) contrast(1.2) brightness(0.72);
+}
+
+/* overlay: frame no + caption */
+.gallery-item__overlay {
+  position:       absolute;
+  inset:          0;
+  display:        flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding:        0.55rem 0.6rem;
+  opacity:        0;
+  transition:     opacity 0.22s var(--ease-out);
+  pointer-events: none;
+}
+.gallery-item:hover .gallery-item__overlay { opacity: 1; }
+
+.gallery-item__no {
+  font-family:    var(--font-mono);
+  font-size:      0.58rem;
+  font-weight:    700;
+  color:          rgba(255,255,255,0.5);
+  letter-spacing: 0.1em;
+  align-self:     flex-start;
+}
+.gallery-item__cap {
+  font-family:    var(--font-mono);
+  font-size:      0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color:          rgba(255,255,255,0.65);
+  align-self:     flex-end;
+}
+
+/* ── Load more button ────────────────────────────────────────────────────── */
+
+.gallery-load-btn {
+  font-family:    var(--font-mono);
+  font-size:      0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding:        0.85rem 2rem;
+  border:         1.5px solid var(--line);
+  background:     transparent;
+  color:          var(--ink-dim);
+  cursor:         pointer;
+  transition:     border-color 0.22s, color 0.22s, transform 0.3s var(--ease-spring);
+}
+.gallery-load-btn:hover  { border-color: var(--ink); color: var(--ink); transform: translateY(-2px); }
+.gallery-load-btn:active { transform: translateY(0) scale(0.98); }
+
+/* ── Lightbox ────────────────────────────────────────────────────────────── */
+
+#gallery-lightbox {
+  display:    none;
+  opacity:    0;
+  transition: opacity 0.22s var(--ease-out);
+}
+.gallery-lightbox-open {
+  display:  flex !important;
+  opacity:  1   !important;
+}
+
+.gallery-lb-img {
+  max-width:    100%;
+  max-height:   100%;
+  object-fit:   contain;
+  filter:       grayscale(1) contrast(1.1);
+  opacity:      1;
+  transition:   opacity 0.13s ease;
+  box-shadow:   0 0 0 1px rgba(255,255,255,0.07), 0 20px 70px rgba(0,0,0,0.85);
+  display:      block;
+}
+
+.gallery-lb-btn {
+  background:     none;
+  border:         none;
+  cursor:         pointer;
+  font-family:    var(--font-mono);
+  color:          rgba(255,255,255,0.4);
+  padding:        0.5rem 0.75rem;
+  letter-spacing: 0.06em;
+  transition:     color 0.18s;
+  user-select:    none;
+}
+.gallery-lb-btn:hover         { color: rgba(255,255,255,0.9); }
+.gallery-lb-btn:focus-visible { outline: 2px solid rgba(255,255,255,0.35); outline-offset: 3px; }
+.gallery-lb-btn[disabled]     { opacity: 0.2; cursor: not-allowed; }
+
+/* filter tabs */
+.gallery-filter-btn {
+  font-family:    var(--font-mono);
+  font-size:      0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  border:         1.5px solid var(--line);
+  background:     transparent;
+  color:          var(--ink-dim);
+  cursor:         pointer;
+  transition:     border-color 0.2s, background 0.2s, color 0.2s;
+}
+.gallery-filter-btn:hover  { border-color: var(--ink-dim); color: var(--ink); }
+.gallery-filter-btn.active { border-color: var(--ink); background: var(--ink); color: var(--invert); }

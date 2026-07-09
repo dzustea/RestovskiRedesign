@@ -1,0 +1,62 @@
+[
+  {
+    "id": "plzen-beseda-2026-03",
+    "date": "2026-03-22",
+    "city": "Plzeň",
+    "venue": "Měšťanská Beseda",
+    "type": "club",
+    "note": null,
+    "ticketUrl": null,
+    "soldOut": false
+  },
+  {
+    "id": "trutnov-openair-2026-06",
+    "date": "2026-06-27",
+    "city": "Trutnov",
+    "venue": "Open Air Festival",
+    "type": "festival",
+    "note": "Main Stage 21:30",
+    "ticketUrl": null,
+    "soldOut": false
+  },
+  {
+    "id": "hhk-hradec-2026-07",
+    "date": "2026-07-02",
+    "city": "Hradec Králové",
+    "venue": "Hip Hop Kemp",
+    "type": "festival",
+    "note": "Forest Stage",
+    "ticketUrl": null,
+    "soldOut": false
+  },
+  {
+    "id": "brno-fleda-2026-09",
+    "date": "2026-09-12",
+    "city": "Brno",
+    "venue": "Fléda",
+    "type": "club",
+    "note": "Tlak II Tour",
+    "ticketUrl": "https://goout.net/",
+    "soldOut": false
+  },
+  {
+    "id": "ostrava-barak-2026-10",
+    "date": "2026-10-04",
+    "city": "Ostrava",
+    "venue": "Barrák Music Club",
+    "type": "club",
+    "note": "Support: DJ Herby",
+    "ticketUrl": "https://ticketstream.cz/",
+    "soldOut": false
+  },
+  {
+    "id": "praha-lucerna-2026-11",
+    "date": "2026-11-15",
+    "city": "Praha",
+    "venue": "Lucerna Music Bar",
+    "type": "club",
+    "note": "Vyprodáno za 4 dny",
+    "ticketUrl": null,
+    "soldOut": true
+  }
+]

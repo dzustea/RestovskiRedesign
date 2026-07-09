@@ -83,27 +83,6 @@
   }, { passive: true });
 })();
 
-// tour date filters
-(function () {
-  const btns  = document.querySelectorAll('.filter-btn');
-  const items = document.querySelectorAll('.tour-item');
-  const ACTIVE = ['border-[var(--ink)]', 'bg-[var(--ink)]', 'text-[var(--invert)]', 'font-bold'];
-
-  btns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      btns.forEach(b => { b.classList.remove(...ACTIVE); b.classList.add('border-[var(--line)]'); b.setAttribute('aria-pressed', 'false'); });
-      btn.classList.add(...ACTIVE);
-      btn.classList.remove('border-[var(--line)]');
-      btn.setAttribute('aria-pressed', 'true');
-
-      const filter = btn.dataset.filter;
-      items.forEach(item => {
-        item.style.display = (filter === 'all' || item.dataset.type === filter) ? '' : 'none';
-      });
-    });
-  });
-})();
-
 // discography accordion — single open
 (function () {
   const details = document.querySelectorAll('#disco details');

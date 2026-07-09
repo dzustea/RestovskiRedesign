@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RESTOVSKI — oficiální web</title>
-    <meta name="color-scheme" content="dark light" />
+    <link rel="icon" type="image/jpg" href="./images/favicon.webp" /> <link rel="apple-touch-icon" href="apple-touch-icon.png" /> <meta name="color-scheme" content="dark light" />
     <script>
       (function () {
         var theme = "dark";
@@ -22,6 +22,11 @@
     />
     <link rel="stylesheet" href="tailwind.css" />
     <link rel="stylesheet" href="style.css" />
+    <!-- Tour skeleton animation — 110 B inline CSS, zabrání CLS před načtením JS -->
+    <style id="tour-sk-css">
+      @keyframes tour-sk-p{0%,100%{opacity:.3}50%{opacity:.7}}
+      .tour-sk{animation:tour-sk-p 1.4s ease-in-out infinite;background:var(--bg-raised)}
+    </style>
   </head>
   <body class="antialiased">
     <div class="grain"></div>
@@ -62,6 +67,13 @@
             href="#disco"
             class="link-underline hover:text-[var(--ink)] transition-colors"
             >Hudba</a
+          >
+        </li>
+        <li>
+          <a
+            href="#galerie"
+            class="link-underline hover:text-[var(--ink)] transition-colors"
+            >Galerie</a
           >
         </li>
         <li>
@@ -145,6 +157,11 @@
         href="#disco"
         class="flex flex-col items-center gap-1 hover:text-[var(--ink)] transition-colors"
         ><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg><span>Hudba</span></a
+      >
+      <a
+      href="#galerie"
+        class="flex flex-col items-center gap-1 hover:text-[var(--ink)] transition-colors"
+        ><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="M21 16l-5-5-4 4-2-2-5 5"/></svg><span>Fotky</span></a
       >
       <a
         href="#merch"
@@ -282,7 +299,7 @@
             class="w-full max-w-[min(80vw,26rem)] mx-auto md:max-w-[26rem] md:ml-auto relative"
           >
             <div class="hero-portrait aspect-square w-full">
-              <img src="rest.webp" alt="Rest / Restovski — live na koncertě" />
+              <img src="./images/rest.webp" alt="Rest / Restovski — live na koncertě" />
             </div>
             <span class="frame-corner tl" aria-hidden="true"></span>
             <span class="frame-corner tr" aria-hidden="true"></span>
@@ -322,221 +339,91 @@
         aria-label="Filtr koncertů"
       >
         <button
+          type="button"
           data-filter="all"
+          class="filter-btn px-5 py-2.5 border border-[var(--line)] hover:border-[var(--ink)] transition-colors"
+          aria-pressed="false"
+        >Vše</button>
+        <button
+          type="button"
+          data-filter="upcoming"
           class="filter-btn px-5 py-2.5 border border-[var(--ink)] bg-[var(--ink)] text-[var(--invert)] font-bold"
           aria-pressed="true"
-        >
-          Vše
-        </button>
+        >Nadcházející</button>
         <button
-          data-filter="club"
+          type="button"
+          data-filter="past"
           class="filter-btn px-5 py-2.5 border border-[var(--line)] hover:border-[var(--ink)] transition-colors"
           aria-pressed="false"
-        >
-          Kluby
-        </button>
-        <button
-          data-filter="festival"
-          class="filter-btn px-5 py-2.5 border border-[var(--line)] hover:border-[var(--ink)] transition-colors"
-          aria-pressed="false"
-        >
-          Festivaly
-        </button>
+        >Proběhlé</button>
       </div>
 
+      <!-- ── SKELETON (3 řádky = výška 3 nadcházejících koncertů)
+           Skryje se automaticky po načtení dat z koncerty.json.
+           Zabraňuje CLS — obsah "neposkočí" při načítání. ── -->
       <div
+        id="tour-skeleton"
         class="divide-y divide-[var(--line)] border-t border-b border-[var(--line)]"
-        id="tour-list"
+        aria-hidden="true"
+        aria-label="Načítám program..."
       >
-        <div class="tour-item" data-type="club">
-          <div
-            class="flex flex-col md:flex-row md:items-center gap-3 md:gap-8 py-6 px-2 hover:bg-[var(--bg-soft)] transition-colors group"
-          >
-            <span
-              class="line-no font-display text-2xl md:text-3xl w-full md:w-24 shrink-0 tabnum text-[var(--ink-dim)] group-hover:text-[var(--ink)] transition-colors"
-              >12.09</span
-            >
-            <div class="flex-1 min-w-0">
-              <p class="font-display h-card uppercase truncate">Brno — Fléda</p>
-              <p
-                class="font-mono text-xs uppercase tracking-wide text-[var(--ink-dim)] mt-1"
-              >
-                Klub · Tlak II Tour
-              </p>
-            </div>
-            <span
-              class="font-mono text-[10px] uppercase tracking-wide px-3 py-1 border border-[var(--line)] text-[var(--ink-dim)] shrink-0 self-start md:self-center"
-              >Klub</span
-            >
-            <a
-              href="https://goout.net/"
-              target="_blank"
-              rel="noopener"
-              class="btn-outline text-xs px-5 py-3 shrink-0 text-center justify-center"
-              >Vstupenky ↗</a
-            >
+        <!-- řádek 1 -->
+        <div class="flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-8 py-6 px-2">
+          <div class="tour-sk h-8 w-28 shrink-0"></div>
+          <div class="flex-1 min-w-0 space-y-2">
+            <div class="tour-sk h-5 w-56 max-w-[70%]"></div>
+            <div class="tour-sk h-3 w-36 max-w-[50%]"></div>
           </div>
+          <div class="tour-sk h-7 w-16 shrink-0 hidden md:block"></div>
+          <div class="tour-sk h-9 w-24 shrink-0 hidden md:block"></div>
         </div>
-
-        <div class="tour-item" data-type="festival">
-          <div
-            class="flex flex-col md:flex-row md:items-center gap-3 md:gap-8 py-6 px-2 hover:bg-[var(--bg-soft)] transition-colors group"
-          >
-            <span
-              class="line-no font-display text-2xl md:text-3xl w-full md:w-24 shrink-0 tabnum text-[var(--ink-dim)] group-hover:text-[var(--ink)] transition-colors"
-              >27.06</span
-            >
-            <div class="flex-1 min-w-0">
-              <p class="font-display h-card uppercase truncate">
-                Trutnov — Open Air Festival
-              </p>
-              <p
-                class="font-mono text-xs uppercase tracking-wide text-[var(--ink-dim)] mt-1"
-              >
-                Festival · Main Stage 21:30
-              </p>
-            </div>
-            <span
-              class="font-mono text-[10px] uppercase tracking-wide px-3 py-1 border border-[var(--line)] text-[var(--ink-dim)] shrink-0 self-start md:self-center"
-              >Festival</span
-            >
-            <a
-              href="https://goout.net/"
-              target="_blank"
-              rel="noopener"
-              class="btn-outline text-xs px-5 py-3 shrink-0 text-center justify-center"
-              >Vstupenky ↗</a
-            >
+        <!-- řádek 2 -->
+        <div class="flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-8 py-6 px-2">
+          <div class="tour-sk h-8 w-28 shrink-0"></div>
+          <div class="flex-1 min-w-0 space-y-2">
+            <div class="tour-sk h-5 w-48 max-w-[65%]"></div>
+            <div class="tour-sk h-3 w-32 max-w-[45%]"></div>
           </div>
+          <div class="tour-sk h-7 w-16 shrink-0 hidden md:block"></div>
+          <div class="tour-sk h-9 w-24 shrink-0 hidden md:block"></div>
         </div>
-
-        <div class="tour-item" data-type="club">
-          <div
-            class="flex flex-col md:flex-row md:items-center gap-3 md:gap-8 py-6 px-2 hover:bg-[var(--bg-soft)] transition-colors group"
-          >
-            <span
-              class="line-no font-display text-2xl md:text-3xl w-full md:w-24 shrink-0 tabnum text-[var(--ink-dim)] group-hover:text-[var(--ink)] transition-colors"
-              >04.10</span
-            >
-            <div class="flex-1 min-w-0">
-              <p class="font-display h-card uppercase truncate">
-                Ostrava — Barrák Music Club
-              </p>
-              <p
-                class="font-mono text-xs uppercase tracking-wide text-[var(--ink-dim)] mt-1"
-              >
-                Klub · Support: DJ Herby
-              </p>
-            </div>
-            <span
-              class="font-mono text-[10px] uppercase tracking-wide px-3 py-1 border border-[var(--line)] text-[var(--ink-dim)] shrink-0 self-start md:self-center"
-              >Klub</span
-            >
-            <a
-              href="https://ticketstream.cz/"
-              target="_blank"
-              rel="noopener"
-              class="btn-outline text-xs px-5 py-3 shrink-0 text-center justify-center"
-              >Vstupenky ↗</a
-            >
+        <!-- řádek 3 -->
+        <div class="flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-8 py-6 px-2">
+          <div class="tour-sk h-8 w-28 shrink-0"></div>
+          <div class="flex-1 min-w-0 space-y-2">
+            <div class="tour-sk h-5 w-52 max-w-[60%]"></div>
+            <div class="tour-sk h-3 w-28 max-w-[40%]"></div>
           </div>
-        </div>
-
-        <div class="tour-item" data-type="club">
-          <div
-            class="flex flex-col md:flex-row md:items-center gap-3 md:gap-8 py-6 px-2 opacity-60"
-          >
-            <span
-              class="line-no font-display text-2xl md:text-3xl w-full md:w-24 shrink-0 tabnum"
-              >15.11</span
-            >
-            <div class="flex-1 min-w-0">
-              <p class="font-display h-card uppercase truncate">
-                Praha — Lucerna Music Bar
-              </p>
-              <p
-                class="font-mono text-xs uppercase tracking-wide text-[var(--ink-dim)] mt-1"
-              >
-                Klub · Vyprodáno za 4 dny
-              </p>
-            </div>
-            <span
-              class="font-mono text-[10px] uppercase tracking-wide px-3 py-1 border border-[var(--line)] text-[var(--ink-dim)] shrink-0 self-start md:self-center"
-              >Klub</span
-            >
-            <span
-              class="stripes-soldout font-display text-sm uppercase tracking-[0.1em] text-[var(--ink)] px-5 py-3 shrink-0 text-center"
-              >Sold Out</span
-            >
-          </div>
-        </div>
-
-        <div class="tour-item" data-type="festival">
-          <div
-            class="flex flex-col md:flex-row md:items-center gap-3 md:gap-8 py-6 px-2 hover:bg-[var(--bg-soft)] transition-colors group"
-          >
-            <span
-              class="line-no font-display text-2xl md:text-3xl w-full md:w-24 shrink-0 tabnum text-[var(--ink-dim)] group-hover:text-[var(--ink)] transition-colors"
-              >02.07</span
-            >
-            <div class="flex-1 min-w-0">
-              <p class="font-display h-card uppercase truncate">
-                Hradec Králové — Hip Hop Kemp
-              </p>
-              <p
-                class="font-mono text-xs uppercase tracking-wide text-[var(--ink-dim)] mt-1"
-              >
-                Festival · Forest Stage
-              </p>
-            </div>
-            <span
-              class="font-mono text-[10px] uppercase tracking-wide px-3 py-1 border border-[var(--line)] text-[var(--ink-dim)] shrink-0 self-start md:self-center"
-              >Festival</span
-            >
-            <a
-              href="https://goout.net/"
-              target="_blank"
-              rel="noopener"
-              class="btn-outline text-xs px-5 py-3 shrink-0 text-center justify-center"
-              >Vstupenky ↗</a
-            >
-          </div>
-        </div>
-
-        <div class="tour-item" data-type="club">
-          <div
-            class="flex flex-col md:flex-row md:items-center gap-3 md:gap-8 py-6 px-2 opacity-70"
-          >
-            <span
-              class="line-no font-display text-2xl md:text-3xl w-full md:w-24 shrink-0 tabnum text-[var(--ink-dim)]"
-              >22.03</span
-            >
-            <div class="flex-1 min-w-0">
-              <p class="font-display h-card uppercase truncate">
-                Plzeň — Měšťanská Beseda
-              </p>
-              <p
-                class="font-mono text-xs uppercase tracking-wide text-[var(--ink-dim)] mt-1"
-              >
-                Klub · Proběhlo
-              </p>
-            </div>
-            <span
-              class="font-mono text-[10px] uppercase tracking-wide px-3 py-1 border border-[var(--line)] text-[var(--ink-dim)] shrink-0 self-start md:self-center"
-              >Klub</span
-            >
-            <a
-              href="#disco"
-              class="btn-outline text-xs px-5 py-3 shrink-0 text-center justify-center"
-              >Fotoreport ↗</a
-            >
-          </div>
+          <div class="tour-sk h-7 w-16 shrink-0 hidden md:block"></div>
+          <div class="tour-sk h-9 w-24 shrink-0 hidden md:block"></div>
         </div>
       </div>
 
+      <!-- Dynamický kontejner — plní tour.js po fetch('./koncerty.json') -->
+      <div
+        id="tour-list"
+        class="divide-y divide-[var(--line)] border-t border-b border-[var(--line)]"
+        aria-live="polite"
+        aria-busy="true"
+        aria-label="Seznam koncertů"
+      ></div>
+
+      <!-- Prázdný stav (viditelný když filter nevrátí žádné výsledky) -->
       <p
-        class="font-mono text-[11px] uppercase tracking-wide text-[var(--ink-dim)] mt-6 reveal"
-      >
+        id="tour-empty"
+        class="font-mono text-xs uppercase tracking-wide py-10 text-center"
+        style="color:var(--ink-faint);"
+        hidden
+      >Žádné koncerty v této kategorii.</p>
+
+      <!-- Chybový stav (viditelný pokud fetch selže) -->
+      <p
+        id="tour-error"
+        class="font-mono text-xs uppercase tracking-wide py-10 text-center"
+        style="color:var(--ink-faint);"
+        hidden
+      >Nepodařilo se načíst program. Zkus obnovit stránku.</p>
+      <p class="font-mono text-xs uppercase tracking-wide py-4 text-center" style="color:var(--ink-faint);">
         Vstupenky prodává GoOut a Ticketstream.
       </p>
     </section>
@@ -1223,67 +1110,154 @@
         </details>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div class="lg:col-span-2 reveal">
-          <p
-            class="font-mono text-xs uppercase tracking-[0.2em] text-[var(--ink-dim)] mb-4"
-          >
-            Galerie z koncertů
-          </p>
-          <div class="grid grid-cols-3 gap-2">
-            <div
-              class="aspect-[3/4] col-span-2 row-span-2 bg-[url('./rest3.png')] bg-cover bg-center hover:opacity-70 transition-opacity cursor-pointer [filter:grayscale(1)]"
-            ></div>
-            <div
-              class="aspect-square bg-[url('https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=400&q=70')] bg-cover bg-center hover:opacity-70 transition-opacity cursor-pointer [filter:grayscale(1)]"
-            ></div>
-            <div
-              class="aspect-square bg-[url('https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=400&q=70')] bg-cover bg-center hover:opacity-70 transition-opacity cursor-pointer [filter:grayscale(1)]"
-            ></div>
-            <div
-              class="aspect-square bg-[url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400&q=70')] bg-cover bg-center hover:opacity-70 transition-opacity cursor-pointer [filter:grayscale(1)]"
-            ></div>
-            <a
-              href="#"
-              class="aspect-square bg-[var(--ink)] text-[var(--invert)] flex items-center justify-center font-display text-xs uppercase cursor-pointer hover:scale-95 transition-transform text-center px-2"
-              >+128 fotek</a
-            >
-          </div>
-        </div>
+      
+    </section>
 
-        <div class="reveal">
+    <!-- ── GALERIE ───────────────────────────────────────────── -->
+    <section
+      id="galerie"
+      class="relative px-5 md:px-10 py-20 md:py-28 border-b border-[var(--line)]"
+    >
+
+      <div
+        class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 reveal"
+      >
+        <div>
           <p
-            class="font-mono text-xs uppercase tracking-[0.2em] text-[var(--ink-dim)] mb-4"
+            class="font-mono text-xs uppercase tracking-[0.25em] text-[var(--ink-dim)] mb-3"
           >
-            Poslední klip
+            <span class="line-no">05</span> Galerie
           </p>
-          <a
-            href="https://www.youtube.com/watch?v=l1mAW6MhVqg"
-            target="_blank"
-            rel="noopener"
-            class="block aspect-video bg-[var(--bg)] border border-[var(--line)] relative group overflow-hidden"
+          <h2 class="font-display h-section uppercase">Fotky</h2>
+        </div>
+        <div class="flex flex-col items-start md:items-end gap-2">
+          <span
+            id="gallery-count"
+            class="font-mono text-xs uppercase tracking-wide"
+            style="color:var(--ink-faint);"
+            >12 fotek</span
           >
-            <div
-              class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&q=70')] bg-cover bg-center group-hover:scale-105 transition-transform duration-700 [filter:grayscale(1)]"
-            ></div>
-            <div
-              class="absolute inset-0 bg-[var(--bg)]/40 flex items-center justify-center"
-            >
-              <span
-                class="w-16 h-16 rounded-full bg-[var(--ink)] text-[var(--invert)] flex items-center justify-center font-display text-2xl group-hover:scale-110 transition-transform"
-                >▶</span
-              >
-            </div>
-          </a>
-          <p class="font-display text-lg uppercase mt-3">
-            52 Řádků (Official Video)
-          </p>
-          <p class="font-mono text-xs text-[var(--ink-dim)]">
-            YouTube · Ty Nikdy Label
+          <p class="font-mono text-xs" style="color:var(--ink-faint);">
+            Kliknutím otevřeš v plném rozlišení
           </p>
         </div>
       </div>
+
+      <!-- filter tabs -->
+      <div
+        id="gallery-filters"
+        class="flex gap-3 mb-8 font-mono text-xs uppercase tracking-[0.15em] reveal"
+        role="tablist"
+        aria-label="Filtr fotek"
+      >
+        <button
+          type="button"
+          data-filter="all"
+          class="gallery-filter-btn active px-5 py-2.5"
+          aria-pressed="true"
+          >Vše</button
+        >
+        <button
+          type="button"
+          data-filter="live"
+          class="gallery-filter-btn px-5 py-2.5"
+          aria-pressed="false"
+          >Live</button
+        >
+        <button
+          type="button"
+          data-filter="promo"
+          class="gallery-filter-btn px-5 py-2.5"
+          aria-pressed="false"
+          >Promo</button
+        >
+      </div>
+
+      <!-- foto grid — plní gallery.js -->
+      <div
+        id="gallery-grid"
+        class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3"
+      ></div>
+
+      <!-- load more — viditelné jen pokud jsou další fotky -->
+      <div id="gallery-load-wrap" class="mt-8 flex flex-col items-center gap-3">
+        <button
+          type="button"
+          id="gallery-load-more"
+          class="gallery-load-btn"
+          aria-live="polite"
+        >
+          Načíst dalších <span id="gallery-load-count">8</span> fotek
+        </button>
+        <p
+          id="gallery-all-loaded"
+          class="font-mono text-xs uppercase tracking-wide hidden"
+          style="color:var(--ink-faint);"
+        >
+          Zobrazeno vše ✓
+        </p>
+      </div>
+
     </section>
+
+    <!-- ── GALLERY LIGHTBOX ───────────────────────────────────── -->
+    <div
+      id="gallery-lightbox"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Foto viewer"
+      class="fixed inset-0 z-[600] flex flex-col"
+      style="background:rgba(0,0,0,0.97);"
+      tabindex="-1"
+    >
+      <!-- horní lišta: index + close -->
+      <div class="shrink-0 flex items-center justify-between px-6 py-4">
+        <span
+          id="gallery-lb-index"
+          class="font-mono text-xs uppercase tracking-wide"
+          style="color:rgba(255,255,255,0.3);"
+          >1 / 12</span
+        >
+        <button
+          type="button"
+          id="gallery-lb-close"
+          class="gallery-lb-btn font-mono text-sm uppercase tracking-wide"
+          aria-label="Zavřít (Esc)"
+          >[ zavřít × ]</button
+        >
+      </div>
+
+      <!-- foto -->
+      <div
+        class="gallery-lightbox-bg flex-1 flex items-center justify-center px-4 md:px-16 py-4 overflow-hidden"
+      >
+        <img id="gallery-lb-img" src="" alt="" class="gallery-lb-img" />
+      </div>
+
+      <!-- caption + prev/next -->
+      <div class="shrink-0 flex items-center justify-between px-6 py-4">
+        <button
+          type="button"
+          id="gallery-lb-prev"
+          class="gallery-lb-btn font-display text-2xl"
+          aria-label="Předchozí foto (←)"
+          >←</button
+        >
+        <span
+          id="gallery-lb-caption"
+          class="font-mono text-xs uppercase tracking-wide text-center"
+          style="color:rgba(255,255,255,0.45);"
+          >—</span
+        >
+        <button
+          type="button"
+          id="gallery-lb-next"
+          class="gallery-lb-btn font-display text-2xl"
+          aria-label="Další foto (→)"
+          >→</button
+        >
+      </div>
+    </div>
 
     <!-- ── MERCH ─────────────────────────────────────────────── -->
     <section
@@ -1501,6 +1475,7 @@
       </div>
     </footer>
 
+    <script src="tour.js"></script>
     <script src="main.js"></script>
 
     <!-- ── CART BACKDROP ──────────────────────────────────────────── -->
@@ -1597,6 +1572,7 @@
       <span id="cart-toast-text"></span>
     </div>
 
+    <script src="gallery.js"></script>
     <script src="merch.js"></script>
   </body>
 </html>
