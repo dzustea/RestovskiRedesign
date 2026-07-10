@@ -31,7 +31,7 @@
       name:   'Hoodie Restovski Black',
       price:  890,
       badge:  'Limitovaná edice',
-      image:  'https://images.unsplash.com/photo-1556821840-3a63f15732ce?w=600&q=80',
+      image:  'images/hoodie.webp',
       sizes:  ['S', 'M', 'L', 'XL', 'XXL'],
     },
     {
@@ -40,7 +40,7 @@
       name:   'Triko Tlak II Tour',
       price:  490,
       badge:  null,
-      image:  'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80',
+      image:  'images/tshirt.webp',
       sizes:  ['S', 'M', 'L', 'XL', 'XXL'],
     },
     {
@@ -49,18 +49,18 @@
       name:   'Vinyl Závislosti 2LP',
       price:  990,
       badge:  'Nové',
-      image:  'https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?w=600&q=80',
+      image:  'images/album.webp',
       // vinyl: žádný výběr velikosti — automaticky vybraný "2LP"
       sizes:  ['2LP'],
     },
     {
-      id:     'crewneck-restart',
-      sku:    'RST-CRW-RST-2026',
-      name:   'Crewneck Restart',
-      price:  650,
-      badge:  null,
-      image:  'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&q=80',
-      sizes:  ['S', 'M', 'L', 'XL'],
+      id:     'hoodie-restovski-black',
+      sku:    'RST-HOD-BLK-2025',
+      name:   'Hoodie Restovski Black',
+      price:  990,
+      badge:  'none',
+      image:  'images/hoodie1.webp',
+      sizes:  ['S', 'M', 'L', 'XL', 'XXL'],
     },
   ];
 
