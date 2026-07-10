@@ -55,7 +55,7 @@
     },
     {
       id:     'hoodie-restovski-black',
-      sku:    'RST-HOD-BLK-2025',
+      sku:    'RST-HOD-BSC-2025',
       name:   'Hoodie Restovski Black',
       price:  990,
       badge:  'none',
