@@ -21,19 +21,19 @@
     { src: 'images/rest.webp',  alt: 'Rest — live na koncertě',  category: 'live',  caption: 'Live · 2025' },
     { src: 'images/rest2.webp',  alt: 'Rest — live na koncertě',  category: 'live',  caption: 'Live · 2024' },
     { src: 'images/rest3.webp',  alt: 'Rest — promo fotka',       category: 'promo', caption: 'Promo · 2024' },
-    { src: 'images/1.webp',  alt: 'Rest — promo fotka',       category: 'promo', caption: 'Promo · 2024' },
-    { src: 'images/2.webp', alt: 'Live vystoupení', category: 'live',  caption: 'Tour · 2023' },
-    { src: 'images/3.webp', alt: 'Live vystoupení', category: 'live',  caption: 'Tour · 2023' },
-    { src: 'images/4.webp', alt: 'Live vystoupení', category: 'live',  caption: 'Tour · 2023' },
-    { src: 'images/5.webp', alt: 'Live vystoupení', category: 'live',  caption: 'Tour · 2023' },
-    { src: 'images/6.webp', alt: 'Live vystoupení', category: 'live',  caption: 'Tour · 2023' },
-    { src: 'images/7.webp', alt: 'Live vystoupení', category: 'live',  caption: 'Tour · 2023' },
-    { src: 'images/8.webp', alt: 'Live vystoupení', category: 'live',  caption: 'Tour · 2023' },
-    { src: 'images/9.webp', alt: 'Live vystoupení', category: 'live',  caption: 'Tour · 2023' },
-    { src: 'images/10.webp', alt: 'Live vystoupení', category: 'live',  caption: 'Tour · 2023' },
-    { src: 'images/11.webp', alt: 'Live vystoupení', category: 'live',  caption: 'Tour · 2023' },
-    { src: 'images/12.webp', alt: 'Live vystoupení', category: 'live',  caption: 'Tour · 2023' },
-    { src: 'images/13.webp', alt: 'Live vystoupení', category: 'live',  caption: 'Tour · 2023' }
+    { src: 'images/1.webp',  alt: 'Rest na pódiu před klubem',       category: 'promo', caption: 'Promo · 2024' },
+    { src: 'images/2.webp', alt: 'Portrét Resta v mikině', category: 'live',  caption: 'Tour · 2023' },
+    { src: 'images/3.webp', alt: 'Rest a DJ na stagi', category: 'live',  caption: 'Tour · 2023' },
+    { src: 'images/4.webp', alt: 'Fanoušci pod pódiem', category: 'live',  caption: 'Tour · 2023' },
+    { src: 'images/5.webp', alt: 'Černobílý Rest s mikrofonem', category: 'live',  caption: 'Tour · 2023' },
+    { src: 'images/6.webp', alt: 'Portrét Resta s čelenkou', category: 'live',  caption: 'Tour · 2023' },
+    { src: 'images/7.webp', alt: 'Černobílý portrét Resta', category: 'live',  caption: 'Tour · 2023' },
+    { src: 'images/8.webp', alt: 'Rest venku u silnice', category: 'live',  caption: 'Tour · 2023' },
+    { src: 'images/9.webp', alt: 'Dav fanoušků pod pódiem', category: 'live',  caption: 'Tour · 2023' },
+    { src: 'images/10.webp', alt: 'Pohled z backstage na show', category: 'live',  caption: 'Tour · 2023' },
+    { src: 'images/11.webp', alt: 'Rest a hosté na stagi', category: 'live',  caption: 'Tour · 2023' },
+    { src: 'images/12.webp', alt: 'Rest v tmavé chodbě', category: 'live',  caption: 'Tour · 2023' },
+    { src: 'images/13.webp', alt: 'Rest v košili na pódiu', category: 'live',  caption: 'Tour · 2023' }
   ];
 
   var PAGE_SIZE = 8;  // fotek v první dávce a v každém load-more
