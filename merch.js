@@ -44,9 +44,9 @@
       sizes:  ['S', 'M', 'L', 'XL', 'XXL'],
     },
     {
-      id:     'vinyl-zavislosti-2lp',
+      id:     'vinyl-Restart-2lp',
       sku:    'RST-VNL-ZAV-2LP',
-      name:   'Vinyl Závislosti 2LP',
+      name:   'Vinyl Restart 2LP',
       price:  990,
       badge:  'Nové',
       image:  'images/album.webp',
