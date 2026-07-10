@@ -1,0 +1,38 @@
+[
+  {
+    "id": "hoodie-restovski-black",
+    "sku": "RST-HOD-BLK-2026",
+    "name": "Hoodie Restovski Black",
+    "price": 890,
+    "badge": "Limitovaná edice",
+    "image": "images/hoodie.webp",
+    "sizes": ["S", "M", "L", "XL", "XXL"]
+  },
+  {
+    "id": "trico-tlak-ii-tour",
+    "sku": "RST-TEE-TLK-2026",
+    "name": "Triko Tlak II Tour",
+    "price": 490,
+    "badge": null,
+    "image": "images/tshirt.webp",
+    "sizes": ["S", "M", "L", "XL", "XXL"]
+  },
+  {
+    "id": "vinyl-restart-2lp",
+    "sku": "RST-VNL-RES-2LP",
+    "name": "Vinyl Restart 2LP",
+    "price": 990,
+    "badge": "Nové",
+    "image": "images/album.webp",
+    "sizes": ["2LP"]
+  },
+  {
+    "id": "hoodie-restovski-basic",
+    "sku": "RST-HOD-BSC-2025",
+    "name": "Hoodie Restovski Basic",
+    "price": 990,
+    "badge": "none",
+    "image": "images/hoodie1.webp",
+    "sizes": ["S", "M", "L", "XL", "XXL"]
+  }
+]
