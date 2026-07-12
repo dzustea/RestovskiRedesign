@@ -3,7 +3,8 @@
  *
  * Architektura:
  *  - Vše v IIFE (žádné globální proměnné)
- *  - Produkty definovány jako data (lze nahradit API voláním)
+ *  - Produkty se načítají asynchronně z merch.json přes Fetch API
+ *  - Při selhání fetch se použije FALLBACK_PRODUCTS (záloha)
  *  - Košík s podporou quantity management
  *  - getCheckoutPayload() vrací Stripe-ready formát
  *  - Custom DOM eventy pro napojení analytiky / platební brány
@@ -20,49 +21,28 @@
 (function () {
   'use strict';
 
-  /* ── PRODUCTS CONFIGURATION ───────────────────────────────────────────
-     V produkci: nahradit fetch('/api/products') nebo data z CMS.
-     Každý produkt má unikátní id a sku pro propojení s platební bránou.
+  /* ── FALLBACK PRODUCTS ────────────────────────────────────────────────
+     Záloha pro případ selhání fetch('merch.json').
+     Udržuje UI funkční i offline — alespoň jeden produkt.
   ──────────────────────────────────────────────────────────────────────── */
-  const PRODUCTS = [
+  const FALLBACK_PRODUCTS = [
     {
-      id:     'hoodie-restovski-black',
-      sku:    'RST-HOD-BLK-2026',
-      name:   'Hoodie Restovski Black',
-      price:  890,
-      badge:  'Limitovaná edice',
-      image:  'images/hoodie.webp',
-      sizes:  ['S', 'M', 'L', 'XL', 'XXL'],
-    },
-    {
-      id:     'trico-tlak-ii-tour',
-      sku:    'RST-TEE-TLK-2026',
-      name:   'Triko Tlak II Tour',
-      price:  490,
-      badge:  null,
-      image:  'images/tshirt.webp',
-      sizes:  ['S', 'M', 'L', 'XL', 'XXL'],
-    },
-    {
-      id:     'vinyl-Restart-2lp',
-      sku:    'RST-VNL-ZAV-2LP',
-      name:   'Vinyl Restart 2LP',
-      price:  990,
-      badge:  'Nové',
-      image:  'images/album.webp',
-      // vinyl: žádný výběr velikosti — automaticky vybraný "2LP"
-      sizes:  ['2LP'],
-    },
-    {
-      id:     'hoodie-restovski-black',
-      sku:    'RST-HOD-BSC-2025',
-      name:   'Hoodie Restovski Black',
-      price:  990,
-      badge:  'none',
-      image:  'images/hoodie1.webp',
-      sizes:  ['S', 'M', 'L', 'XL', 'XXL'],
+      id:    'hoodie-restovski-black',
+      sku:   'RST-HOD-BLK-2026',
+      name:  'Hoodie Restovski Black',
+      price: 890,
+      badge: 'Limitovaná edice',
+      image: 'images/hoodie.webp',
+      sizes: ['S', 'M', 'L', 'XL', 'XXL'],
     },
   ];
+
+  /* ── RUNTIME PRODUCTS STORE ────────────────────────────────────────────
+     Naplní se po úspěšném fetch('merch.json').
+     Při chybě zůstane jako FALLBACK_PRODUCTS.
+     findProduct() a renderProducts() pracují vždy s touto proměnnou.
+  ──────────────────────────────────────────────────────────────────────── */
+  let products = [];
 
   /* ── CART STATE ───────────────────────────────────────────────────────
      Každá položka: { uid, productId, sku, name, size, price, qty, image }
@@ -77,9 +57,9 @@
     document.dispatchEvent(new CustomEvent(eventName, { detail, bubbles: true }));
   }
 
-  /** Najde produkt v PRODUCTS podle id */
+  /** Najde produkt v aktuálně načtené sadě produktů */
   function findProduct(productId) {
-    return PRODUCTS.find(p => p.id === productId) || null;
+    return products.find(p => p.id === productId) || null;
   }
 
   /** Celková cena košíku v haléřích (pro Stripe) */
@@ -561,18 +541,44 @@
   });
 
 
+  /* ── RENDER: PRODUKTOVÝ GRID ──────────────────────────────────────────── */
+
+  /**
+   * Vykreslí produkty do #product-grid.
+   * @param {Array} productsArray — pole načtených produktů
+   */
+  function renderProducts(productsArray) {
+    const fragment = document.createDocumentFragment();
+    productsArray.forEach(p => fragment.appendChild(renderProductCard(p)));
+    gridEl.appendChild(fragment);
+  }
+
   /* ── INIT ─────────────────────────────────────────────────────────────── */
 
   function init() {
-    // vykresli produkty z PRODUCTS konfigurace
-    const fragment = document.createDocumentFragment();
-    PRODUCTS.forEach(p => fragment.appendChild(renderProductCard(p)));
-    gridEl.appendChild(fragment);
-
-    // nastav initial stav košíku
+    // nastav initial stav košíku (ještě před fetchem, okamžitě)
     renderCart();
     renderBadge();
     clearBtn && (clearBtn.style.visibility = 'hidden');
+
+    // Načti produkty asynchronně z merch.json
+    fetch('merch.json')
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
+        return res.json();
+      })
+      .then(data => {
+        if (!Array.isArray(data) || data.length === 0) {
+          throw new TypeError('Nevalidní nebo prázdná data v merch.json');
+        }
+        products = data;
+        renderProducts(products);
+      })
+      .catch(err => {
+        console.warn('[merch.js] Načítání merch.json selhalo, používám zálohu:', err.message);
+        products = FALLBACK_PRODUCTS;
+        renderProducts(products);
+      });
   }
 
   init();
