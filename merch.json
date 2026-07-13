@@ -9,9 +9,9 @@
     "sizes": ["S", "M", "L", "XL", "XXL"]
   },
   {
-    "id": "trico-tlak-ii-tour",
-    "sku": "RST-TS-BSC-2026",
-    "name": "Triko Restovski Basic",
+    "id": "triko-restovski-black",
+    "sku": "RST-TS-BLK-2026",
+    "name": "Triko Restovski Black",
     "price": 490,
     "badge": null,
     "image": "images/tshirt.webp",
