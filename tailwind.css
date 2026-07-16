@@ -1339,3 +1339,12 @@ video {
     padding-bottom: 2.5rem;
   }
 }
+@media (min-width: 1024px) {
+  .lg\:min-h-screen {
+    min-height: 100vh;
+  }
+  .lg\:pt-40 {
+    padding-top: 10rem;
+  }
+}
+
