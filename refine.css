@@ -1,0 +1,514 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   refine.css — dočištění generických vzorů při zachování identity webu
+   Stejné barvy, Bricolage Grotesque + Space Mono, tenké linky, zrno.
+   Místo boxů, pilulek a karet: typografie, linky a obrys (jako v hero).
+   ═══════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* --font-body nebyl definovaný → text bez třídy padal na systémový serif */
+  --font-body: var(--font-mono);
+  /* Monument Extended se nikdy nenačítal → hero padal na Arial */
+  --font-monument: var(--font-display);
+}
+.font-monument {
+  font-variation-settings: "opsz" 96;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.font-display { font-variation-settings: "opsz" 96; }
+
+/* obrysové slovo v nadpisech — stejný jazyk jako „Žádnej klid.“ v hero */
+/* Bricolage je proměnné písmo s překrývajícími se tvary → čistý obrys:
+   tah se kreslí pod výplň v barvě pozadí sekce (vnitřní čáry zmizí) */
+:root { --sect-bg: var(--bg); }
+#bio, #disco, #kontakt { --sect-bg: var(--bg-soft); }
+.h-outline,
+.text-stroke,
+.disc-year {
+  paint-order: stroke fill;
+}
+.h-outline {
+  color: var(--sect-bg);
+  -webkit-text-stroke: 3px var(--ink);
+}
+.text-stroke {
+  color: var(--bg);
+  -webkit-text-stroke: 4px var(--ink);
+}
+@supports not (-webkit-text-stroke: 1px black) {
+  .h-outline { color: var(--ink); }
+}
+.h-count {
+  margin-left: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-faint);
+  vertical-align: super;
+}
+
+/* textový odkaz místo obrysových „pilulek“ */
+.text-link {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--ink-faint);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 5px;
+  transition: text-decoration-color 0.25s, text-underline-offset 0.25s;
+}
+.text-link:hover {
+  text-decoration-color: var(--ink);
+  text-underline-offset: 3px;
+}
+
+/* ── NAVIGACE ─────────────────────────────────────────────────────── */
+.nav-links { gap: 1.75rem; }
+.nav-links a { letter-spacing: 0; }
+
+/* paralaxa v main.js posouvá fotku až o 40 px → rezerva nahoře, ať neprosvítá podklad */
+.hero-portrait img {
+  height: calc(100% + 3rem);
+  margin-top: -3rem;
+}
+.mode-toggle,
+.cart-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--ink-dim);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.mode-toggle:hover,
+.cart-text:hover { color: var(--ink); }
+#theme-icon { font-size: 0.85rem; }
+.cart-text .cart-badge {
+  position: static;
+  transform: none;
+}
+
+.tabbar {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 100;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--line);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.tabbar a {
+  padding: 1rem 0.25rem;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+@media (min-width: 1024px) { .tabbar { display: none; } }
+.tabbar a + a { border-left: 1px solid var(--line); }
+.tabbar a:active { color: var(--ink); background: var(--bg-soft); }
+
+/* ── HERO: místo boxu se statistikami jeden řádek s příštím koncertem ── */
+.next-show {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.2rem 1.5rem;
+  align-items: center;
+  max-width: 34rem;
+  margin-top: 2.75rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--line);
+}
+.next-show-k {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-dim);
+}
+.next-show-v {
+  grid-row: 2;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+.next-show-a {
+  grid-row: 1 / span 2;
+  grid-column: 2;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  transition: transform 0.35s var(--ease-spring);
+}
+.next-show:hover .next-show-a { transform: translateX(6px); }
+
+/* ── SEGMENTY: filtry jako text oddělený lomítky, ne pilulky ────────── */
+.seg {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  row-gap: 0.4rem;
+}
+.seg button,
+.seg .gallery-filter-btn,
+#kontakt .seg .event-type-btn {
+  padding: 0.2rem 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-faint);
+  cursor: pointer;
+  text-decoration: underline 1px transparent;
+  text-underline-offset: 6px;
+  transition: color 0.2s, text-decoration-color 0.2s;
+}
+.seg button + button::before {
+  content: "/";
+  display: inline-block;
+  margin: 0 0.85rem;
+  color: var(--line);
+  text-decoration: none;
+}
+.seg button:hover { color: var(--ink-dim); }
+.seg .filter-btn.is-on,
+.seg .gallery-filter-btn.active,
+#kontakt .seg .event-type-btn[data-active] {
+  background: none;
+  color: var(--ink);
+  text-decoration-color: var(--ink);
+}
+
+/* ── KONCERTY ─────────────────────────────────────────────────────── */
+.gig {
+  display: grid;
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+  grid-template-areas:
+    "date main"
+    ".    cta";
+  gap: 0.6rem 1.25rem;
+  align-items: center;
+  padding: 1.35rem 0.25rem;
+  transition: background 0.3s var(--ease-out);
+}
+.gig-date { grid-area: date; display: flex; flex-direction: column; min-width: 5rem; }
+.gig-dm {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.gig-y {
+  margin-top: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--ink-faint);
+}
+.gig-main { grid-area: main; min-width: 0; }
+.gig-place {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+.gig-venue {
+  display: block;
+  margin-top: 0.3rem;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 0.82rem;
+  text-transform: none;
+  color: var(--ink-dim);
+}
+.gig-note {
+  margin: 0.25rem 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--ink-faint);
+}
+.gig-cta {
+  grid-area: cta;
+  justify-self: start;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--ink);
+  text-decoration: underline 1px var(--ink-faint);
+  text-underline-offset: 5px;
+  white-space: nowrap;
+  transition: text-decoration-color 0.25s;
+}
+a.gig-cta::after {
+  content: "↗";
+  display: inline-block;
+  margin-left: 0.35rem;
+  transition: transform 0.3s var(--ease-spring);
+}
+a.gig-cta:hover { text-decoration-color: var(--ink); }
+a.gig-cta:hover::after { transform: translate(2px, -2px); }
+.gig-cta.is-quiet { color: var(--ink-faint); text-decoration: none; }
+.gig-cta.is-sold { color: var(--ink-dim); text-decoration: line-through 1.5px var(--ink); }
+.gig:not(.is-past):hover { background: var(--bg-soft); }
+.gig.is-past .gig-dm,
+.gig.is-past .gig-place { color: var(--ink-faint); }
+@media (min-width: 768px) {
+  .gig {
+    grid-template-columns: 10rem minmax(0, 1fr) auto;
+    grid-template-areas: "date main cta";
+    gap: 2rem;
+    padding: 1.6rem 0.5rem;
+  }
+  .gig-cta { justify-self: end; }
+}
+.tour-foot {
+  margin: 1.25rem 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+}
+
+/* ── CITÁT: bez levého pruhu — úvodní „ visí v okraji (hanging punctuation) ── */
+.quote {
+  max-width: 50rem;
+  margin: 5rem 0 0;
+  padding: 2.25rem 0 0;
+  border-top: 1px solid var(--line);
+}
+.quote p { text-indent: -0.42em; }
+.quote cite {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.75rem;
+}
+@media (min-width: 900px) {
+  .quote { margin-left: auto; margin-right: 0; }
+}
+
+/* ── CREW: credits jako v bookletu desky, ne mřížka karet ───────────── */
+.credits {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--ink);
+}
+.credit {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1.15rem 0.25rem;
+  border-bottom: 1px solid var(--line);
+  transition: background 0.3s var(--ease-out);
+}
+.credit-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.45rem, 2.8vw, 2.1rem);
+  line-height: 1;
+  text-transform: uppercase;
+  transition: transform 0.4s var(--ease-out);
+}
+.credit-role {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+}
+.credit-desc {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--ink-dim);
+  max-width: 52ch;
+  transition: color 0.3s;
+}
+.credit:hover { background: var(--bg-soft); }
+.credit:hover .credit-name { transform: translateX(6px); }
+.credit:hover .credit-desc { color: var(--ink); }
+.credits-more { display: inline-block; margin-top: 1.5rem; }
+@media (min-width: 900px) {
+  .credit {
+    grid-template-columns: minmax(12rem, 1.15fr) minmax(9rem, 0.7fr) minmax(0, 1.6fr);
+    gap: 2rem;
+    align-items: baseline;
+    padding: 1.35rem 0.5rem;
+  }
+}
+
+/* ── DISKOGRAFIE: obrysový rok místo šedého čtverce ─────────────────── */
+.discs { border-top: 1px solid var(--ink); margin-bottom: 1rem; }
+.discs details { border-bottom: 1px solid var(--line); }
+.disc-row {
+  --year-w: clamp(5.2rem, 10vw, 8.5rem);
+  display: grid;
+  grid-template-columns: var(--year-w) minmax(0, 1fr) auto;
+  gap: 1.25rem;
+  align-items: center;
+  padding: 1.3rem 0.25rem;
+  cursor: pointer;
+  transition: background 0.3s var(--ease-out);
+}
+.disc-year {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.2rem, 4.6vw, 3.6rem);
+  line-height: 0.85;
+  letter-spacing: -0.03em;
+  color: var(--sect-bg);
+  -webkit-text-stroke: 2px var(--ink-dim);
+  transition: color 0.35s, -webkit-text-stroke-color 0.35s;
+}
+.disc-row:hover .disc-year,
+details[open] .disc-year {
+  color: var(--ink);
+  -webkit-text-stroke-color: var(--ink);
+}
+.chev {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--ink-dim);
+  white-space: nowrap;
+}
+.chev::before { content: "Tracklist "; }
+.chev::after {
+  content: "↓";
+  display: inline-block;
+  margin-left: 0.3rem;
+  transition: transform 0.35s var(--ease-out);
+}
+details[open] .chev { transform: none; color: var(--ink); }
+details[open] .chev::after { transform: rotate(180deg); }
+@media (max-width: 639px) { .chev::before { content: ""; } }
+.disc-body { padding: 0 0.25rem 1.75rem; }
+.disc-body .text-link { margin-right: 1.25rem; }
+.disc-body .flex { gap: 0.6rem 0; }
+@media (min-width: 640px) {
+  .disc-body { padding-left: calc(clamp(5.2rem, 10vw, 8.5rem) + 1.5rem); }
+}
+
+/* ── FOTKY: kontaktní arch v různých formátech, ne 4 stejné čtverce ── */
+#gallery-grid.mosaic {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 44vw;
+  grid-auto-flow: dense;
+  gap: 0.5rem;
+}
+.mosaic .gallery-item { aspect-ratio: auto; }
+.mosaic .gallery-item:nth-child(3n + 1) { grid-column: span 2; }
+@media (min-width: 768px) {
+  #gallery-grid.mosaic {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: minmax(10rem, 16vw);
+    gap: 0.75rem;
+  }
+  /* 8 fotek = dva bloky 4×2, které do sebe zapadnou bez děr */
+  .mosaic .gallery-item:nth-child(3n + 1) { grid-column: auto; }
+  .mosaic .gallery-item:nth-child(8n + 1),
+  .mosaic .gallery-item:nth-child(8n + 6) { grid-column: span 2; grid-row: span 2; }
+  .mosaic .gallery-item:nth-child(8n + 4),
+  .mosaic .gallery-item:nth-child(8n + 5) { grid-column: span 2; }
+}
+#gallery-load-wrap { align-items: flex-start; }
+.gallery-load-btn {
+  padding: 0.3rem 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink);
+  text-decoration: underline 1px var(--ink-faint);
+  text-underline-offset: 5px;
+  cursor: pointer;
+}
+.gallery-load-btn:hover { text-decoration-color: var(--ink); background: none; }
+
+/* ── MERCH: produkty na polici, ne ohraničené e-shop karty ─────────── */
+#product-grid.shelf {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  gap: 3rem 1.5rem;
+}
+.shelf .product-card,
+.shelf .product-card:hover {
+  background: none;
+  border: 0;
+  transform: none;
+}
+.shelf .product-card__image { background: var(--bg-soft); }
+.shelf .product-card__badge {
+  top: 0;
+  left: 0;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.65rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.shelf .product-card__body { padding: 1rem 0 0; gap: 0.9rem; }
+.shelf .product-card__header {
+  align-items: baseline;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--line);
+}
+.shelf .product-card__name { font-size: 1.05rem; }
+.shelf .product-card__price { font-weight: 400; font-size: 0.82rem; }
+.shelf .size-label { text-transform: none; letter-spacing: 0; font-size: 0.7rem; }
+.shelf .size-selector { gap: 0.9rem; }
+.shelf .size-btn {
+  min-width: 0;
+  padding: 0.15rem 0;
+  border: 0;
+  font-size: 0.78rem;
+  text-decoration: underline 1px transparent;
+  text-underline-offset: 5px;
+}
+.shelf .size-btn:hover:not(:disabled) { color: var(--ink); }
+.shelf .size-btn.active {
+  background: none;
+  color: var(--ink);
+  text-decoration-color: var(--ink);
+}
+.shelf .add-to-cart { font-size: 0.85rem; }
+@media (min-width: 1100px) {
+  #product-grid.shelf { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* ── BOOKING ──────────────────────────────────────────────────────── */
+.field-k {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-dim);
+}
+.mail-big {
+  display: inline-block;
+  margin-top: 0.4rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 3vw, 2.3rem);
+  line-height: 1.05;
+  text-decoration: underline 2px var(--ink-faint);
+  text-underline-offset: 6px;
+  overflow-wrap: anywhere;
+  transition: text-decoration-color 0.25s;
+}
+.mail-big:hover { text-decoration-color: var(--ink); }
+#kontakt input:user-invalid { border-bottom-color: var(--ink-dim); }
+#kontakt .space-y-9 .flex { gap: 0.6rem 1.4rem; }

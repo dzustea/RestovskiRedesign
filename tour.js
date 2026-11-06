@@ -147,7 +147,7 @@
   }
 
   /* ── VYTVOŘENÍ JEDNOHO ŘÁDKU (XSS bezpečné — jen textContent) ─────────── */
-  const dayFmt = new Intl.DateTimeFormat('cs-CZ', { weekday: 'short' });
+  const dayFmt = new Intl.DateTimeFormat('cs-CZ', { weekday: 'long' });
 
   function el(tag, cls, text) {
     const n = document.createElement(tag);
@@ -165,49 +165,47 @@
     item.dataset.date = concert.date;
     item.dataset.type = concert.type || 'club';
 
-    /* datum: velké „13.11.“ + rok a den */
+    // datum jako hlavní typografický prvek: „13.11.“ + rok a den v týdnu
     const time = el('time', 'gig-date');
     time.dateTime = concert.date;
     time.append(
-      el('span', 'gig-day', d.getDate() + '.' + (d.getMonth() + 1) + '.'),
-      el('span', 'gig-year', d.getFullYear() + ' · ' + dayFmt.format(d))
+      el('span', 'gig-dm', d.getDate() + '.' + (d.getMonth() + 1) + '.'),
+      el('span', 'gig-y', d.getFullYear() + ' · ' + dayFmt.format(d))
     );
 
-    const info = el('div', 'gig-info');
-    info.append(
-      el('h3', 'gig-city', concert.city),
-      el('p', 'gig-venue', concert.venue)
-    );
-    const note = concert.note && concert.note !== 'REST' ? concert.note : (past ? 'Proběhlo' : null);
-    if (note) info.appendChild(el('p', 'gig-note', note));
+    const main  = el('div', 'gig-main');
+    const place = el('h3', 'gig-place', concert.city);
+    place.appendChild(el('span', 'gig-venue', concert.venue));
+    const bits = [typeLabel];
+    if (concert.note && concert.note !== 'REST') bits.push(concert.note);
+    main.append(place, el('p', 'gig-note', bits.join(' · ')));
 
-    item.append(time, info, el('span', 'gig-type', typeLabel));
-
+    item.append(time, main);
     const action = buildAction(concert, past);
     if (action) item.appendChild(action);
     return item;
   }
 
-  /* Akční prvek — vrací element nebo null (žádná akce) */
+  /* Akční prvek — vstupenky / vyprodáno / proběhlo */
   function buildAction(concert, past) {
     if (past) {
       if (concert.reportUrl) {
-        const a = el('a', 'gig-cta is-ghost', 'Fotoreport \u2197');
+        const a = el('a', 'gig-cta', 'Fotoreport');
         a.href = concert.reportUrl;
         return a;
       }
-      return el('span', 'gig-cta is-done', 'Proběhlo');
+      return el('span', 'gig-cta is-quiet', 'Proběhlo');
     }
     if (concert.soldOut) return el('span', 'gig-cta is-sold', 'Vyprodáno');
     if (concert.ticketUrl) {
-      const a = el('a', 'gig-cta', 'Lístky \u2197');
+      const a = el('a', 'gig-cta', 'Vstupenky');
       a.href   = concert.ticketUrl;
       a.target = '_blank';
       a.rel    = 'noopener noreferrer';
-      a.setAttribute('aria-label', 'Lístky: ' + concert.city + ', ' + concert.venue);
+      a.setAttribute('aria-label', 'Vstupenky: ' + concert.city + ', ' + concert.venue);
       return a;
     }
-    return el('span', 'gig-cta is-ghost', 'Brzy');
+    return el('span', 'gig-cta is-quiet', 'Prodej brzy');
   }
 
   /* ── RENDER LISTU ────────────────────────────────────────────────────────── */
