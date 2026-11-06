@@ -1,85 +1,113 @@
 /**
- * story.js — sekce „Z battlů na vrchol scény“ (tracklist kariéry)
- *  - generuje waveform sloupky (deterministicky podle roku)
- *  - při scrollu posouvá přehrávací hlavu (--p) a označuje aktivní stopu
+ * story.js — sekce „Z battlů na vrchol scény“ jako MPC sampler
+ *  - klik / tap na pad = zobrazí milník na displeji
+ *  - šipky ←/→ přepínají pady
+ *  - autoplay projíždí pady jako sekvenci, dokud uživatel nesáhne na pad
+ *    (pauzuje mimo obrazovku, vypnutý při prefers-reduced-motion)
  */
 (function () {
   'use strict';
 
-  const story = document.querySelector('[data-story]');
-  if (!story) return;
+  const root = document.querySelector('[data-mpc]');
+  if (!root) return;
 
-  const tracks = Array.from(story.querySelectorAll('.story-track'));
-  const BARS = 26;
+  const pads   = Array.from(root.querySelectorAll('.mpc-pad'));
+  const screen = root.querySelector('.mpc-screen');
+  const $ = (sel) => root.querySelector(sel);
+  const out = {
+    pad:   $('[data-mpc-pad]'),
+    side:  $('[data-mpc-side]'),
+    year:  $('[data-mpc-year]'),
+    title: $('[data-mpc-title]'),
+    desc:  $('[data-mpc-desc]'),
+    tag:   $('[data-mpc-tag]'),
+    seq:   $('[data-mpc-seq]'),
+  };
 
-  // pseudo-náhodné, ale stabilní výšky sloupků pro každou stopu
-  tracks.forEach((track) => {
-    const wave = track.querySelector('.story-wave');
-    if (!wave) return;
-    let seed = parseInt(track.querySelector('.story-year').dataset.year, 10) || 1;
-    const rand = () => {
-      seed = (seed * 9301 + 49297) % 233280;
-      return seed / 233280;
-    };
-    const frag = document.createDocumentFragment();
-    for (let i = 0; i < BARS; i++) {
-      const bar = document.createElement('i');
-      // obálka: tišší okraje, hlasitější střed — vypadá jako reálná stopa
-      const env = Math.sin((Math.PI * (i + 0.5)) / BARS);
-      const h = 0.18 + env * (0.35 + rand() * 0.47);
-      bar.style.setProperty('--h', h.toFixed(3));
-      bar.style.setProperty('--i', i);
-      frag.appendChild(bar);
+  const STEP = 4200;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let current = -1;
+  let timer = null;
+  let auto = !reduced;     // po první interakci uživatele se vypne
+  let visible = false;
+
+  // sekvencer — jeden krok na pad
+  const steps = pads.map(() => out.seq.appendChild(document.createElement('i')));
+
+  function show(i, fromUser) {
+    if (i === current) return;
+    current = i;
+    const d = pads[i].dataset;
+
+    pads.forEach((p, n) => {
+      const on = n === i;
+      p.classList.toggle('is-active', on);
+      p.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    steps.forEach((s, n) => s.classList.toggle('on', n <= i));
+
+    out.pad.textContent   = 'PAD ' + String(i + 1).padStart(2, '0');
+    out.side.textContent  = 'SIDE ' + d.side;
+    out.year.textContent  = d.year;
+    out.title.textContent = d.title;
+    out.desc.textContent  = d.desc;
+    out.tag.textContent   = '[ ' + d.tag + ' ]';
+
+    if (!reduced) {
+      screen.classList.remove('is-swap');
+      void screen.offsetWidth; // restart animace
+      screen.classList.add('is-swap');
     }
-    wave.appendChild(frag);
+    if (fromUser) {
+      pads[i].classList.add('is-hit');
+      setTimeout(() => pads[i].classList.remove('is-hit'), 140);
+    }
+    // restart časovače na aktivním padu
+    const el = pads[i];
+    el.style.animation = 'none';
+    void el.offsetWidth;
+    el.style.animation = '';
+  }
+
+  function schedule() {
+    clearTimeout(timer);
+    const playing = auto && visible;
+    root.classList.toggle('is-playing', playing);
+    if (playing) {
+      timer = setTimeout(() => {
+        show((current + 1) % pads.length);
+        schedule();
+      }, STEP);
+    }
+  }
+
+  function stopAuto() {
+    auto = false;
+    schedule();
+  }
+
+  pads.forEach((pad, i) => {
+    pad.addEventListener('click', () => {
+      stopAuto();
+      show(i, true);
+    });
+    pad.addEventListener('keydown', (e) => {
+      const dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!dir) return;
+      e.preventDefault();
+      const n = (i + dir + pads.length) % pads.length;
+      stopAuto();
+      show(n, true);
+      pads[n].focus();
+    });
   });
 
-  // vstupní animace stop
   if ('IntersectionObserver' in window) {
-    const seen = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.classList.add('is-seen');
-          seen.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.2 });
-    tracks.forEach((t) => seen.observe(t));
-
-    const playing = new IntersectionObserver((entries) => {
-      entries.forEach((e) => story.classList.toggle('is-playing', e.isIntersecting));
-    });
-    playing.observe(story);
-  } else {
-    tracks.forEach((t) => t.classList.add('is-seen'));
+    new IntersectionObserver((entries) => {
+      visible = entries[0].isIntersecting;
+      schedule();
+    }, { threshold: 0.35 }).observe(root);
   }
 
-  // průběh + aktivní stopa podle středu obrazovky
-  let ticking = false;
-  function update() {
-    ticking = false;
-    const vh = window.innerHeight;
-    const focus = vh * 0.55;
-    const rect = story.getBoundingClientRect();
-    const p = Math.min(1, Math.max(0, (focus - rect.top) / rect.height));
-    story.style.setProperty('--p', p.toFixed(4));
-
-    let active = null;
-    tracks.forEach((t) => {
-      const r = t.getBoundingClientRect();
-      const mid = r.top + r.height / 2;
-      t.classList.toggle('is-passed', mid <= focus);
-      if (r.top <= focus && r.bottom >= focus) active = t;
-    });
-    tracks.forEach((t) => t.classList.toggle('is-active', t === active));
-  }
-  function onScroll() {
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(update);
-    }
-  }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll);
-  update();
+  show(0);
 })();
