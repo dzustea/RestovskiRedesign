@@ -12,8 +12,6 @@
   function syncIcon() {
     const dark = (root.getAttribute('data-theme') || 'dark') === 'dark';
     icon.textContent = dark ? '☾' : '☀';
-    const label = btn.querySelector('.mode-label');
-    if (label) label.textContent = dark ? 'noc' : 'den';
     btn.setAttribute('aria-pressed', dark ? 'false' : 'true');
   }
   syncIcon();

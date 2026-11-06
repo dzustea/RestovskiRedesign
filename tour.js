@@ -36,8 +36,8 @@
   if (!listEl) return;
 
   /* ── CSS TŘÍDY pro aktivní / neaktivní filtr tlačítko ───────────────────── */
-  const CLS_ACTIVE   = ['is-on'];
-  const CLS_INACTIVE = 'is-off';
+  const CLS_ACTIVE   = ['border-[var(--ink)]', 'bg-[var(--ink)]', 'text-[var(--invert)]', 'font-bold'];
+  const CLS_INACTIVE = 'border-[var(--line)]';
 
   /* ── STATE ───────────────────────────────────────────────────────────────── */
   let allConcerts = [];   // seřazený ASC seznam všech koncertů z JSON
@@ -146,68 +146,93 @@
     return parseLocalDate(iso) < TODAY;
   }
 
-  /* ── VYTVOŘENÍ JEDNOHO ŘÁDKU (XSS bezpečné — jen textContent) ─────────── */
-  const dayFmt = new Intl.DateTimeFormat('cs-CZ', { weekday: 'short' });
-
-  function el(tag, cls, text) {
-    const n = document.createElement(tag);
-    if (cls) n.className = cls;
-    if (text != null) n.textContent = text;
-    return n;
-  }
-
+  /* ── VYTVOŘENÍ JEDNOHO ŘÁDKU (XSS bezpečné) ─────────────────────────────── */
   function createRow(concert) {
     const past      = isPast(concert.date);
     const typeLabel = concert.type === 'festival' ? 'Festival' : 'Klub';
-    const d         = parseLocalDate(concert.date);
 
-    const item = el('article', past ? 'gig tour-item is-past' : 'gig tour-item');
-    item.dataset.date = concert.date;
-    item.dataset.type = concert.type || 'club';
+    /* wrapper .tour-item — zachováme data atributy pro případné budoucí rozšíření */
+    const item = document.createElement('div');
+    item.className        = 'tour-item';
+    item.dataset.date     = concert.date;
+    item.dataset.type     = concert.type || 'club';
 
-    /* datum: velké „13.11.“ + rok a den */
-    const time = el('time', 'gig-date');
-    time.dateTime = concert.date;
-    time.append(
-      el('span', 'gig-day', d.getDate() + '.' + (d.getMonth() + 1) + '.'),
-      el('span', 'gig-year', d.getFullYear() + ' · ' + dayFmt.format(d))
-    );
+    /* vnitřní flex řádek — jiný styling pro past vs. upcoming */
+    const inner = document.createElement('div');
+    inner.className = past
+      ? 'flex flex-col md:flex-row md:items-center gap-3 md:gap-8 py-6 px-2 opacity-70'
+      : 'flex flex-col md:flex-row md:items-center gap-3 md:gap-8 py-6 px-2 hover:bg-[var(--bg-soft)] transition-colors group';
 
-    const info = el('div', 'gig-info');
-    info.append(
-      el('h3', 'gig-city', concert.city),
-      el('p', 'gig-venue', concert.venue)
-    );
-    const note = concert.note && concert.note !== 'REST' ? concert.note : (past ? 'Proběhlo' : null);
-    if (note) info.appendChild(el('p', 'gig-note', note));
+    /* datum — textContent zabraňuje jakémukoliv XSS */
+    const dateEl = document.createElement('span');
+    dateEl.className = past
+      ? 'line-no font-display text-2xl md:text-3xl w-full md:w-36 shrink-0 tabnum text-[var(--ink-dim)]'
+      : 'line-no font-display text-2xl md:text-3xl w-full md:w-36 shrink-0 tabnum text-[var(--ink-dim)] group-hover:text-[var(--ink)] transition-colors';
+    dateEl.textContent = formatDate(concert.date);
 
-    item.append(time, info, el('span', 'gig-type', typeLabel));
+    /* info blok */
+    const info = document.createElement('div');
+    info.className = 'flex-1 min-w-0';
 
+    const titleEl = document.createElement('p');
+    titleEl.className   = 'font-display h-card uppercase truncate';
+    titleEl.textContent = `${concert.city} \u2014 ${concert.venue}`;  // textContent = safe
+
+    const subEl = document.createElement('p');
+    subEl.className = 'font-mono text-xs uppercase tracking-wide text-[var(--ink-dim)] mt-1';
+    // note z JSON zobrazíme jako podtitulek; pro minulé bez note dopíšeme "Proběhlo"
+    subEl.textContent = concert.note
+      ? `${typeLabel} \u00B7 ${concert.note}`
+      : past ? `${typeLabel} \u00B7 Proběhlo` : typeLabel;
+
+    info.append(titleEl, subEl);
+
+    /* badge (typ akce) */
+    const badge = document.createElement('span');
+    badge.className   = 'font-mono text-[10px] uppercase tracking-wide px-3 py-1 border border-[var(--line)] text-[var(--ink-dim)] shrink-0 self-start md:self-center';
+    badge.textContent = typeLabel;
+
+    /* akční prvek — vstupenky / sold out / proběhlo (null = nic) */
     const action = buildAction(concert, past);
-    if (action) item.appendChild(action);
+
+    inner.append(dateEl, info, badge);
+    if (action) inner.appendChild(action);
+    item.appendChild(inner);
     return item;
   }
 
   /* Akční prvek — vrací element nebo null (žádná akce) */
   function buildAction(concert, past) {
     if (past) {
+      // Minulý koncert: pokud existuje odkaz na fotoreport, zobrazíme ho
       if (concert.reportUrl) {
-        const a = el('a', 'gig-cta is-ghost', 'Fotoreport \u2197');
-        a.href = concert.reportUrl;
+        const a = document.createElement('a');
+        a.href        = concert.reportUrl;
+        a.className   = 'btn-outline text-xs px-5 py-3 shrink-0 text-center justify-center';
+        a.textContent = 'Fotoreport \u2197';
         return a;
       }
-      return el('span', 'gig-cta is-done', 'Proběhlo');
+      return null;  // žádná akce — "Proběhlo" je v podtitulku
     }
-    if (concert.soldOut) return el('span', 'gig-cta is-sold', 'Vyprodáno');
+
+    if (concert.soldOut) {
+      const s = document.createElement('span');
+      s.className   = 'stripes-soldout font-display text-sm uppercase tracking-[0.1em] text-[var(--ink)] px-5 py-3 shrink-0 text-center';
+      s.textContent = 'Sold Out';
+      return s;
+    }
+
     if (concert.ticketUrl) {
-      const a = el('a', 'gig-cta', 'Lístky \u2197');
-      a.href   = concert.ticketUrl;
-      a.target = '_blank';
-      a.rel    = 'noopener noreferrer';
-      a.setAttribute('aria-label', 'Lístky: ' + concert.city + ', ' + concert.venue);
+      const a = document.createElement('a');
+      a.href        = concert.ticketUrl;
+      a.target      = '_blank';
+      a.rel         = 'noopener noreferrer';   // bezpečnost: isoluje nové okno
+      a.className   = 'btn-outline text-xs px-5 py-3 shrink-0 text-center justify-center';
+      a.textContent = 'Vstupenky \u2197';
       return a;
     }
-    return el('span', 'gig-cta is-ghost', 'Brzy');
+
+    return null;
   }
 
   /* ── RENDER LISTU ────────────────────────────────────────────────────────── */

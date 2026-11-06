@@ -3,14 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>REST — oficiální web</title>
-    <meta name="description" content="Rest / Restovski — trueschool a boombap z labelu Ty Nikdy. Koncerty, desky, merch a booking." />
-    <meta property="og:title" content="REST — Žádnej klid." />
-    <meta property="og:description" content="Koncerty, desky, merch a booking. Ty Nikdy Label." />
-    <meta property="og:image" content="./images/rest3.webp" />
-    <link rel="icon" type="image/webp" href="./images/favicon.webp" />
-    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-    <meta name="color-scheme" content="dark light" />
+    <title>RESTOVSKI — oficiální web</title>
+    <link rel="icon" type="image/webp" href="./images/favicon.webp" /> <link rel="apple-touch-icon" href="apple-touch-icon.png" /> <meta name="color-scheme" content="dark light" />
     <script>
       (function () {
         var theme = "dark";
@@ -22,146 +16,435 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.cdnfonts.com" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Anybody:ital,wdth,wght@0,50..150,100..900;1,50..150,100..900&family=Martian+Mono:wdth,wght@75..112.5,300..700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Manrope:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="tailwind.css" />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="story.css" />
-    <link rel="stylesheet" href="poster.css" />
+    <!-- Tour skeleton animation — 110 B inline CSS, zabrání CLS před načtením JS -->
+    <style id="tour-sk-css">
+      @keyframes tour-sk-p{0%,100%{opacity:.3}50%{opacity:.7}}
+      .tour-sk{animation:tour-sk-p 1.4s ease-in-out infinite;background:var(--bg-raised)}
+    </style>
   </head>
   <body class="antialiased">
-    <a class="skip-link" href="#tour">Přeskočit na koncerty</a>
-    <div class="grain" aria-hidden="true"></div>
+    <div class="grain"></div>
 
-    <!-- ── TOP BAR ─────────────────────────────────────────────── -->
-    <nav class="topbar" aria-label="Hlavní navigace">
-      <a href="#hero" class="topbar-brand" aria-label="Rest — nahoru">REST<span>.</span></a>
+    <nav
+      class="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between px-5 md:px-10 py-4 md:py-5 bg-[var(--bg)]/92 backdrop-blur-md border-b border-[var(--line)]"
+    >
+      <a href="#hero" class="font-display text-2xl md:text-3xl tracking-tight">
+        REST<span class="opacity-50">.</span>
+      </a>
 
-      <ul class="topbar-links">
-        <li><a href="#tour">koncerty</a></li>
-        <li><a href="#bio">příběh</a></li>
-        <li><a href="#crew">crew</a></li>
-        <li><a href="#disco">desky</a></li>
-        <li><a href="#galerie">fotky</a></li>
-        <li><a href="#merch">merch</a></li>
-        <li><a href="#kontakt">booking</a></li>
+      <ul
+        class="hidden lg:flex items-center gap-8 font-mono text-xs uppercase tracking-[0.15em] text-[var(--ink-dim)]"
+      >
+        <li>
+          <a
+            href="#tour"
+            class="link-underline hover:text-[var(--ink)] transition-colors"
+            >Tour</a
+          >
+        </li>
+        <li>
+          <a
+            href="#bio"
+            class="link-underline hover:text-[var(--ink)] transition-colors"
+            >Příběh</a
+          >
+        </li>
+        <li>
+          <a
+            href="#crew"
+            class="link-underline hover:text-[var(--ink)] transition-colors"
+            >Crew</a
+          >
+        </li>
+        <li>
+          <a
+            href="#disco"
+            class="link-underline hover:text-[var(--ink)] transition-colors"
+            >Hudba</a
+          >
+        </li>
+        <li>
+          <a
+            href="#galerie"
+            class="link-underline hover:text-[var(--ink)] transition-colors"
+            >Galerie</a
+          >
+        </li>
+        <li>
+          <a
+            href="#merch"
+            class="link-underline hover:text-[var(--ink)] transition-colors"
+            >Merch</a
+          >
+        </li>
+        <li>
+          <a
+            href="#kontakt"
+            class="link-underline hover:text-[var(--ink)] transition-colors"
+            >Booking</a
+          >
+        </li>
       </ul>
 
-      <div class="topbar-tools">
-        <button type="button" id="theme-toggle" class="mode-btn" aria-label="Přepnout světlý/tmavý režim" aria-pressed="false">
-          <span id="theme-icon" aria-hidden="true">☾</span><span class="mode-label">noc</span>
+      <div class="flex items-center gap-4">
+        <button
+          type="button"
+          id="theme-toggle"
+          class="theme-toggle"
+          aria-label="Přepnout světlý/tmavý režim"
+          aria-pressed="false"
+        >
+          <span class="track-icons"
+            ><span aria-hidden="true">☾</span
+            ><span aria-hidden="true">☀</span></span
+          >
+          <span class="knob"><span id="theme-icon">☾</span></span>
         </button>
 
+        <!-- cart toggle -->
         <button
           type="button"
           id="cart-toggle"
-          class="cart-btn"
+          class="relative p-1.5 transition-colors"
+          style="color:var(--ink-dim);"
           aria-label="Otevřít košík"
           aria-expanded="false"
           aria-controls="cart-drawer"
         >
-          košík
-          <span id="cart-badge" class="cart-badge" aria-live="polite" aria-label="Počet položek v košíku" hidden>0</span>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.75"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+          <span id="cart-badge" class="cart-badge"
+                aria-live="polite"
+                aria-label="Počet položek v košíku"
+                hidden>0</span>
         </button>
 
-        <a href="#tour" class="topbar-cta">Lístky ↗</a>
+        <a
+          href="#tour"
+          class="btn-primary hidden sm:inline-flex font-mono text-xs uppercase tracking-[0.1em] px-5 py-2.5 font-bold"
+        >
+          Vstupenky →
+        </a>
       </div>
     </nav>
 
-    <!-- ── MOBILE TAB BAR ──────────────────────────────────────── -->
-    <nav class="tabbar" aria-label="Rychlá navigace">
-      <a href="#tour">Koncerty</a>
-      <a href="#disco">Desky</a>
-      <a href="#merch">Merch</a>
-      <a href="#kontakt">Booking</a>
-    </nav>
+    <!-- mobile tab bar -->
+    <div
+      class="lg:hidden fixed bottom-0 left-0 right-0 z-[100] bg-[var(--bg)]/96 backdrop-blur-md border-t border-[var(--line)] flex justify-between px-4 py-3 font-mono text-[10px] uppercase tracking-wide text-[var(--ink-dim)]"
+    >
+      <a
+        href="#tour"
+        class="flex flex-col items-center gap-1 hover:text-[var(--ink)] transition-colors"
+        ><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><line x1="12" y1="17" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg><span>Tour</span></a
+      >
+        <!--  
+      <a
+        href="#bio"
+        class="flex flex-col items-center gap-1 hover:text-[var(--ink)] transition-colors"
+        ><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Bio</span></a
+      >-->
+      <a
+        href="#disco"
+        class="flex flex-col items-center gap-1 hover:text-[var(--ink)] transition-colors"
+        ><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg><span>Hudba</span></a
+      >
+        <!--  
+      <a
+      href="#galerie"
+        class="flex flex-col items-center gap-1 hover:text-[var(--ink)] transition-colors"
+        ><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="M21 16l-5-5-4 4-2-2-5 5"/></svg><span>Fotky</span></a
+      >-->
+      <a
+        href="#merch"
+        class="flex flex-col items-center gap-1 hover:text-[var(--ink)] transition-colors"
+        ><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span>Merch</span></a
+      >
+      <a
+        href="#kontakt"
+        class="flex flex-col items-center gap-1 hover:text-[var(--ink)] transition-colors"
+        ><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span>Kontakt</span></a
+      >
+    </div>
 
-    <main>
-    <!-- ── HERO: plakát ─────────────────────────────────────────── -->
-    <section id="hero" class="hero">
-      <p class="hero-meta">
-        <span>Ty Nikdy Label</span>
-        <span>Trueschool · Boombap · od 2003</span>
-      </p>
+    <!-- ── HERO ──────────────────────────────────────────────── -->
+    <section
+      id="hero"
+      class="relative overflow-hidden border-b border-[var(--line)] pt-20 md:pt-24 pb-12 md:pb-16 lg:min-h-screen lg:pt-40"
+    >
+      <div class="absolute inset-0 grid-bg"></div>
 
-      <figure class="hero-photo">
-        <img src="./images/rest3.webp" alt="Rest v kšiltovce před panelákem" fetchpriority="high" />
-        <span class="tape tape-tl" aria-hidden="true"></span>
-        <span class="tape tape-br" aria-hidden="true"></span>
-      </figure>
-
-      <p class="hero-sticker" aria-hidden="true">Žádnej<br />klid.</p>
-
-      <h1 class="hero-word">
-        <span class="sr-only">Rest — Žádnej klid.</span>
-        <span aria-hidden="true" class="hero-word-in">REST</span>
-      </h1>
-
-      <div class="hero-foot">
-        <a href="#tour" class="next-gig" id="next-gig">
-          <span class="next-gig-label">Příště naživo</span>
-          <span class="next-gig-what" data-next-gig>Koncerty a lístky</span>
-          <span class="next-gig-arrow" aria-hidden="true">→</span>
-        </a>
-        <p class="hero-aka">
-          Adam Chlpík aka Rest / Restovski.<br />
-          Rap na vlastních textech, zkušenostech a projevu.
+      <!-- metadata row — in flow so it doesn't clash with grid at md: -->
+      <div class="hidden sm:flex justify-between px-5 md:px-10 mb-6 reveal">
+        <p
+          class="font-mono text-xs uppercase tracking-[0.2em] text-[var(--ink-dim)]"
+        >
+          Ty Nikdy Label / Est. 2006
         </p>
-        <a
-          href="https://open.spotify.com/artist/6lGbUVZzujCnRJWgPZkkxk?si=7c5930c1022f426c"
-          target="_blank"
-          rel="noopener"
-          class="hero-listen"
-        >Pustit na Spotify ↗</a>
+        <p
+          class="font-mono text-xs uppercase tracking-[0.2em] text-right text-[var(--ink-dim)]"
+        >
+          <span
+            class="inline-block w-2 h-2 bg-[var(--ink)] rounded-full animate-pulse mr-1.5"
+            aria-hidden="true"
+          ></span>
+          Aktuálně: Tour Tlak II 2026
+        </p>
+      </div>
+
+      <!-- two-col grid activates at md: (768px) so tablets get the proper layout -->
+      <div
+        class="relative z-10 px-5 md:px-10 grid grid-cols-1 md:grid-cols-[1.15fr_0.85fr] gap-6 md:gap-8 items-center"
+      >
+        <!-- text — below photo on mobile, left column on md+ -->
+        <div class="order-2 md:order-1 pt-6 md:pt-0">
+          <h1 class="font-display h-hero text-[var(--ink)] overflow-hidden">
+  <span class="block overflow-hidden"
+    ><span class="block reveal-line delay-[50ms]">Rest.</span></span
+  >
+  <span class="block overflow-hidden"
+    ><span class="block reveal-line text-stroke font-monument delay-[150ms]"
+      >Žádnej klid.</span
+    ></span
+  >
+</h1>
+
+          <div
+            class="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-4 reveal"
+          >
+            <a href="#tour" class="btn-primary text-lg md:text-xl px-7 py-4">
+              Lístky na tour <span aria-hidden="true">↗</span>
+            </a>
+            <a
+              href="https://open.spotify.com/artist/6lGbUVZzujCnRJWgPZkkxk?si=7c5930c1022f426c"
+              target="_blank"
+              rel="noopener"
+              class="platform-btn px-5 py-4"
+            >
+              <span aria-hidden="true">▶</span> Sleduj na Spotify
+            </a>
+          </div>
+
+          <div class="mt-10 reveal">
+            <div
+              class="border border-[var(--line)] bg-[var(--bg-soft)]/90 backdrop-blur-sm p-5 md:p-6"
+            >
+              <div class="flex flex-wrap gap-x-8 gap-y-5">
+                <div>
+                  <p
+                    class="font-display text-4xl md:text-5xl text-[var(--ink)]"
+                  >
+                    2003
+                  </p>
+                  <p
+                    class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--ink-dim)] mt-1"
+                  >
+                    Na scéně od
+                  </p>
+                </div>
+                <div
+                  class="w-px bg-[var(--line)] hidden sm:block"
+                  aria-hidden="true"
+                ></div>
+                <div>
+                  <p
+                    class="font-display text-4xl md:text-5xl text-[var(--ink)]"
+                  >
+                    5
+                  </p>
+                  <p
+                    class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--ink-dim)] mt-1"
+                  >
+                    Studiových alb
+                  </p>
+                </div>
+                <div
+                  class="w-px bg-[var(--line)] hidden sm:block"
+                  aria-hidden="true"
+                ></div>
+                <div>
+                  <p
+                    class="font-display text-4xl md:text-5xl text-[var(--ink)]"
+                  >
+                    1000+
+                  </p>
+                  <p
+                    class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--ink-dim)] mt-1"
+                  >
+                    Odehraných show
+                  </p>
+                </div>
+              </div>
+              <a
+                href="#bio"
+                class="link-underline font-mono text-xs uppercase tracking-[0.15em] text-[var(--ink-dim)] mt-6 inline-flex items-center gap-2 hover:text-[var(--ink)] transition-colors"
+              >
+                Poznej celý příběh <span aria-hidden="true">↓</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- portrait — above text on mobile, right column on md+ -->
+        <div class="order-1 md:order-2 relative">
+          <div
+            class="w-full max-w-[min(80vw,26rem)] mx-auto md:max-w-[26rem] md:ml-auto relative"
+          >
+            <div class="hero-portrait aspect-square w-full">
+              <img src="./images/rest.webp" alt="Rest / Restovski — live na koncertě" />
+            </div>
+            <span class="frame-corner tl" aria-hidden="true"></span>
+            <span class="frame-corner tr" aria-hidden="true"></span>
+            <span class="frame-corner bl" aria-hidden="true"></span>
+            <span class="frame-corner br" aria-hidden="true"></span>
+            <div class="tape-label absolute -top-3 -left-3 z-10">Restovski</div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- ── TICKER s termíny (plní poster.js) ───────────────────── -->
-    <div class="ticker-clip" aria-hidden="true">
-      <div class="ticker">
-        <div class="ticker-track" data-ticker>
-          <span>Rest naživo</span><span>Ty Nikdy</span><span>Trueschool</span><span>Boombap</span>
+    <!-- ── TOUR ──────────────────────────────────────────────── -->
+    <section
+      id="tour"
+      class="relative px-5 md:px-10 py-20 md:py-28 border-b border-[var(--line)]"
+    >
+      <div
+        class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 reveal"
+      >
+        <div>
+          <h2 class="font-display h-section uppercase">Koncertní<br />plány</h2>
+        </div>
+        <p class="font-mono text-sm text-[var(--ink-dim)] max-w-xs">
+          Klub, festival, sklep nebo amfiteátr — Rest je tam, kde to žije.
+        </p>
+      </div>
+
+      <div
+        class="flex gap-3 mb-8 font-mono text-xs uppercase tracking-[0.15em] reveal"
+        id="tour-filters"
+        role="tablist"
+        aria-label="Filtr koncertů"
+      >
+        <button
+          type="button"
+          data-filter="all"
+          class="filter-btn px-5 py-2.5 border border-[var(--line)] hover:border-[var(--ink)] transition-colors"
+          aria-pressed="false"
+        >Vše</button>
+        <button
+          type="button"
+          data-filter="upcoming"
+          class="filter-btn px-5 py-2.5 border border-[var(--ink)] bg-[var(--ink)] text-[var(--invert)] font-bold"
+          aria-pressed="true"
+        >Nadcházející</button>
+        <button
+          type="button"
+          data-filter="past"
+          class="filter-btn px-5 py-2.5 border border-[var(--line)] hover:border-[var(--ink)] transition-colors"
+          aria-pressed="false"
+        >Proběhlé</button>
+      </div>
+
+      <!-- ── SKELETON (3 řádky = výška 3 nadcházejících koncertů)
+           Skryje se automaticky po načtení dat z koncerty.json.
+           Zabraňuje CLS — obsah "neposkočí" při načítání. ── -->
+      <div
+        id="tour-skeleton"
+        class="divide-y divide-[var(--line)] border-t border-b border-[var(--line)]"
+        aria-hidden="true"
+        aria-label="Načítám program..."
+      >
+        <!-- řádek 1 -->
+        <div class="flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-8 py-6 px-2">
+          <div class="tour-sk h-8 w-28 shrink-0"></div>
+          <div class="flex-1 min-w-0 space-y-2">
+            <div class="tour-sk h-5 w-56 max-w-[70%]"></div>
+            <div class="tour-sk h-3 w-36 max-w-[50%]"></div>
+          </div>
+          <div class="tour-sk h-7 w-16 shrink-0 hidden md:block"></div>
+          <div class="tour-sk h-9 w-24 shrink-0 hidden md:block"></div>
+        </div>
+        <!-- řádek 2 -->
+        <div class="flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-8 py-6 px-2">
+          <div class="tour-sk h-8 w-28 shrink-0"></div>
+          <div class="flex-1 min-w-0 space-y-2">
+            <div class="tour-sk h-5 w-48 max-w-[65%]"></div>
+            <div class="tour-sk h-3 w-32 max-w-[45%]"></div>
+          </div>
+          <div class="tour-sk h-7 w-16 shrink-0 hidden md:block"></div>
+          <div class="tour-sk h-9 w-24 shrink-0 hidden md:block"></div>
+        </div>
+        <!-- řádek 3 -->
+        <div class="flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-8 py-6 px-2">
+          <div class="tour-sk h-8 w-28 shrink-0"></div>
+          <div class="flex-1 min-w-0 space-y-2">
+            <div class="tour-sk h-5 w-52 max-w-[60%]"></div>
+            <div class="tour-sk h-3 w-28 max-w-[40%]"></div>
+          </div>
+          <div class="tour-sk h-7 w-16 shrink-0 hidden md:block"></div>
+          <div class="tour-sk h-9 w-24 shrink-0 hidden md:block"></div>
         </div>
       </div>
-    </div>
 
-    <!-- ── TOUR ──────────────────────────────────────────────── -->
-    <section id="tour" class="block">
-      <header class="block-head reveal">
-        <h2 class="poster-h">Kde to <em>žije</em></h2>
-        <p class="block-lede">Klub, festival, sklep nebo amfiteátr. Rest je tam, kde to žije.</p>
-      </header>
+      <!-- Dynamický kontejner — plní tour.js po fetch('./koncerty.json') -->
+      <div
+        id="tour-list"
+        class="divide-y divide-[var(--line)] border-t border-b border-[var(--line)]"
+        aria-live="polite"
+        aria-busy="true"
+        aria-label="Seznam koncertů"
+      ></div>
 
-      <div class="tabs reveal" id="tour-filters" role="tablist" aria-label="Filtr koncertů">
-        <button type="button" data-filter="upcoming" class="filter-btn is-on" aria-pressed="true">Nadcházející</button>
-        <button type="button" data-filter="past" class="filter-btn" aria-pressed="false">Proběhlé</button>
-        <button type="button" data-filter="all" class="filter-btn" aria-pressed="false">Vše</button>
-      </div>
+      <!-- Prázdný stav (viditelný když filter nevrátí žádné výsledky) -->
+      <p
+        id="tour-empty"
+        class="font-mono text-xs uppercase tracking-wide py-10 text-center"
+        style="color:var(--ink-faint);"
+        hidden
+      >Žádné koncerty v této kategorii.</p>
 
-      <div id="tour-skeleton" class="gigs" aria-hidden="true">
-        <div class="gig-sk tour-sk"></div>
-        <div class="gig-sk tour-sk"></div>
-        <div class="gig-sk tour-sk"></div>
-      </div>
-
-      <div id="tour-list" class="gigs" aria-live="polite" aria-busy="true" aria-label="Seznam koncertů"></div>
-
-      <p id="tour-empty" class="gigs-note" hidden>V téhle kategorii zatím nic není.</p>
-      <p id="tour-error" class="gigs-note" hidden>Program se nepodařilo načíst. Zkus obnovit stránku.</p>
+      <!-- Chybový stav (viditelný pokud fetch selže) -->
+      <p
+        id="tour-error"
+        class="font-mono text-xs uppercase tracking-wide py-10 text-center"
+        style="color:var(--ink-faint);"
+        hidden
+      >Nepodařilo se načíst program. Zkus obnovit stránku.</p>
+      <p class="font-mono text-xs uppercase tracking-wide py-4 text-center" style="color:var(--ink-faint);">
+        Vstupenky prodává GoOut a Ticketstream.
+      </p>
     </section>
 
     <!-- ── BIO ───────────────────────────────────────────────── -->
-    <section id="bio" class="block block-paper">
-      <header class="block-head reveal">
-        <h2 class="poster-h">Z battlů na <em>vrchol</em> scény</h2>
-        <p class="block-lede">
+    <section
+      id="bio"
+      class="relative px-5 md:px-10 py-20 md:py-28 border-b border-[var(--line)] bg-[var(--bg-soft)]"
+    >
+      <div class="mb-14 reveal">
+        <h2 class="font-display h-section uppercase max-w-3xl">
+          Z battlů na<br />vrchol scény
+        </h2>
+        <p
+          class="font-mono text-sm md:text-base text-[var(--ink-dim)] max-w-xl mt-6 leading-relaxed"
+        >
           Adam Chlpík, známý jako Rest / Restovski. Od freestyle battlů přes
           Divnej Postoy až po label Ty Nikdy. Trueschool a boombap, který nikdy
           nepřestal mluvit pravdu.
         </p>
-      </header>
+      </div>
+
       <!-- ── STORY: kariéra jako MPC sampler (story.css + story.js) ── -->
       <div class="mpc reveal" data-mpc>
         <div class="mpc-top" aria-hidden="true">
@@ -196,174 +479,628 @@
         </div>
       </div>
 
-      <figure class="strip-quote reveal">
-        <span class="tape tape-top" aria-hidden="true"></span>
-        <blockquote>„Trueschool není nostalgie. Je to způsob, jak mluvit pravdu.“</blockquote>
-        <figcaption>Rest, rozhovor pro Radio Wave</figcaption>
-      </figure>
+      <blockquote
+        class="reveal mt-16 max-w-3xl border-l-4 border-[var(--ink)] pl-6 md:pl-8"
+      >
+        <p
+          class="font-display text-2xl md:text-4xl uppercase leading-[1.15] text-[var(--ink)]"
+        >
+          „Trueschool není nostalgie. Je to způsob, jak mluvit pravdu."
+        </p>
+        <cite
+          class="font-mono text-xs uppercase tracking-[0.2em] text-[var(--ink-dim)] not-italic block mt-5"
+          >— Rest, rozhovor pro Radio Wave</cite
+        >
+      </blockquote>
     </section>
 
-    <!-- ── CREW: credits z bookletu ─────────────────────────── -->
-    <section id="crew" class="block">
-      <header class="block-head reveal">
-        <h2 class="poster-h">Lidi kolem <em>mikrofonu</em></h2>
-        <p class="block-lede">Najeď nebo ťukni na jméno.</p>
-      </header>
+    <!-- ── CREW ──────────────────────────────────────────────── -->
+    <section
+      id="crew"
+      class="relative px-5 md:px-10 py-20 md:py-28 border-b border-[var(--line)]"
+    >
+      <div class="mb-12 reveal">
+        <h2 class="font-display h-section uppercase">
+          Lidi kolem<br />mikrofonu
+        </h2>
+      </div>
 
-      <div class="credits reveal" data-credits>
-        <ul class="credits-list">
-          <li><button type="button" class="credit" data-role="DJ / Producent" data-desc="Beaty na Premiéru i Střepy. Zvuk, který vrátil trueschool na mapu.">DJ Fatte</button></li>
-          <li><button type="button" class="credit" data-role="DJ / Producent" data-desc="Spoluautor desky Tlak (2022), nominované na Anděla.">DJ Wich</button></li>
-          <li><button type="button" class="credit" data-role="Producent" data-desc="1312 Records. Beat pro singl „52 Řádků“ (2024).">Marys</button></li>
-          <li><button type="button" class="credit" data-role="Resident DJ / Live" data-desc="Energie za pultem na každém koncertě. Stálý parťák na tour.">DJ Herby</button></li>
-          <li><button type="button" class="credit" data-role="Feat / Legenda" data-desc="Prago Union. Společný projekt A)TÝM (2024).">Kato</button></li>
-          <li><button type="button" class="credit" data-role="Beatmaker" data-desc="Zakladatel Ty Nikdy. Produkce na řadě tracků.">Idea</button></li>
-          <li><button type="button" class="credit" data-role="Label" data-desc="Idea, Paulie Garand, MC Gey, Boy Wonder a další. Rodina od 2010.">Ty Nikdy</button></li>
-        </ul>
-        <div class="credits-card" aria-live="polite">
-          <p class="credits-role" data-credit-role>DJ / Producent</p>
-          <p class="credits-desc" data-credit-desc>Beaty na Premiéru i Střepy. Zvuk, který vrátil trueschool na mapu.</p>
-          <a class="credits-more" href="https://www.tynikdy.cz/interpreti" target="_blank" rel="noopener">Celá crew na tynikdy.cz ↗</a>
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[var(--line)] border border-[var(--line)]"
+      >
+        <div
+          class="card-tilt reveal bg-[var(--bg)] p-6 border border-transparent group relative"
+        >
+          <p
+            class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--ink-dim)] mb-4"
+          >
+            DJ / Producent
+          </p>
+          <h3
+            class="font-display text-2xl uppercase mb-2 group-hover:opacity-60 transition-opacity"
+          >
+            DJ Fatte
+          </h3>
+          <p class="font-mono text-xs text-[var(--ink-dim)] leading-relaxed">
+            Beaty na Premiéru i Střepy. Zvuk, který vrátil trueschool na mapu.
+          </p>
         </div>
+
+        <div
+          class="card-tilt reveal bg-[var(--bg)] p-6 border border-transparent group relative"
+        >
+          <p
+            class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--ink-dim)] mb-4"
+          >
+            DJ / Producent
+          </p>
+          <h3
+            class="font-display text-2xl uppercase mb-2 group-hover:opacity-60 transition-opacity"
+          >
+            DJ Wich
+          </h3>
+          <p class="font-mono text-xs text-[var(--ink-dim)] leading-relaxed">
+            Spoluautor desky Tlak (2022), nominované na Anděla.
+          </p>
+        </div>
+
+        <div
+          class="card-tilt reveal bg-[var(--bg)] p-6 border border-transparent group relative"
+        >
+          <p
+            class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--ink-dim)] mb-4"
+          >
+            Producent
+          </p>
+          <h3
+            class="font-display text-2xl uppercase mb-2 group-hover:opacity-60 transition-opacity"
+          >
+            Marys
+          </h3>
+          <p class="font-mono text-xs text-[var(--ink-dim)] leading-relaxed">
+            1312 Records. Beat pro singl „52 Řádků" (2024).
+          </p>
+        </div>
+
+        <div
+          class="card-tilt reveal bg-[var(--bg)] p-6 border border-transparent group relative"
+        >
+          <p
+            class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--ink-dim)] mb-4"
+          >
+            Resident DJ / Live
+          </p>
+          <h3
+            class="font-display text-2xl uppercase mb-2 group-hover:opacity-60 transition-opacity"
+          >
+            DJ Herby
+          </h3>
+          <p class="font-mono text-xs text-[var(--ink-dim)] leading-relaxed">
+            Energie za pultem na každém koncertě. Stálý parťák na tour.
+          </p>
+        </div>
+
+        <div
+          class="card-tilt reveal bg-[var(--bg)] p-6 border border-transparent group relative"
+        >
+          <p
+            class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--ink-dim)] mb-4"
+          >
+            Label
+          </p>
+          <h3
+            class="font-display text-2xl uppercase mb-2 group-hover:opacity-60 transition-opacity"
+          >
+            Ty Nikdy
+          </h3>
+          <p class="font-mono text-xs text-[var(--ink-dim)] leading-relaxed">
+            Idea, Paulie Garand, MC Gey, Boy Wonder a další. Rodina od 2010.
+          </p>
+        </div>
+
+        <div
+          class="card-tilt reveal bg-[var(--bg)] p-6 border border-transparent group relative"
+        >
+          <p
+            class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--ink-dim)] mb-4"
+          >
+            Feat / Legenda
+          </p>
+          <h3
+            class="font-display text-2xl uppercase mb-2 group-hover:opacity-60 transition-opacity"
+          >
+            Kato
+          </h3>
+          <p class="font-mono text-xs text-[var(--ink-dim)] leading-relaxed">
+            Prago Union. Společný projekt A)TÝM (2024).
+          </p>
+        </div>
+
+        <div
+          class="card-tilt reveal bg-[var(--bg)] p-6 border border-transparent group relative"
+        >
+          <p
+            class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--ink-dim)] mb-4"
+          >
+            Beatmaker
+          </p>
+          <h3
+            class="font-display text-2xl uppercase mb-2 group-hover:opacity-60 transition-opacity"
+          >
+            Idea
+          </h3>
+          <p class="font-mono text-xs text-[var(--ink-dim)] leading-relaxed">
+            Zakladatel Ty Nikdy. Produkce na řadě tracků.
+          </p>
+        </div>
+
+        <a
+          href="https://www.tynikdy.cz/interpreti"
+          target="_blank"
+          rel="noopener"
+          class="card-tilt reveal bg-[var(--ink)] text-[var(--invert)] p-6 flex flex-col justify-between group"
+        >
+          <p class="font-mono text-[10px] uppercase tracking-[0.2em] mb-4">
+            + Celá crew
+          </p>
+          <h3 class="font-display text-2xl uppercase mb-2">Label Ty Nikdy →</h3>
+          <p class="font-mono text-xs leading-relaxed">
+            Kompletní přehled na tynikdy.cz
+          </p>
+        </a>
       </div>
     </section>
 
-    <!-- ── DISCO: bedna s deskami ───────────────────────────── -->
-    <section id="disco" class="block block-paper">
-      <header class="block-head reveal">
-        <h2 class="poster-h">Co <em>vyšlo</em></h2>
-        <p class="block-lede">Vytáhni desku z bedny.</p>
-      </header>
-
-      <div class="crate" data-crate>
-        <div class="crate-row" role="tablist" aria-label="Desky">
-          <button type="button" class="sleeve" role="tab" id="sl-0" aria-controls="rec-0" aria-selected="true">
-            <span class="sleeve-disc" aria-hidden="true"></span>
-            <span class="sleeve-art art-atym" aria-hidden="true"><b>A)</b><i>TÝM</i></span>
-            <span class="sleeve-cap"><span>2024</span>A)TÝM</span>
-          </button>
-          <button type="button" class="sleeve" role="tab" id="sl-1" aria-controls="rec-1" aria-selected="false">
-            <span class="sleeve-disc" aria-hidden="true"></span>
-            <span class="sleeve-art art-tlak" aria-hidden="true"><b>TLAK</b><b>TLAK</b><b>TLAK</b><b>TLAK</b></span>
-            <span class="sleeve-cap"><span>2022</span>Tlak</span>
-          </button>
-          <button type="button" class="sleeve" role="tab" id="sl-2" aria-controls="rec-2" aria-selected="false">
-            <span class="sleeve-disc" aria-hidden="true"></span>
-            <span class="sleeve-art art-restart" aria-hidden="true"><img src="./images/album.webp" alt="" loading="lazy" /></span>
-            <span class="sleeve-cap"><span>2018</span>Restart</span>
-          </button>
-          <button type="button" class="sleeve" role="tab" id="sl-3" aria-controls="rec-3" aria-selected="false">
-            <span class="sleeve-disc" aria-hidden="true"></span>
-            <span class="sleeve-art art-strepy" aria-hidden="true"><b>STŘE</b><b>PY</b></span>
-            <span class="sleeve-cap"><span>2013</span>Střepy</span>
-          </button>
-          <button type="button" class="sleeve" role="tab" id="sl-4" aria-controls="rec-4" aria-selected="false">
-            <span class="sleeve-disc" aria-hidden="true"></span>
-            <span class="sleeve-art art-premiera" aria-hidden="true"><b>P</b><i>remiéra</i></span>
-            <span class="sleeve-cap"><span>2010</span>Premiéra</span>
-          </button>
-        </div>
-
-        <div class="crate-panels">
-          <article class="record" role="tabpanel" id="rec-0" aria-labelledby="sl-0">
-            <header><h3>A)TÝM</h3><p>2024 · s Katem (Prago Union) · společná deska</p></header>
-            <ol class="tracks">
-              <li><span>A-YEAH! (Intro)</span><span>1:54</span></li>
-              <li><span>Dokonalá</span><span>4:08</span></li>
-              <li><span>Vždycky za A.</span><span>3:43</span></li>
-              <li><span>Zdroj.</span><span>3:19</span></li>
-            </ol>
-            <p class="record-links">
-              <a href="https://open.spotify.com/album/6zgl9mPMGMjkrdFKUHCGhT?si=JlNgncXvQoCJX2cwwTs_UA" target="_blank" rel="noopener">Spotify ↗</a>
-              <a href="https://music.apple.com/us/album/a-t%C3%BDm/1742058377" target="_blank" rel="noopener">Apple Music ↗</a>
-              <a href="https://youtube.com/playlist?list=PLWuZdZbp5kgqKu97SZ4MJqXpHKJJ75Qf_&si=azpfrZd6tFUP1Ghj" target="_blank" rel="noopener">YouTube ↗</a>
-              <a href="https://www.karaoketexty.cz/texty-pisni/rest-19415" target="_blank" rel="noopener">Texty ↗</a>
-            </p>
-          </article>
-          <article class="record" role="tabpanel" id="rec-1" aria-labelledby="sl-1" hidden>
-            <header><h3>Tlak</h3><p>2022 · s DJ Wichem · nominace Anděl 2022</p></header>
-            <ol class="tracks">
-              <li><span>Tlak</span><span>3:44</span></li>
-              <li><span>Stamina</span><span>3:10</span></li>
-              <li><span>Venku</span><span>3:25</span></li>
-            </ol>
-            <p class="record-links">
-              <a href="https://open.spotify.com/album/67WhkAZDbuoWCwmFXzYS0f?si=nVoK6k-SSsGZ6RPgtUGjQQ" target="_blank" rel="noopener">Spotify ↗</a>
-              <a href="https://music.apple.com/us/album/tlak/1655471867" target="_blank" rel="noopener">Apple Music ↗</a>
-              <a href="https://youtube.com/playlist?list=PLWuZdZbp5kgpNgBQeYtkPXsWGI9goFqB9&si=OI0L2Yayz4UdJpyQ" target="_blank" rel="noopener">YouTube ↗</a>
-              <a href="https://www.karaoketexty.cz/texty-pisni/rest-19415" target="_blank" rel="noopener">Texty ↗</a>
-            </p>
-          </article>
-          <article class="record" role="tabpanel" id="rec-2" aria-labelledby="sl-2" hidden>
-            <header><h3>Restart</h3><p>2018 · sólo · více producentů</p></header>
-            <ol class="tracks">
-              <li><span>Vítej</span><span>2:12</span></li>
-              <li><span>Restart</span><span>3:20</span></li>
-              <li><span>Víc klidu</span><span>3:33</span></li>
-              <li value="18" style="counter-set: t 18"><span>Čas hulit <small>(bonus)</small></span><span>3:50</span></li>
-            </ol>
-            <p class="record-links">
-              <a href="https://open.spotify.com/album/4joZCcmcPsCkmSpstqpTCT?si=UfPms1R3RU2P2vXmp1zoKQ" target="_blank" rel="noopener">Spotify ↗</a>
-              <a href="https://music.apple.com/us/album/restart/1555569595" target="_blank" rel="noopener">Apple Music ↗</a>
-              <a href="https://youtube.com/playlist?list=PL3lHfDkx7k7XygIP_kuEhEmlwXIWpDD8S&si=BxwrDzcROfkPubXv" target="_blank" rel="noopener">YouTube ↗</a>
-              <a href="https://www.karaoketexty.cz/texty-pisni/rest-19415" target="_blank" rel="noopener">Texty ↗</a>
-            </p>
-          </article>
-          <article class="record" role="tabpanel" id="rec-3" aria-labelledby="sl-3" hidden>
-            <header><h3>Střepy</h3><p>2013 · s DJ Fatte</p></header>
-            <ol class="tracks">
-              <li><span>Nic Novýho</span><span>3:30</span></li>
-              <li><span>Blázen</span><span>3:55</span></li>
-              <li><span>Noční směna ft. Strapo</span><span>4:12</span></li>
-              <li><span>Střepy</span><span>3:48</span></li>
-            </ol>
-            <p class="record-links">
-              <a href="https://open.spotify.com/album/5cXZALviz7GNNpZmRonHqi?si=A4v78CwzSyCSsm64PKaDJw" target="_blank" rel="noopener">Spotify ↗</a>
-              <a href="https://music.apple.com/us/album/st%C5%99epy/1542997302" target="_blank" rel="noopener">Apple Music ↗</a>
-              <a href="https://youtube.com/playlist?list=PLWuZdZbp5kgp_ijrqlMv9Vm26S8s66HIf&si=DK0zjr58s7_b74Xa" target="_blank" rel="noopener">YouTube ↗</a>
-              <a href="https://www.karaoketexty.cz/texty-pisni/rest-19415" target="_blank" rel="noopener">Texty ↗</a>
-            </p>
-          </article>
-          <article class="record" role="tabpanel" id="rec-4" aria-labelledby="sl-4" hidden>
-            <header><h3>Premiéra</h3><p>2010 · s DJ Fatte · debut</p></header>
-            <ol class="tracks">
-              <li><span>Premiéra</span><span>3:42</span></li>
-              <li><span>Balkónovka</span><span>3:15</span></li>
-              <li><span>Panáky na zem</span><span>4:01</span></li>
-              <li><span>Kuřivoj Vysajbong</span><span>3:28</span></li>
-            </ol>
-            <p class="record-links">
-              <a href="https://open.spotify.com/album/2g3Ol89DQanHPkcZAt7MqR?si=Z9OQEJM7QUq0YXLjvnSO8w" target="_blank" rel="noopener">Spotify ↗</a>
-              <a href="https://music.apple.com/us/album/premi%C3%A9ra/1542779634" target="_blank" rel="noopener">Apple Music ↗</a>
-              <a href="https://youtube.com/playlist?list=PLWuZdZbp5kgoJWTj8L0odPYNlyiEajG71&si=I-zxOCLiYKlWZ749" target="_blank" rel="noopener">YouTube ↗</a>
-              <a href="https://www.karaoketexty.cz/texty-pisni/rest-19415" target="_blank" rel="noopener">Texty ↗</a>
-            </p>
-          </article>
-        </div>
+    <!-- ── DISCO ─────────────────────────────────────────────── -->
+    <section
+      id="disco"
+      class="relative px-5 md:px-10 py-20 md:py-28 border-b border-[var(--line)] bg-[var(--bg-soft)]"
+    >
+      <div class="mb-12 reveal">
+        <h2 class="font-display h-section uppercase">Diskografie</h2>
       </div>
+
+      <div
+        class="divide-y divide-[var(--line)] border-t border-b border-[var(--line)] mb-16"
+      >
+        <details class="group reveal">
+          <summary
+            class="flex items-center gap-5 md:gap-6 py-5 px-2 hover:bg-[var(--bg)] transition-colors"
+          >
+            <div
+              class="w-14 h-14 md:w-20 md:h-20 shrink-0 bg-[var(--bg-raised)] border border-[var(--line)] flex items-center justify-center font-display text-xs text-[var(--ink-dim)]"
+            >
+              2024
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="font-display text-xl md:text-3xl uppercase truncate">
+                A)Tým
+              </p>
+              <p class="font-mono text-xs uppercase text-[var(--ink-dim)] mt-1">
+                s Katem (Prago Union) · Společná deska
+              </p>
+            </div>
+            <span class="chev font-display text-2xl shrink-0">+</span>
+          </summary>
+          <div class="px-2 pb-7 pl-[4.5rem] md:pl-[6.5rem]">
+            <ol class="font-mono text-sm text-[var(--ink-dim)] space-y-2 mb-5">
+              <li
+                class="flex justify-between gap-4 border-b border-[var(--line)]/50 pb-2"
+              >
+                <span>01 — A-YEAH! (Intro)</span><span class="shrink-0">1:54</span>
+              </li>
+              <li
+                class="flex justify-between gap-4 border-b border-[var(--line)]/50 pb-2"
+              >
+                <span>02 — Dokonalá</span><span class="shrink-0">4:08</span>
+              </li>
+              <li
+                class="flex justify-between gap-4 border-b border-[var(--line)]/50 pb-2"
+              >
+                <span>03 — Vždycky za A.</span
+                ><span class="shrink-0">3:43</span>
+              </li>
+              <li class="flex justify-between gap-4">
+                <span>04 — Zdroj.</span><span class="shrink-0">3:19</span>
+              </li>
+            </ol>
+            <div class="flex flex-wrap gap-3">
+              <a
+                href="https://open.spotify.com/album/6zgl9mPMGMjkrdFKUHCGhT?si=JlNgncXvQoCJX2cwwTs_UA"
+                target="_blank"
+                rel="noopener"
+                class="platform-btn px-4 py-2.5"
+                >▶ Spotify</a
+              >
+              <a
+                href="https://music.apple.com/us/album/a-t%C3%BDm/1742058377"
+                target="_blank"
+                rel="noopener"
+                class="platform-btn px-4 py-2.5"
+                >Apple Music</a
+              >
+              <a
+                href="https://youtube.com/playlist?list=PLWuZdZbp5kgqKu97SZ4MJqXpHKJJ75Qf_&si=azpfrZd6tFUP1Ghj"
+                target="_blank"
+                rel="noopener"
+                class="platform-btn px-4 py-2.5"
+                >YouTube</a
+              >
+              <a
+                href="https://www.karaoketexty.cz/texty-pisni/rest-19415"
+                class="platform-btn px-4 py-2.5"
+                >Texty písní</a
+              >
+            </div>
+          </div>
+        </details>
+
+        <details class="group reveal">
+          <summary
+            class="flex items-center gap-5 md:gap-6 py-5 px-2 hover:bg-[var(--bg)] transition-colors"
+          >
+            <div
+              class="w-14 h-14 md:w-20 md:h-20 shrink-0 bg-[var(--bg-raised)] border border-[var(--line)] flex items-center justify-center font-display text-xs text-[var(--ink-dim)]"
+            >
+              2022
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="font-display text-xl md:text-3xl uppercase truncate">
+                Tlak
+              </p>
+              <p class="font-mono text-xs uppercase text-[var(--ink-dim)] mt-1">
+                s DJ Wichem · Nominace Anděl 2022
+              </p>
+            </div>
+            <span class="chev font-display text-2xl shrink-0">+</span>
+          </summary>
+          <div class="px-2 pb-7 pl-[4.5rem] md:pl-[6.5rem]">
+            <ol class="font-mono text-sm text-[var(--ink-dim)] space-y-2 mb-5">
+              <li
+                class="flex justify-between gap-4 border-b border-[var(--line)]/50 pb-2"
+              >
+                <span>01 — Tlak</span><span class="shrink-0">3:44</span>
+              </li>
+              <li
+                class="flex justify-between gap-4 border-b border-[var(--line)]/50 pb-2"
+              >
+                <span>02 — Stamina</span><span class="shrink-0">3:10</span>
+              </li>
+              <li class="flex justify-between gap-4">
+                <span>03 — Venku</span><span class="shrink-0">3:25</span>
+              </li>
+            </ol>
+            <div class="flex flex-wrap gap-3">
+              <a
+                href="https://open.spotify.com/album/67WhkAZDbuoWCwmFXzYS0f?si=nVoK6k-SSsGZ6RPgtUGjQQ"
+                target="_blank"
+                rel="noopener"
+                class="platform-btn px-4 py-2.5"
+                >▶ Spotify</a
+              >
+              <a
+                href="https://music.apple.com/us/album/tlak/1655471867"
+                target="_blank"
+                rel="noopener"
+                class="platform-btn px-4 py-2.5"
+                >Apple Music</a
+              >
+              <a
+                href="https://youtube.com/playlist?list=PLWuZdZbp5kgpNgBQeYtkPXsWGI9goFqB9&si=OI0L2Yayz4UdJpyQ"
+                target="_blank"
+                rel="noopener"
+                class="platform-btn px-4 py-2.5"
+                >YouTube</a
+              >
+              <a
+                href="https://www.karaoketexty.cz/texty-pisni/rest-19415"
+                class="platform-btn px-4 py-2.5"
+                >Texty písní</a
+              >
+            </div>
+          </div>
+        </details>
+
+        <details class="group reveal">
+          <summary
+            class="flex items-center gap-5 md:gap-6 py-5 px-2 hover:bg-[var(--bg)] transition-colors"
+          >
+            <div
+              class="w-14 h-14 md:w-20 md:h-20 shrink-0 bg-[var(--bg-raised)] border border-[var(--line)] flex items-center justify-center font-display text-xs text-[var(--ink-dim)]"
+            >
+              2018
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="font-display text-xl md:text-3xl uppercase truncate">
+                Restart
+              </p>
+              <p class="font-mono text-xs uppercase text-[var(--ink-dim)] mt-1">
+                Sólo · více producentů
+              </p>
+            </div>
+            <span class="chev font-display text-2xl shrink-0">+</span>
+          </summary>
+          <div class="px-2 pb-7 pl-[4.5rem] md:pl-[6.5rem]">
+            <ol class="font-mono text-sm text-[var(--ink-dim)] space-y-2 mb-5">
+              <li
+                class="flex justify-between gap-4 border-b border-[var(--line)]/50 pb-2"
+              >
+                <span>01 — Vítej</span><span class="shrink-0">2:12</span>
+              </li>
+              <li
+                class="flex justify-between gap-4 border-b border-[var(--line)]/50 pb-2"
+              >
+                <span>02 — Restart</span><span class="shrink-0">3:20</span>
+              </li>
+              <li
+                class="flex justify-between gap-4 border-b border-[var(--line)]/50 pb-2"
+              >
+                <span>03 — Víc klidu</span><span class="shrink-0">3:33</span>
+              </li>
+              <li class="flex justify-between gap-4 text-[var(--ink-faint)]">
+                <span>18 — Čas hulit <span class="text-[11px]">(bonus)</span></span><span class="shrink-0">3:50</span>
+              </li>
+            </ol>
+            <div class="flex flex-wrap gap-3">
+              <a
+                href="https://open.spotify.com/album/4joZCcmcPsCkmSpstqpTCT?si=UfPms1R3RU2P2vXmp1zoKQ"
+                target="_blank"
+                rel="noopener"
+                class="platform-btn px-4 py-2.5"
+                >▶ Spotify</a
+              >
+              <a
+                href="https://music.apple.com/us/album/restart/1555569595"
+                target="_blank"
+                rel="noopener"
+                class="platform-btn px-4 py-2.5"
+                >Apple Music</a
+              >
+              <a
+                href="https://youtube.com/playlist?list=PL3lHfDkx7k7XygIP_kuEhEmlwXIWpDD8S&si=BxwrDzcROfkPubXv"
+                target="_blank"
+                rel="noopener"
+                class="platform-btn px-4 py-2.5"
+                >YouTube</a
+              >
+              <a
+                href="https://www.karaoketexty.cz/texty-pisni/rest-19415"
+                class="platform-btn px-4 py-2.5"
+                >Texty písní</a
+              >
+            </div>
+          </div>
+        </details>
+
+        <details class="group reveal">
+          <summary
+            class="flex items-center gap-5 md:gap-6 py-5 px-2 hover:bg-[var(--bg)] transition-colors"
+          >
+            <div
+              class="w-14 h-14 md:w-20 md:h-20 shrink-0 bg-[var(--bg-raised)] border border-[var(--line)] flex items-center justify-center font-display text-xs text-[var(--ink-dim)]"
+            >
+              2013
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="font-display text-xl md:text-3xl uppercase truncate">
+                Střepy
+              </p>
+              <p class="font-mono text-xs uppercase text-[var(--ink-dim)] mt-1">
+                s DJ Fatte
+              </p>
+            </div>
+            <span class="chev font-display text-2xl shrink-0">+</span>
+          </summary>
+          <div class="px-2 pb-7 pl-[4.5rem] md:pl-[6.5rem]">
+            <ol class="font-mono text-sm text-[var(--ink-dim)] space-y-2 mb-5">
+              <li
+                class="flex justify-between gap-4 border-b border-[var(--line)]/50 pb-2"
+              >
+                <span>01 — Nic Novýho</span><span class="shrink-0">3:30</span>
+              </li>
+              <li
+                class="flex justify-between gap-4 border-b border-[var(--line)]/50 pb-2"
+              >
+                <span>02 — Blázen</span><span class="shrink-0">3:55</span>
+              </li>
+              <li
+                class="flex justify-between gap-4 border-b border-[var(--line)]/50 pb-2"
+              >
+                <span>03 — Noční směna ft. Strapo</span
+                ><span class="shrink-0">4:12</span>
+              </li>
+              <li class="flex justify-between gap-4">
+                <span>04 — Střepy</span><span class="shrink-0">3:48</span>
+              </li>
+            </ol>
+            <div class="flex flex-wrap gap-3">
+              <a
+                href="https://open.spotify.com/album/5cXZALviz7GNNpZmRonHqi?si=A4v78CwzSyCSsm64PKaDJw"
+                target="_blank"
+                rel="noopener"
+                class="platform-btn px-4 py-2.5"
+                >▶ Spotify</a
+              >
+              <a
+                href="https://music.apple.com/us/album/st%C5%99epy/1542997302"
+                target="_blank"
+                rel="noopener"
+                class="platform-btn px-4 py-2.5"
+                >Apple Music</a
+              >
+              <a
+                href="https://youtube.com/playlist?list=PLWuZdZbp5kgp_ijrqlMv9Vm26S8s66HIf&si=DK0zjr58s7_b74Xa"
+                target="_blank"
+                rel="noopener"
+                class="platform-btn px-4 py-2.5"
+                >YouTube</a
+              >
+              <a
+                href="https://www.karaoketexty.cz/texty-pisni/rest-19415"
+                class="platform-btn px-4 py-2.5"
+                >Texty písní</a
+              >
+            </div>
+          </div>
+        </details>
+
+        <details class="group reveal">
+          <summary
+            class="flex items-center gap-5 md:gap-6 py-5 px-2 hover:bg-[var(--bg)] transition-colors"
+          >
+            <div
+              class="w-14 h-14 md:w-20 md:h-20 shrink-0 bg-[var(--bg-raised)] border border-[var(--line)] flex items-center justify-center font-display text-xs text-[var(--ink-dim)]"
+            >
+              2010
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="font-display text-xl md:text-3xl uppercase truncate">
+                Premiéra
+              </p>
+              <p class="font-mono text-xs uppercase text-[var(--ink-dim)] mt-1">
+                s DJ Fatte · Debut
+              </p>
+            </div>
+            <span class="chev font-display text-2xl shrink-0">+</span>
+          </summary>
+          <div class="px-2 pb-7 pl-[4.5rem] md:pl-[6.5rem]">
+            <ol class="font-mono text-sm text-[var(--ink-dim)] space-y-2 mb-5">
+              <li
+                class="flex justify-between gap-4 border-b border-[var(--line)]/50 pb-2"
+              >
+                <span>01 — Premiéra</span><span class="shrink-0">3:42</span>
+              </li>
+              <li
+                class="flex justify-between gap-4 border-b border-[var(--line)]/50 pb-2"
+              >
+                <span>02 — Balkónovka</span><span class="shrink-0">3:15</span>
+              </li>
+              <li
+                class="flex justify-between gap-4 border-b border-[var(--line)]/50 pb-2"
+              >
+                <span>03 — Panáky na zem</span
+                ><span class="shrink-0">4:01</span>
+              </li>
+              <li class="flex justify-between gap-4">
+                <span>04 — Kuřivoj Vysajbong</span
+                ><span class="shrink-0">3:28</span>
+              </li>
+            </ol>
+            <div class="flex flex-wrap gap-3">
+              <a
+                href="https://open.spotify.com/album/2g3Ol89DQanHPkcZAt7MqR?si=Z9OQEJM7QUq0YXLjvnSO8w"
+                target="_blank"
+                rel="noopener"
+                class="platform-btn px-4 py-2.5"
+                >▶ Spotify</a
+              >
+              <a
+                href="https://music.apple.com/us/album/premi%C3%A9ra/1542779634"
+                target="_blank"
+                rel="noopener"
+                class="platform-btn px-4 py-2.5"
+                >Apple Music</a
+              >
+              <a
+                href="https://youtube.com/playlist?list=PLWuZdZbp5kgoJWTj8L0odPYNlyiEajG71&si=I-zxOCLiYKlWZ749"
+                target="_blank"
+                rel="noopener"
+                class="platform-btn px-4 py-2.5"
+                >YouTube</a
+              >
+              <a
+                href="https://www.karaoketexty.cz/texty-pisni/rest-19415"
+                class="platform-btn px-4 py-2.5"
+                >Texty písní</a
+              >
+            </div>
+          </div>
+        </details>
+      </div>
+
+      
     </section>
 
     <!-- ── GALERIE ───────────────────────────────────────────── -->
-    <section id="galerie" class="block">
-      <header class="block-head reveal">
-        <h2 class="poster-h">Z <em>pódia</em></h2>
-        <p class="block-lede"><span id="gallery-count">12 fotek</span> · klikni a otevře se v plné velikosti.</p>
-      </header>
+    <section
+      id="galerie"
+      class="relative px-5 md:px-10 py-20 md:py-28 border-b border-[var(--line)]"
+    >
 
-      <div id="gallery-filters" class="tabs reveal" role="tablist" aria-label="Filtr fotek">
-        <button type="button" data-filter="all" class="gallery-filter-btn active" aria-pressed="true">Vše</button>
-        <button type="button" data-filter="live" class="gallery-filter-btn" aria-pressed="false">Live</button>
-        <button type="button" data-filter="promo" class="gallery-filter-btn" aria-pressed="false">Promo</button>
+      <div
+        class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 reveal"
+      >
+        <div>
+          <h2 class="font-display h-section uppercase">Fotky</h2>
+        </div>
+        <div class="flex flex-col items-start md:items-end gap-2">
+          <span
+            id="gallery-count"
+            class="font-mono text-xs uppercase tracking-wide"
+            style="color:var(--ink-faint);"
+            >12 fotek</span
+          >
+          <p class="font-mono text-xs" style="color:var(--ink-faint);">
+            Kliknutím otevřeš v plném rozlišení
+          </p>
+        </div>
       </div>
 
-      <div id="gallery-grid" class="mosaic"></div>
+      <!-- filter tabs -->
+      <div
+        id="gallery-filters"
+        class="flex gap-3 mb-8 font-mono text-xs uppercase tracking-[0.15em] reveal"
+        role="tablist"
+        aria-label="Filtr fotek"
+      >
+        <button
+          type="button"
+          data-filter="all"
+          class="gallery-filter-btn active px-5 py-2.5"
+          aria-pressed="true"
+          >Vše</button
+        >
+        <button
+          type="button"
+          data-filter="live"
+          class="gallery-filter-btn px-5 py-2.5"
+          aria-pressed="false"
+          >Live</button
+        >
+        <button
+          type="button"
+          data-filter="promo"
+          class="gallery-filter-btn px-5 py-2.5"
+          aria-pressed="false"
+          >Promo</button
+        >
+      </div>
 
-      <div id="gallery-load-wrap" class="mosaic-more">
-        <button type="button" id="gallery-load-more" class="gallery-load-btn" aria-live="polite">
-          Další <span id="gallery-load-count">8</span> fotek ↓
+      <!-- foto grid — plní gallery.js -->
+      <div
+        id="gallery-grid"
+        class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3"
+      ></div>
+
+      <!-- load more — viditelné jen pokud jsou další fotky -->
+      <div id="gallery-load-wrap" class="mt-8 flex flex-col items-center gap-3">
+        <button
+          type="button"
+          id="gallery-load-more"
+          class="gallery-load-btn"
+          aria-live="polite"
+        >
+          Načíst dalších <span id="gallery-load-count">8</span> fotek
         </button>
-        <p id="gallery-all-loaded" class="gigs-note hidden">To je všechno.</p>
+        <p
+          id="gallery-all-loaded"
+          class="font-mono text-xs uppercase tracking-wide hidden"
+          style="color:var(--ink-faint);"
+        >
+          Zobrazeno vše ✓
+        </p>
       </div>
+
     </section>
 
     <!-- ── GALLERY LIGHTBOX ───────────────────────────────────── -->
@@ -425,95 +1162,215 @@
       </div>
     </div>
 
-
     <!-- ── MERCH ─────────────────────────────────────────────── -->
-    <section id="merch" class="block block-paper">
-      <header class="block-head reveal">
-        <h2 class="poster-h"><em>Merch</em> &amp; vinyl</h2>
-        <p class="block-lede">
-          Oblečení a desky z dílny Ty Nikdy.
-          <a href="https://shop.tynikdy.cz/" target="_blank" rel="noopener" class="ink-link">Celý e-shop ↗</a>
-        </p>
-      </header>
+    <section
+      id="merch"
+      class="relative px-5 md:px-10 py-20 md:py-28 border-b border-[var(--line)]"
+    >
+      <div
+        class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 reveal"
+      >
+        <div>
+          <h2 class="font-display h-section uppercase">Merch</h2>
+        </div>
+        <a
+          href="https://shop.tynikdy.cz/"
+          target="_blank"
+          rel="noopener"
+          class="btn-outline text-xs px-6 py-3"
+          >Celý e-shop ↗</a
+        >
+      </div>
 
-      <!-- produkty generuje merch.js z merch.json -->
-      <div id="product-grid" class="rack"></div>
+      <!-- produkty generuje merch.js z PRODUCTS konfigurace -->
+      <div id="product-grid"
+           class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      </div>
     </section>
 
     <!-- ── BOOKING ────────────────────────────────────────────── -->
-    <section id="kontakt" class="block booking">
-      <header class="block-head reveal">
-        <h2 class="poster-h">Pojďme domluvit <em>show</em></h2>
-      </header>
+    <section
+      id="kontakt"
+      class="relative px-5 md:px-10 py-20 md:py-28 bg-[var(--bg-soft)]"
+    >
+      <div class="mb-12 reveal">
+        <h2 class="font-display h-section uppercase">
+          Pojďme<br />domluvit show
+        </h2>
+      </div>
 
-      <div class="booking-grid">
-        <div class="booking-direct reveal">
-          <p class="booking-k">Napiš rovnou</p>
-          <a href="mailto:booking@tynikdy.cz" class="booking-mail">booking@<wbr />tynikdy.cz</a>
-          <p class="booking-k">Management &amp; booking: Ty Nikdy Label</p>
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
+        <form class="lg:col-span-3 reveal space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <label class="block">
+              <span
+                class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--ink-dim)]"
+                >Jméno / Organizace</span
+              >
+              <input
+                type="text"
+                placeholder="Tvoje jméno"
+                class="w-full bg-transparent border-b-2 border-[var(--line)] focus:border-[var(--ink)] outline-none py-3 font-display text-lg uppercase placeholder:text-[var(--ink-faint)] transition-colors"
+              />
+            </label>
+            <label class="block">
+              <span
+                class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--ink-dim)]"
+                >E-mail</span
+              >
+              <input
+                type="email"
+                placeholder="email@promotion.cz"
+                class="w-full bg-transparent border-b-2 border-[var(--line)] focus:border-[var(--ink)] outline-none py-3 font-display text-lg uppercase placeholder:text-[var(--ink-faint)] transition-colors"
+              />
+            </label>
+          </div>
 
-          <dl class="booking-facts">
-            <div>
-              <dt>Press kit</dt>
-              <dd><a id="press-kit-download" href="#" class="ink-link">Stáhnout ↓</a> <small>foto, bio, rider, logo</small></dd>
-            </div>
-            <div>
-              <dt>Sítě</dt>
-              <dd>
-                <a href="https://www.instagram.com/restovski/" target="_blank" rel="noopener" class="ink-link">Instagram</a>
-                <a href="https://www.youtube.com/@restofficial" target="_blank" rel="noopener" class="ink-link">YouTube</a>
-                <a href="https://open.spotify.com/artist/6lGbUVZzujCnRJWgPZkkxk?si=7c5930c1022f426c" target="_blank" rel="noopener" class="ink-link">Spotify</a>
-              </dd>
-            </div>
-          </dl>
-        </div>
-
-        <form class="booking-form reveal">
-          <p class="booking-k">Nebo vyplň poptávku</p>
-          <label class="field">
-            <span>Jméno / organizace</span>
-            <input type="text" name="name" required autocomplete="organization" placeholder="Klub Mlýn, Brno" />
-          </label>
-          <label class="field">
-            <span>E-mail</span>
-            <input type="email" name="email" required autocomplete="email" placeholder="booking@klub.cz" />
-          </label>
-
-          <fieldset class="field">
-            <legend>Typ akce</legend>
-            <div class="chips">
-              <button type="button" class="event-type-btn" data-active="true">Klub</button>
-              <button type="button" class="event-type-btn">Festival</button>
-              <button type="button" class="event-type-btn">Soukromá akce</button>
-              <button type="button" class="event-type-btn">Jiné</button>
+          <fieldset class="border-0 p-0 m-0">
+            <legend
+              class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--ink-dim)] mb-3"
+            >
+              Typ akce
+            </legend>
+            <div class="flex flex-wrap gap-3 font-mono text-xs uppercase">
+              <button
+                type="button"
+                class="event-type-btn px-4 py-2 border border-[var(--ink)] bg-[var(--ink)] text-[var(--invert)] font-bold"
+                data-active="true"
+              >
+                Klub
+              </button>
+              <button
+                type="button"
+                class="event-type-btn px-4 py-2 border border-[var(--line)] hover:border-[var(--ink)] transition-colors"
+              >
+                Festival
+              </button>
+              <button
+                type="button"
+                class="event-type-btn px-4 py-2 border border-[var(--line)] hover:border-[var(--ink)] transition-colors"
+              >
+                Soukromá akce
+              </button>
+              <button
+                type="button"
+                class="event-type-btn px-4 py-2 border border-[var(--line)] hover:border-[var(--ink)] transition-colors"
+              >
+                Jiné
+              </button>
             </div>
           </fieldset>
 
-          <label class="field">
-            <span>Zpráva</span>
-            <textarea rows="3" name="message" placeholder="Termín, místo, kapacita, rozpočet"></textarea>
+          <label class="block">
+            <span
+              class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--ink-dim)]"
+              >Zpráva</span
+            >
+            <textarea
+              rows="4"
+              placeholder="Termín, místo, rozpočet…"
+              class="w-full bg-transparent border-b-2 border-[var(--line)] focus:border-[var(--ink)] outline-none py-3 font-mono text-sm placeholder:text-[var(--ink-faint)] resize-none transition-colors"
+            ></textarea>
           </label>
 
-          <button type="submit" class="stamp-btn">Odeslat poptávku →</button>
+          <button type="submit" class="btn-primary text-xl px-8 py-4">
+            Odeslat poptávku <span aria-hidden="true">→</span>
+          </button>
         </form>
+
+        <div class="lg:col-span-2 reveal space-y-9">
+          <div>
+            <p
+              class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--ink-dim)] mb-2"
+            >
+              Management & Booking
+            </p>
+            <p class="font-display text-xl uppercase">Ty Nikdy Label</p>
+            <a
+              href="mailto:booking@tynikdy.cz"
+              class="font-mono text-sm link-underline mt-1 inline-block"
+              >booking@tynikdy.cz</a
+            >
+          </div>
+          <div>
+            <p
+              class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--ink-dim)] mb-2"
+            >
+              Press kit
+            </p>
+            <a
+              id="press-kit-download"
+              href="#"
+              class="font-display text-xl uppercase underline decoration-2 underline-offset-4 inline-flex items-center gap-2"
+            >
+              Stáhnout press-kit <span aria-hidden="true">↓</span>
+            </a>
+            <p class="font-mono text-xs text-[var(--ink-dim)] mt-2">
+              Foto, bio, rider, logo · ZIP, 24 MB
+            </p>
+          </div>
+          <div>
+            <p
+              class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--ink-dim)] mb-3"
+            >
+              Sociální sítě
+            </p>
+            <div class="flex flex-wrap gap-3">
+              <a
+                href="https://www.instagram.com/restovski/"
+                target="_blank"
+                rel="noopener"
+                class="platform-btn px-4 py-2"
+                >Instagram</a
+              >
+              <a
+                href="https://www.youtube.com/@restofficial"
+                target="_blank"
+                rel="noopener"
+                class="platform-btn px-4 py-2"
+                >YouTube</a
+              >
+              <a
+                href="https://open.spotify.com/artist/6lGbUVZzujCnRJWgPZkkxk?si=7c5930c1022f426c"
+                target="_blank"
+                rel="noopener"
+                class="platform-btn px-4 py-2"
+                >Spotify</a
+              >
+            </div>
+          </div>
+        </div>
       </div>
     </section>
-    </main>
 
     <!-- ── FOOTER ─────────────────────────────────────────────── -->
-    <footer class="foot">
-      <p class="foot-word" aria-hidden="true">REST.</p>
-      <div class="foot-row">
-        <p>© 2026 Adam Chlpík / Ty Nikdy Label</p>
-        <p>Trueschool. Boombap. Pravda.</p>
-        <p>Design &amp; dev <a href="https://www.filiplochman.cz/">Filip Lochman</a></p>
+    <footer
+      class="relative px-5 md:px-10 pt-14 pb-28 lg:pb-10 border-t border-[var(--line)]"
+    >
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-8">
+        <h3 class="font-display text-5xl md:text-7xl uppercase leading-[0.9]">
+          REST<span class="opacity-50">.</span>
+        </h3>
+        <div
+          class="font-mono text-xs uppercase tracking-wide text-[var(--ink-dim)] space-y-1 text-left md:text-right"
+        >
+          <p>© 2026 Adam Chlpík / Ty Nikdy Label</p>
+          <p class="text-[10px] tracking-wider opacity-60 my-0.5">
+            Design & Dev —
+            <a
+              href="https://www.filiplochman.cz/"
+              class="hover:text-[var(--ink)] transition-colors underline decoration-[var(--line)] underline-offset-4"
+              >Filip Lochman</a
+            >
+          </p>
+          <p>Trueschool. Boombap. Pravda.</p>
+        </div>
       </div>
     </footer>
 
     <script src="tour.js"></script>
     <script src="main.js"></script>
     <script src="story.js"></script>
-    <script src="poster.js"></script>
 
     <!-- ── CART BACKDROP ──────────────────────────────────────────── -->
     <div

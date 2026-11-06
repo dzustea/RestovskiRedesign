@@ -31,7 +31,7 @@
     "sku": "RST-HOD-BSC-2025",
     "name": "Hoodie Restovski Basic",
     "price": 990,
-    "badge": null,
+    "badge": "none",
     "image": "images/hoodie1.webp",
     "sizes": ["S", "M", "L", "XL", "XXL"]
   }
