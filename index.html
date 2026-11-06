@@ -445,108 +445,38 @@
         </p>
       </div>
 
-      <!-- ── STORY: tracklist kariéry (story.css + story.js) ── -->
-      <div class="story" data-story>
-        <div class="story-rail" aria-hidden="true">
-          <span class="story-rail-fill"></span>
-          <span class="story-head"></span>
+      <!-- ── STORY: kariéra jako MPC sampler (story.css + story.js) ── -->
+      <div class="mpc reveal" data-mpc>
+        <div class="mpc-top" aria-hidden="true">
+          <span class="mpc-brand">RST-2003</span>
+          <span class="mpc-model">Sampler kariéry · 8 padů</span>
+          <span class="mpc-leds"><i></i><i></i><i></i></span>
         </div>
 
-        <div class="story-side reveal">
-          <span class="story-vinyl" aria-hidden="true"></span>
-          <p class="story-side-label">Side A</p>
-          <p class="story-side-title">Battly &amp; trueschool</p>
-          <p class="story-side-range">2003 — 2013</p>
+        <div class="mpc-screen" aria-live="polite">
+          <div class="mpc-screen-row">
+            <span data-mpc-pad>PAD 01</span>
+            <span data-mpc-side>SIDE A</span>
+          </div>
+          <p class="mpc-screen-year" data-mpc-year>2003</p>
+          <p class="mpc-screen-title" data-mpc-title>Divnej Postoy</p>
+          <p class="mpc-screen-desc" data-mpc-desc>Vstupuje do skupiny Divnej Postoy (DP). Tady to celé začíná.</p>
+          <div class="mpc-screen-row mpc-screen-foot">
+            <span data-mpc-tag>[ Crew ]</span>
+            <span class="mpc-seq" aria-hidden="true" data-mpc-seq></span>
+          </div>
         </div>
 
-        <ol class="story-list">
-          <li class="story-track" data-code="A1">
-            <span class="story-code">A1</span>
-            <span class="story-year" data-year="2003">2003</span>
-            <div class="story-body">
-              <h3 class="story-title">Divnej Postoy</h3>
-              <p class="story-desc">Vstupuje do skupiny DP. Začátek cesty.</p>
-            </div>
-            <div class="story-meta"><span class="story-tag">Crew</span><span class="story-wave" aria-hidden="true"></span></div>
-          </li>
-          <li class="story-track" data-code="A2">
-            <span class="story-code">A2</span>
-            <span class="story-year" data-year="2008">2008</span>
-            <div class="story-body">
-              <h3 class="story-title">Art Attack</h3>
-              <p class="story-desc">Vyhrává Art Attack Freestyle Battle.</p>
-            </div>
-            <div class="story-meta"><span class="story-tag">Battle</span><span class="story-wave" aria-hidden="true"></span></div>
-          </li>
-          <li class="story-track" data-code="A3">
-            <span class="story-code">A3</span>
-            <span class="story-year" data-year="2010">2010</span>
-            <div class="story-body">
-              <h3 class="story-title">Premiéra</h3>
-              <p class="story-desc">S DJ Fattem. Comeback trueschoolu.</p>
-            </div>
-            <div class="story-meta"><span class="story-tag">Album</span><span class="story-wave" aria-hidden="true"></span></div>
-          </li>
-          <li class="story-track" data-code="A4">
-            <span class="story-code">A4</span>
-            <span class="story-year" data-year="2013">2013</span>
-            <div class="story-body">
-              <h3 class="story-title">Střepy</h3>
-              <p class="story-desc">Opět s DJ Fattem.</p>
-            </div>
-            <div class="story-meta"><span class="story-tag">Album</span><span class="story-wave" aria-hidden="true"></span></div>
-          </li>
-        </ol>
-
-        <div class="story-flip reveal" aria-hidden="true">
-          <span>Otoč desku</span>
+        <div class="mpc-pads" role="group" aria-label="Milníky kariéry">
+          <button type="button" class="mpc-pad" data-year="2003" data-title="Divnej Postoy" data-tag="Crew" data-side="A" data-desc="Vstupuje do skupiny Divnej Postoy (DP). Tady to celé začíná."><span class="mpc-pad-year">2003</span><span class="mpc-pad-title">Divnej Postoy</span></button>
+          <button type="button" class="mpc-pad" data-year="2008" data-title="Art Attack" data-tag="Battle" data-side="A" data-desc="Vyhrává Art Attack Freestyle Battle."><span class="mpc-pad-year">2008</span><span class="mpc-pad-title">Art Attack</span></button>
+          <button type="button" class="mpc-pad" data-year="2010" data-title="Premiéra" data-tag="Album" data-side="A" data-desc="Deska s DJ Fattem. Comeback trueschoolu."><span class="mpc-pad-year">2010</span><span class="mpc-pad-title">Premiéra</span></button>
+          <button type="button" class="mpc-pad" data-year="2013" data-title="Střepy" data-tag="Album" data-side="A" data-desc="Další deska, opět s DJ Fattem."><span class="mpc-pad-year">2013</span><span class="mpc-pad-title">Střepy</span></button>
+          <button type="button" class="mpc-pad" data-year="2018" data-title="Restart" data-tag="Album" data-side="B" data-desc="Restart — nový životní rozměr."><span class="mpc-pad-year">2018</span><span class="mpc-pad-title">Restart</span></button>
+          <button type="button" class="mpc-pad" data-year="2022" data-title="Tlak" data-tag="Album" data-side="B" data-desc="Tlak s DJ Wichem. Nominace Anděl."><span class="mpc-pad-year">2022</span><span class="mpc-pad-title">Tlak</span></button>
+          <button type="button" class="mpc-pad" data-year="2024" data-title="A)TÝM" data-tag="Projekt" data-side="B" data-desc="A)TÝM s Katem. Plus „52 Řádků“."><span class="mpc-pad-year">2024</span><span class="mpc-pad-title">A)TÝM</span></button>
+          <button type="button" class="mpc-pad is-now" data-year="2026" data-title="Tour Tlak II" data-tag="Live" data-side="B" data-desc="Tour Tlak II. Současnost — přijď to slyšet naživo."><span class="mpc-pad-year">2026</span><span class="mpc-pad-title">Teď · Live</span></button>
         </div>
-
-        <div class="story-side reveal">
-          <span class="story-vinyl" aria-hidden="true"></span>
-          <p class="story-side-label">Side B</p>
-          <p class="story-side-title">Restart</p>
-          <p class="story-side-range">2018 — teď</p>
-        </div>
-
-        <ol class="story-list">
-          <li class="story-track" data-code="B1">
-            <span class="story-code">B1</span>
-            <span class="story-year" data-year="2018">2018</span>
-            <div class="story-body">
-              <h3 class="story-title">Restart</h3>
-              <p class="story-desc">Nový životní rozměr.</p>
-            </div>
-            <div class="story-meta"><span class="story-tag">Album</span><span class="story-wave" aria-hidden="true"></span></div>
-          </li>
-          <li class="story-track" data-code="B2">
-            <span class="story-code">B2</span>
-            <span class="story-year" data-year="2022">2022</span>
-            <div class="story-body">
-              <h3 class="story-title">Tlak</h3>
-              <p class="story-desc">S DJ Wichem. Nominace Anděl.</p>
-            </div>
-            <div class="story-meta"><span class="story-tag">Album</span><span class="story-wave" aria-hidden="true"></span></div>
-          </li>
-          <li class="story-track" data-code="B3">
-            <span class="story-code">B3</span>
-            <span class="story-year" data-year="2024">2024</span>
-            <div class="story-body">
-              <h3 class="story-title">A)TÝM</h3>
-              <p class="story-desc">S Katem. Plus „52 Řádků“.</p>
-            </div>
-            <div class="story-meta"><span class="story-tag">Projekt</span><span class="story-wave" aria-hidden="true"></span></div>
-          </li>
-          <li class="story-track is-now" data-code="B4">
-            <span class="story-code">B4</span>
-            <span class="story-year" data-year="2026">2026</span>
-            <div class="story-body">
-              <h3 class="story-title">Tour Tlak II</h3>
-              <p class="story-desc">Současnost. <a href="#tour" class="story-link">Koncerty →</a></p>
-            </div>
-            <div class="story-meta"><span class="story-tag story-tag-live">● Live</span><span class="story-wave" aria-hidden="true"></span></div>
-          </li>
-        </ol>
       </div>
 
       <blockquote
