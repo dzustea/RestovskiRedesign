@@ -1,248 +1,209 @@
 /* ─────────────────────────────────────────────────────────────
-   STORY — kariéra jako MPC sampler: 8 padů = 8 milníků + displej
-   Řízeno story.js (.is-active na padu, autoplay sekvence)
+   STORY — kariéra jako jedna stopa: 2003 → 2026 = 00:00 → 23:00
+   Waveform přes celou šířku, milníky jako komentáře v čase.
+   Řízeno story.js: --p (0–1) = pozice přehrávací hlavy.
    ───────────────────────────────────────────────────────────── */
 
-.mpc {
-  --mpc-step: 4200ms;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  padding: 1rem;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background:
-    linear-gradient(180deg, var(--bg-raised), var(--bg-soft));
-  box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.04);
-  max-width: 1100px;
+.track {
+  --p: 0;
+  position: relative;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--ink);
 }
 
-/* ── horní lišta přístroje ── */
-.mpc-top {
+/* ── hlavička: ovládání + „právě hraje“ ── */
+.track-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1rem 1.5rem;
+  align-items: start;
+  min-height: 9.5rem;
+}
+.track-ctrl {
   display: flex;
-  align-items: center;
-  gap: 1rem;
+  gap: 0.35rem;
+  padding-top: 0.2rem;
+}
+.track-btn {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: none;
+  color: var(--ink);
+  font-size: 0.8rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, color 0.2s, transform 0.15s;
+}
+.track-btn:hover { border-color: var(--ink); }
+.track-btn:active { transform: scale(0.93); }
+.track-play {
+  width: 3.2rem;
+  height: 3.2rem;
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--invert);
+  font-size: 0.95rem;
+}
+.track-play:hover { background: none; color: var(--ink); }
+
+.track-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 0.2rem;
+  margin: 0;
   font-family: var(--font-mono);
-  font-size: 0.65rem;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+.track-len { color: var(--ink-faint); }
+.track-tag {
+  margin-left: 0.9rem;
   color: var(--ink-faint);
 }
-.mpc-brand {
+.track-tag::before { content: "#"; }
+.track-title {
+  margin: 0.45rem 0 0;
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 0.95rem;
-  letter-spacing: 0.04em;
-  color: var(--ink);
+  font-size: clamp(1.7rem, 4vw, 3rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
 }
-.mpc-model { flex: 1; }
-.mpc-leds { display: flex; gap: 6px; }
-.mpc-leds i {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--line);
+.track-title [data-year] {
+  color: var(--sect-bg, var(--bg-soft));
+  -webkit-text-stroke: 3px var(--ink);
+  paint-order: stroke fill;
+  margin-right: 0.15em;
 }
-.mpc.is-playing .mpc-leds i:first-child {
-  background: var(--ink);
-  animation: mpc-blink 1s steps(2, start) infinite;
-}
-@keyframes mpc-blink { to { visibility: hidden; } }
-
-/* ── displej ── */
-.mpc-screen {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  min-height: 15rem;
-  padding: 1.1rem 1.25rem;
-  border-radius: 8px;
-  background: var(--bg);
-  border: 1px solid var(--line);
-  box-shadow: inset 0 2px 14px rgba(0, 0, 0, 0.35);
-  overflow: hidden;
+.track-desc {
+  margin: 0.55rem 0 0;
+  max-width: 46ch;
   font-family: var(--font-mono);
-}
-/* jemné řádkování jako LCD */
-.mpc-screen::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(0, 0, 0, 0.12) 2px 3px);
-  mix-blend-mode: multiply;
-}
-.mpc-screen-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.65rem;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: var(--ink-dim);
-}
-.mpc-screen-year {
-  margin: 0.6rem 0 0;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(3.4rem, 10vw, 6rem);
-  line-height: 0.85;
-  letter-spacing: -0.03em;
-  color: var(--ink);
-}
-.mpc-screen-title {
-  margin: 0.5rem 0 0;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(1.25rem, 2.6vw, 1.75rem);
-  text-transform: uppercase;
-  line-height: 1.05;
-  color: var(--ink);
-}
-.mpc-screen-desc {
-  margin: 0.5rem 0 1rem;
   font-size: 0.82rem;
   line-height: 1.6;
   color: var(--ink-dim);
-  max-width: 34ch;
 }
-.mpc-screen-foot { margin-top: auto; color: var(--ink); }
-
-/* text displeje při přepnutí „problikne“ */
-.mpc-screen.is-swap .mpc-screen-year,
-.mpc-screen.is-swap .mpc-screen-title,
-.mpc-screen.is-swap .mpc-screen-desc {
-  animation: mpc-flick 0.35s steps(3, end);
-}
-@keyframes mpc-flick {
-  0%   { opacity: 0; transform: translateX(-6px); }
-  60%  { opacity: 0.6; }
-  100% { opacity: 1; transform: none; }
+.track-now.is-swap > * { animation: track-swap 0.4s var(--ease-out); }
+@keyframes track-swap {
+  from { opacity: 0; transform: translateY(6px); }
 }
 
-/* sekvencer: 8 kroků */
-.mpc-seq { display: flex; gap: 4px; }
-.mpc-seq i {
-  width: 10px;
-  height: 10px;
-  border: 1px solid var(--ink-faint);
-}
-.mpc-seq i.on { background: var(--ink); border-color: var(--ink); }
-
-/* ── pady ── */
-.mpc-pads {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.5rem;
-}
-.mpc-pad {
+/* ── waveform ── */
+.track-wave {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 0.35rem;
-  min-height: 4.6rem;
-  padding: 0.6rem 0.55rem;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--bg-soft);
-  color: var(--ink);
-  text-align: left;
+  height: clamp(4.5rem, 10vw, 7.5rem);
+  margin-top: 1.75rem;
   cursor: pointer;
-  overflow: hidden;
-  box-shadow: 0 3px 0 var(--line), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  transition:
-    transform 0.12s var(--ease-out),
-    box-shadow 0.12s var(--ease-out),
-    background 0.25s,
-    color 0.25s;
-  -webkit-tap-highlight-color: transparent;
+  touch-action: pan-y;
 }
-.mpc-pad:hover { background: var(--bg-raised); }
-.mpc-pad:active,
-.mpc-pad.is-hit {
-  transform: translateY(3px);
-  box-shadow: 0 0 0 var(--line);
+.track-bars {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  gap: 2px;
 }
-.mpc-pad:focus-visible {
-  outline: 2px solid var(--ink);
-  outline-offset: 2px;
+.track-bars i {
+  flex: 1;
+  height: calc(var(--h) * 100%);
+  min-height: 2px;
+  background: var(--line);
+  border-radius: 1px;
 }
-.mpc-pad-year {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(1.05rem, 2.2vw, 1.6rem);
-  line-height: 1;
-  letter-spacing: -0.02em;
-}
-.mpc-pad-title {
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  line-height: 1.3;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--ink-dim);
-}
-
-/* aktivní pad svítí */
-.mpc-pad.is-active {
+.track-bars.is-played { clip-path: inset(0 calc(100% - var(--p) * 100%) 0 0); }
+.track-bars.is-played i { background: var(--ink); }
+.track-head-line {
+  position: absolute;
+  top: -0.4rem;
+  bottom: -0.4rem;
+  left: calc(var(--p) * 100%);
+  width: 1px;
   background: var(--ink);
-  color: var(--invert);
-  border-color: var(--ink);
 }
-.mpc-pad.is-active .mpc-pad-title { color: var(--invert); opacity: 0.75; }
-
-/* časovač autoplay = proužek dole na aktivním padu */
-.mpc-pad::after {
+.track-head-line::before {
   content: "";
   position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 3px;
-  width: 100%;
-  background: var(--invert);
-  opacity: 0.5;
-  transform: scaleX(0);
-  transform-origin: left;
+  top: 0;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  background: var(--ink);
+  transform: translate(-50%, -50%) rotate(45deg);
 }
-.mpc.is-playing .mpc-pad.is-active::after {
-  animation: mpc-timer var(--mpc-step) linear forwards;
-}
-@keyframes mpc-timer { to { transform: scaleX(1); } }
+.track.is-seeking .track-bars.is-played { transition: clip-path 0.7s var(--ease-out); }
+.track.is-seeking .track-head-line { transition: left 0.7s var(--ease-out); }
+.track-wave:hover .track-bars:not(.is-played) i { background: var(--ink-faint); }
 
-/* 2026 — tečka „live“ */
-.mpc-pad.is-now .mpc-pad-title::before {
-  content: "● ";
-  animation: mpc-blink 1.2s steps(2, start) infinite;
+/* ── komentáře (milníky) pod vlnou ── */
+.track-pins {
+  position: relative;
+  height: 2.6rem;
+  margin-top: 0.6rem;
+}
+.pin {
+  position: absolute;
+  top: 0;
+  left: var(--x);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 1.6rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink-faint);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-variant-numeric: tabular-nums;
+  transform: translateX(-50%);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.pin::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  margin-bottom: 0.45rem;
+  border: 1px solid currentColor;
+  background: var(--sect-bg, var(--bg-soft));
+  transition: background 0.2s, transform 0.3s var(--ease-spring);
+}
+.pin:first-child { align-items: flex-start; transform: none; }
+.pin:last-child { align-items: flex-end; transform: translateX(-100%); }
+.pin:hover,
+.pin.is-passed { color: var(--ink-dim); }
+.pin.is-passed::before { background: var(--ink-dim); }
+.pin.is-active { color: var(--ink); }
+.pin.is-active::before { background: var(--ink); transform: scale(1.35); }
+
+.track-foot {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.75rem 0 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--ink-faint);
 }
 
-/* ── tablet / desktop: displej vlevo, pady vpravo ── */
-@media (min-width: 768px) {
-  .mpc {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-    gap: 1.25rem;
-    padding: 1.25rem;
-  }
-  .mpc-top { grid-column: 1 / -1; }
-  .mpc-pads { gap: 0.65rem; }
-  .mpc-pad { min-height: 0; aspect-ratio: 1 / 0.82; padding: 0.8rem; }
-  .mpc-pad-title { font-size: 0.65rem; }
+/* mobil: roky jen u aktivního komentáře, jinak čtverečky (jsou blízko u sebe) */
+@media (max-width: 639px) {
+  .track-head { grid-template-columns: 1fr; min-height: 12rem; }
+  .track-ctrl { order: 2; }
+  .pin { min-width: 1.75rem; height: 2.4rem; }
+  .pin span { opacity: 0; transition: opacity 0.2s; }
+  .pin.is-active span { opacity: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mpc-screen.is-swap * ,
-  .mpc.is-playing .mpc-pad.is-active::after,
-  .mpc-pad.is-now .mpc-pad-title::before,
-  .mpc.is-playing .mpc-leds i:first-child { animation: none; }
-}
-
-html[data-theme="light"] .mpc-screen::after {
-  background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(0, 0, 0, 0.045) 2px 3px);
-}
-html[data-theme="light"] .mpc-screen {
-  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.08);
-}
-@media (max-width: 479px) {
-  .mpc-model { visibility: hidden; }
+  .track-now.is-swap > * { animation: none; }
+  .track.is-seeking .track-bars.is-played,
+  .track.is-seeking .track-head-line { transition: none; }
 }
