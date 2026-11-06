@@ -325,38 +325,37 @@
         </p>
       </div>
 
-      <!-- ── STORY: kariéra jako MPC sampler (story.css + story.js) ── -->
-      <div class="mpc reveal" data-mpc>
-        <div class="mpc-top" aria-hidden="true">
-          <span class="mpc-brand">RST-2003</span>
-          <span class="mpc-model">Sampler kariéry · 8 padů</span>
-          <span class="mpc-leds"><i></i><i></i><i></i></span>
-        </div>
-
-        <div class="mpc-screen" aria-live="polite">
-          <div class="mpc-screen-row">
-            <span data-mpc-pad>PAD 01</span>
-            <span data-mpc-side>SIDE A</span>
+      <!-- ── STORY: kariéra jako jedna stopa 2003 → 2026 = 00:00 → 23:00 (story.css + story.js) ── -->
+      <div class="track reveal" data-track>
+        <div class="track-head">
+          <div class="track-ctrl">
+            <button type="button" class="track-btn" data-prev aria-label="Předchozí milník">⏮</button>
+            <button type="button" class="track-btn track-play" data-play aria-label="Přehrát kariéru">▶</button>
+            <button type="button" class="track-btn" data-next aria-label="Další milník">⏭</button>
           </div>
-          <p class="mpc-screen-year" data-mpc-year>2003</p>
-          <p class="mpc-screen-title" data-mpc-title>Divnej Postoy</p>
-          <p class="mpc-screen-desc" data-mpc-desc>Vstupuje do skupiny Divnej Postoy (DP). Tady to celé začíná.</p>
-          <div class="mpc-screen-row mpc-screen-foot">
-            <span data-mpc-tag>[ Crew ]</span>
-            <span class="mpc-seq" aria-hidden="true" data-mpc-seq></span>
+          <div class="track-now" aria-live="polite">
+            <p class="track-meta"><span data-time>00:00</span><span class="track-len"> / 23:00</span><span class="track-tag" data-tag>Crew</span></p>
+            <p class="track-title"><span data-year>2003</span> <span data-title>Divnej Postoy</span></p>
+            <p class="track-desc" data-desc>Vstupuje do skupiny Divnej Postoy (DP). Tady to celé začíná.</p>
           </div>
         </div>
 
-        <div class="mpc-pads" role="group" aria-label="Milníky kariéry">
-          <button type="button" class="mpc-pad" data-year="2003" data-title="Divnej Postoy" data-tag="Crew" data-side="A" data-desc="Vstupuje do skupiny Divnej Postoy (DP). Tady to celé začíná."><span class="mpc-pad-year">2003</span><span class="mpc-pad-title">Divnej Postoy</span></button>
-          <button type="button" class="mpc-pad" data-year="2008" data-title="Art Attack" data-tag="Battle" data-side="A" data-desc="Vyhrává Art Attack Freestyle Battle."><span class="mpc-pad-year">2008</span><span class="mpc-pad-title">Art Attack</span></button>
-          <button type="button" class="mpc-pad" data-year="2010" data-title="Premiéra" data-tag="Album" data-side="A" data-desc="Deska s DJ Fattem. Comeback trueschoolu."><span class="mpc-pad-year">2010</span><span class="mpc-pad-title">Premiéra</span></button>
-          <button type="button" class="mpc-pad" data-year="2013" data-title="Střepy" data-tag="Album" data-side="A" data-desc="Další deska, opět s DJ Fattem."><span class="mpc-pad-year">2013</span><span class="mpc-pad-title">Střepy</span></button>
-          <button type="button" class="mpc-pad" data-year="2018" data-title="Restart" data-tag="Album" data-side="B" data-desc="Restart — nový životní rozměr."><span class="mpc-pad-year">2018</span><span class="mpc-pad-title">Restart</span></button>
-          <button type="button" class="mpc-pad" data-year="2022" data-title="Tlak" data-tag="Album" data-side="B" data-desc="Tlak s DJ Wichem. Nominace Anděl."><span class="mpc-pad-year">2022</span><span class="mpc-pad-title">Tlak</span></button>
-          <button type="button" class="mpc-pad" data-year="2024" data-title="A)TÝM" data-tag="Projekt" data-side="B" data-desc="A)TÝM s Katem. Plus „52 Řádků“."><span class="mpc-pad-year">2024</span><span class="mpc-pad-title">A)TÝM</span></button>
-          <button type="button" class="mpc-pad is-now" data-year="2026" data-title="Tour Tlak II" data-tag="Live" data-side="B" data-desc="Tour Tlak II. Současnost — přijď to slyšet naživo."><span class="mpc-pad-year">2026</span><span class="mpc-pad-title">Teď · Live</span></button>
+        <div class="track-wave" data-wave>
+          <div class="track-bars" aria-hidden="true" data-bars></div>
+          <div class="track-bars is-played" aria-hidden="true" data-bars></div>
+          <span class="track-head-line" aria-hidden="true"></span>
         </div>
+        <div class="track-pins" role="group" aria-label="Milníky kariéry">
+          <button type="button" class="pin" style="--x:0.000%" data-year="2003" data-title="Divnej Postoy" data-tag="Crew" data-desc="Vstupuje do skupiny Divnej Postoy (DP). Tady to celé začíná." aria-label="2003: Divnej Postoy"><span>2003</span></button>
+          <button type="button" class="pin" style="--x:21.739%" data-year="2008" data-title="Art Attack" data-tag="Battle" data-desc="Vyhrává Art Attack Freestyle Battle." aria-label="2008: Art Attack"><span>2008</span></button>
+          <button type="button" class="pin" style="--x:30.435%" data-year="2010" data-title="Premiéra" data-tag="Album" data-desc="Deska s DJ Fattem. Comeback trueschoolu." aria-label="2010: Premiéra"><span>2010</span></button>
+          <button type="button" class="pin" style="--x:43.478%" data-year="2013" data-title="Střepy" data-tag="Album" data-desc="Další deska, opět s DJ Fattem." aria-label="2013: Střepy"><span>2013</span></button>
+          <button type="button" class="pin" style="--x:65.217%" data-year="2018" data-title="Restart" data-tag="Album" data-desc="Restart — nový životní rozměr." aria-label="2018: Restart"><span>2018</span></button>
+          <button type="button" class="pin" style="--x:82.609%" data-year="2022" data-title="Tlak" data-tag="Album" data-desc="Tlak s DJ Wichem. Nominace Anděl." aria-label="2022: Tlak"><span>2022</span></button>
+          <button type="button" class="pin" style="--x:91.304%" data-year="2024" data-title="A)TÝM" data-tag="Projekt" data-desc="A)TÝM s Katem. Plus „52 Řádků“." aria-label="2024: A)TÝM"><span>2024</span></button>
+          <button type="button" class="pin" style="--x:100.000%" data-year="2026" data-title="Tour Tlak II" data-tag="Live" data-desc="Současnost. Pořád na pódiu." aria-label="2026: Tour Tlak II"><span>2026</span></button>
+        </div>
+        <p class="track-foot"><span>Rest — Kariéra</span><span>2003 → teď</span></p>
       </div>
 
       <blockquote
@@ -379,50 +378,38 @@
       id="crew"
       class="relative px-5 md:px-10 py-20 md:py-28 border-b border-[var(--line)]"
     >
-      <div class="mb-12 reveal">
-        <h2 class="font-display h-section uppercase">
+      <div class="crew-grid">
+        <h2 class="font-display h-section uppercase reveal">
           Lidi kolem<br /><span class="h-outline">mikrofonu</span>
         </h2>
-      </div>
 
-      <ul class="credits">
-        <li class="credit reveal">
-          <span class="credit-name">DJ Fatte</span>
-          <span class="credit-role">DJ / Producent</span>
-          <span class="credit-desc">Beaty na Premiéru i Střepy. Zvuk, který vrátil trueschool na mapu.</span>
-        </li>
-        <li class="credit reveal">
-          <span class="credit-name">DJ Wich</span>
-          <span class="credit-role">DJ / Producent</span>
-          <span class="credit-desc">Spoluautor desky Tlak (2022), nominované na Anděla.</span>
-        </li>
-        <li class="credit reveal">
-          <span class="credit-name">Marys</span>
-          <span class="credit-role">Producent</span>
-          <span class="credit-desc">1312 Records. Beat pro singl „52 Řádků" (2024).</span>
-        </li>
-        <li class="credit reveal">
-          <span class="credit-name">DJ Herby</span>
-          <span class="credit-role">Resident DJ / Live</span>
-          <span class="credit-desc">Energie za pultem na každém koncertě. Stálý parťák na tour.</span>
-        </li>
-        <li class="credit reveal">
-          <span class="credit-name">Ty Nikdy</span>
-          <span class="credit-role">Label</span>
-          <span class="credit-desc">Idea, Paulie Garand, MC Gey, Boy Wonder a další. Rodina od 2010.</span>
-        </li>
-        <li class="credit reveal">
-          <span class="credit-name">Kato</span>
-          <span class="credit-role">Feat / Legenda</span>
-          <span class="credit-desc">Prago Union. Společný projekt A)TÝM (2024).</span>
-        </li>
-        <li class="credit reveal">
-          <span class="credit-name">Idea</span>
-          <span class="credit-role">Beatmaker</span>
-          <span class="credit-desc">Zakladatel Ty Nikdy. Produkce na řadě tracků.</span>
-        </li>
-      </ul>
-      <a class="credits-more text-link reveal" href="https://www.tynikdy.cz/interpreti" target="_blank" rel="noopener">Celá crew labelu Ty Nikdy ↗</a>
+        <dl class="liner reveal">
+          <div>
+            <dt>Produkce</dt>
+            <dd>
+              <b>DJ Fatte</b> beaty na Premiéru i Střepy<i>/</i>
+              <b>DJ Wich</b> spoluautor desky Tlak, nominace Anděl<i>/</i>
+              <b>Marys</b> 1312 Records, beat pro „52 Řádků“<i>/</i>
+              <b>Idea</b> zakladatel Ty Nikdy, produkce na řadě tracků
+            </dd>
+          </div>
+          <div>
+            <dt>Live</dt>
+            <dd><b>DJ Herby</b> za pultem na každém koncertě, stálý parťák na tour</dd>
+          </div>
+          <div>
+            <dt>Feat</dt>
+            <dd><b>Kato</b> Prago Union, společný projekt A)TÝM (2024)</dd>
+          </div>
+          <div>
+            <dt>Label</dt>
+            <dd>
+              <b>Ty Nikdy</b> Idea, Paulie Garand, MC Gey, Boy Wonder a další. Rodina od 2010.
+              <a class="text-link" href="https://www.tynikdy.cz/interpreti" target="_blank" rel="noopener">Celá crew ↗</a>
+            </dd>
+          </div>
+        </dl>
+      </div>
     </section>
 
     <!-- ── DISCO ─────────────────────────────────────────────── -->
@@ -799,7 +786,7 @@
       <!-- foto grid — plní gallery.js -->
       <div
         id="gallery-grid"
-        class="mosaic"
+        class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3"
       ></div>
 
       <!-- load more — viditelné jen pokud jsou další fotky -->
