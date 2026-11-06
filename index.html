@@ -23,6 +23,7 @@
     />
     <link rel="stylesheet" href="tailwind.css" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="story.css" />
     <!-- Tour skeleton animation — 110 B inline CSS, zabrání CLS před načtením JS -->
     <style id="tour-sk-css">
       @keyframes tour-sk-p{0%,100%{opacity:.3}50%{opacity:.7}}
@@ -190,7 +191,7 @@
         <p
           class="font-mono text-xs uppercase tracking-[0.2em] text-[var(--ink-dim)]"
         >
-          <span class="line-no">01</span> Ty Nikdy Label / Est. 2006
+          Ty Nikdy Label / Est. 2006
         </p>
         <p
           class="font-mono text-xs uppercase tracking-[0.2em] text-right text-[var(--ink-dim)]"
@@ -323,11 +324,6 @@
         class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 reveal"
       >
         <div>
-          <p
-            class="font-mono text-xs uppercase tracking-[0.25em] text-[var(--ink-dim)] mb-3"
-          >
-            <span class="line-no">02</span> Live
-          </p>
           <h2 class="font-display h-section uppercase">Koncertní<br />plány</h2>
         </div>
         <p class="font-mono text-sm text-[var(--ink-dim)] max-w-xs">
@@ -437,11 +433,6 @@
       class="relative px-5 md:px-10 py-20 md:py-28 border-b border-[var(--line)] bg-[var(--bg-soft)]"
     >
       <div class="mb-14 reveal">
-        <p
-          class="font-mono text-xs uppercase tracking-[0.25em] text-[var(--ink-dim)] mb-3"
-        >
-          <span class="line-no">03</span> Příběh
-        </p>
         <h2 class="font-display h-section uppercase max-w-3xl">
           Z battlů na<br />vrchol scény
         </h2>
@@ -454,114 +445,108 @@
         </p>
       </div>
 
-      <div class="relative overflow-x-auto pb-6 -mx-5 px-5 md:mx-0 md:px-0">
-        <div class="relative min-w-[1080px] md:min-w-0">
-          <div
-            class="absolute top-[34px] left-0 right-0 h-px bg-[var(--line)]"
-          ></div>
-          <div class="grid grid-cols-8 gap-5">
-            <div class="reveal">
-              <div
-                class="w-3 h-3 rounded-full bg-[var(--line)] mb-5 relative z-10 border border-[var(--ink-faint)]"
-              ></div>
-              <p class="font-display text-xl">2003</p>
-              <p
-                class="font-mono text-[11px] text-[var(--ink-dim)] mt-2 leading-relaxed"
-              >
-                Vstupuje do skupiny Divnej Postoy (DP).
-              </p>
-            </div>
-
-            <div class="reveal">
-              <div
-                class="w-3 h-3 rounded-full bg-[var(--line)] mb-5 relative z-10 border border-[var(--ink-faint)]"
-              ></div>
-              <p class="font-display text-xl">2008</p>
-              <p
-                class="font-mono text-[11px] text-[var(--ink-dim)] mt-2 leading-relaxed"
-              >
-                Vyhrává Art Attack Freestyle Battle.
-              </p>
-            </div>
-
-            <div class="reveal">
-              <div
-                class="w-3 h-3 rounded-full bg-[var(--ink)] mb-5 relative z-10"
-              ></div>
-              <p class="font-display text-xl">2010</p>
-              <p
-                class="font-mono text-[11px] text-[var(--ink-dim)] mt-2 leading-relaxed"
-              >
-                <strong class="text-[var(--ink)]">Premiéra</strong> s DJ Fattem.
-                Comeback trueschoolu.
-              </p>
-            </div>
-
-            <div class="reveal">
-              <div
-                class="w-3 h-3 rounded-full bg-[var(--line)] mb-5 relative z-10 border border-[var(--ink-faint)]"
-              ></div>
-              <p class="font-display text-xl">2013</p>
-              <p
-                class="font-mono text-[11px] text-[var(--ink-dim)] mt-2 leading-relaxed"
-              >
-                <strong class="text-[var(--ink)]">Střepy</strong>, opět s DJ
-                Fattem.
-              </p>
-            </div>
-
-            <div class="reveal">
-              <div
-                class="w-3 h-3 rounded-full bg-[var(--line)] mb-5 relative z-10 border border-[var(--ink-faint)]"
-              ></div>
-              <p class="font-display text-xl">2018</p>
-              <p
-                class="font-mono text-[11px] text-[var(--ink-dim)] mt-2 leading-relaxed"
-              >
-                <strong class="text-[var(--ink)]">Restart</strong> — nový
-                životní rozměr.
-              </p>
-            </div>
-
-            <div class="reveal">
-              <div
-                class="w-3 h-3 rounded-full bg-[var(--ink)] mb-5 relative z-10"
-              ></div>
-              <p class="font-display text-xl">2022</p>
-              <p
-                class="font-mono text-[11px] text-[var(--ink-dim)] mt-2 leading-relaxed"
-              >
-                <strong class="text-[var(--ink)]">Tlak</strong> s DJ Wichem.
-                Nominace Anděl.
-              </p>
-            </div>
-
-            <div class="reveal">
-              <div
-                class="w-3 h-3 rounded-full bg-[var(--line)] mb-5 relative z-10 border border-[var(--ink-faint)]"
-              ></div>
-              <p class="font-display text-xl">2024</p>
-              <p
-                class="font-mono text-[11px] text-[var(--ink-dim)] mt-2 leading-relaxed"
-              >
-                <strong class="text-[var(--ink)]">A)TÝM</strong> s Katem. Plus
-                „52 Řádků".
-              </p>
-            </div>
-
-            <div class="reveal">
-              <div
-                class="w-3 h-3 rounded-full bg-[var(--ink)] mb-5 relative z-10 animate-pulse"
-              ></div>
-              <p class="font-display text-xl">2026</p>
-              <p
-                class="font-mono text-[11px] text-[var(--ink-dim)] mt-2 leading-relaxed"
-              >
-                Tour Tlak II. Současnost.
-              </p>
-            </div>
-          </div>
+      <!-- ── STORY: tracklist kariéry (story.css + story.js) ── -->
+      <div class="story" data-story>
+        <div class="story-rail" aria-hidden="true">
+          <span class="story-rail-fill"></span>
+          <span class="story-head"></span>
         </div>
+
+        <div class="story-side reveal">
+          <span class="story-vinyl" aria-hidden="true"></span>
+          <p class="story-side-label">Side A</p>
+          <p class="story-side-title">Battly &amp; trueschool</p>
+          <p class="story-side-range">2003 — 2013</p>
+        </div>
+
+        <ol class="story-list">
+          <li class="story-track" data-code="A1">
+            <span class="story-code">A1</span>
+            <span class="story-year" data-year="2003">2003</span>
+            <div class="story-body">
+              <h3 class="story-title">Divnej Postoy</h3>
+              <p class="story-desc">Vstupuje do skupiny DP. Začátek cesty.</p>
+            </div>
+            <div class="story-meta"><span class="story-tag">Crew</span><span class="story-wave" aria-hidden="true"></span></div>
+          </li>
+          <li class="story-track" data-code="A2">
+            <span class="story-code">A2</span>
+            <span class="story-year" data-year="2008">2008</span>
+            <div class="story-body">
+              <h3 class="story-title">Art Attack</h3>
+              <p class="story-desc">Vyhrává Art Attack Freestyle Battle.</p>
+            </div>
+            <div class="story-meta"><span class="story-tag">Battle</span><span class="story-wave" aria-hidden="true"></span></div>
+          </li>
+          <li class="story-track" data-code="A3">
+            <span class="story-code">A3</span>
+            <span class="story-year" data-year="2010">2010</span>
+            <div class="story-body">
+              <h3 class="story-title">Premiéra</h3>
+              <p class="story-desc">S DJ Fattem. Comeback trueschoolu.</p>
+            </div>
+            <div class="story-meta"><span class="story-tag">Album</span><span class="story-wave" aria-hidden="true"></span></div>
+          </li>
+          <li class="story-track" data-code="A4">
+            <span class="story-code">A4</span>
+            <span class="story-year" data-year="2013">2013</span>
+            <div class="story-body">
+              <h3 class="story-title">Střepy</h3>
+              <p class="story-desc">Opět s DJ Fattem.</p>
+            </div>
+            <div class="story-meta"><span class="story-tag">Album</span><span class="story-wave" aria-hidden="true"></span></div>
+          </li>
+        </ol>
+
+        <div class="story-flip reveal" aria-hidden="true">
+          <span>Otoč desku</span>
+        </div>
+
+        <div class="story-side reveal">
+          <span class="story-vinyl" aria-hidden="true"></span>
+          <p class="story-side-label">Side B</p>
+          <p class="story-side-title">Restart</p>
+          <p class="story-side-range">2018 — teď</p>
+        </div>
+
+        <ol class="story-list">
+          <li class="story-track" data-code="B1">
+            <span class="story-code">B1</span>
+            <span class="story-year" data-year="2018">2018</span>
+            <div class="story-body">
+              <h3 class="story-title">Restart</h3>
+              <p class="story-desc">Nový životní rozměr.</p>
+            </div>
+            <div class="story-meta"><span class="story-tag">Album</span><span class="story-wave" aria-hidden="true"></span></div>
+          </li>
+          <li class="story-track" data-code="B2">
+            <span class="story-code">B2</span>
+            <span class="story-year" data-year="2022">2022</span>
+            <div class="story-body">
+              <h3 class="story-title">Tlak</h3>
+              <p class="story-desc">S DJ Wichem. Nominace Anděl.</p>
+            </div>
+            <div class="story-meta"><span class="story-tag">Album</span><span class="story-wave" aria-hidden="true"></span></div>
+          </li>
+          <li class="story-track" data-code="B3">
+            <span class="story-code">B3</span>
+            <span class="story-year" data-year="2024">2024</span>
+            <div class="story-body">
+              <h3 class="story-title">A)TÝM</h3>
+              <p class="story-desc">S Katem. Plus „52 Řádků“.</p>
+            </div>
+            <div class="story-meta"><span class="story-tag">Projekt</span><span class="story-wave" aria-hidden="true"></span></div>
+          </li>
+          <li class="story-track is-now" data-code="B4">
+            <span class="story-code">B4</span>
+            <span class="story-year" data-year="2026">2026</span>
+            <div class="story-body">
+              <h3 class="story-title">Tour Tlak II</h3>
+              <p class="story-desc">Současnost. <a href="#tour" class="story-link">Koncerty →</a></p>
+            </div>
+            <div class="story-meta"><span class="story-tag story-tag-live">● Live</span><span class="story-wave" aria-hidden="true"></span></div>
+          </li>
+        </ol>
       </div>
 
       <blockquote
@@ -585,11 +570,6 @@
       class="relative px-5 md:px-10 py-20 md:py-28 border-b border-[var(--line)]"
     >
       <div class="mb-12 reveal">
-        <p
-          class="font-mono text-xs uppercase tracking-[0.25em] text-[var(--ink-dim)] mb-3"
-        >
-          <span class="line-no">04</span> Tým
-        </p>
         <h2 class="font-display h-section uppercase">
           Lidi kolem<br />mikrofonu
         </h2>
@@ -747,11 +727,6 @@
       class="relative px-5 md:px-10 py-20 md:py-28 border-b border-[var(--line)] bg-[var(--bg-soft)]"
     >
       <div class="mb-12 reveal">
-        <p
-          class="font-mono text-xs uppercase tracking-[0.25em] text-[var(--ink-dim)] mb-3"
-        >
-          <span class="line-no">05</span> Hudba
-        </p>
         <h2 class="font-display h-section uppercase">Diskografie</h2>
       </div>
 
@@ -1126,11 +1101,6 @@
         class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 reveal"
       >
         <div>
-          <p
-            class="font-mono text-xs uppercase tracking-[0.25em] text-[var(--ink-dim)] mb-3"
-          >
-            <span class="line-no">05</span> Galerie
-          </p>
           <h2 class="font-display h-section uppercase">Fotky</h2>
         </div>
         <div class="flex flex-col items-start md:items-end gap-2">
@@ -1271,11 +1241,6 @@
         class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 reveal"
       >
         <div>
-          <p
-            class="font-mono text-xs uppercase tracking-[0.25em] text-[var(--ink-dim)] mb-3"
-          >
-            <span class="line-no">06</span> Shop
-          </p>
           <h2 class="font-display h-section uppercase">Merch</h2>
         </div>
         <a
@@ -1299,11 +1264,6 @@
       class="relative px-5 md:px-10 py-20 md:py-28 bg-[var(--bg-soft)]"
     >
       <div class="mb-12 reveal">
-        <p
-          class="font-mono text-xs uppercase tracking-[0.25em] text-[var(--ink-dim)] mb-3"
-        >
-          <span class="line-no">07</span> Booking
-        </p>
         <h2 class="font-display h-section uppercase">
           Pojďme<br />domluvit show
         </h2>
@@ -1480,6 +1440,7 @@
 
     <script src="tour.js"></script>
     <script src="main.js"></script>
+    <script src="story.js"></script>
 
     <!-- ── CART BACKDROP ──────────────────────────────────────────── -->
     <div
