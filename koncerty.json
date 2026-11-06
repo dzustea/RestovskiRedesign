@@ -30,12 +30,22 @@
     "soldOut": false
   },
   {
+    "id": "ceske-budejovice-k2-2026-10-31",
+    "date": "2026-10-31",
+    "city": "České Budějovice",
+    "venue": "K2",
+    "type": "club",
+    "note": "REST",
+    "ticketUrl": null,
+    "soldOut": false
+  },
+  {
     "id": "praha-akropolis-pulz-2026-11-13",
     "date": "2026-11-13",
     "city": "Praha",
     "venue": "Palác Akropolis",
     "type": "club",
-    "note": "PULZ: REST + special guests",
+    "note": "REST + special guests · návrat do Akropole · začátek 19:30",
     "ticketUrl": "https://goout.net/en/pulz-rest%2Bspecial-guests/szylely/",
     "soldOut": false
   },
@@ -45,7 +55,7 @@
     "city": "Praha",
     "venue": "Palác Akropolis",
     "type": "club",
-    "note": "PULZ: REST + special guests",
+    "note": "REST + special guests · návrat do Akropole · začátek 19:30",
     "ticketUrl": "https://goout.net/en/pulz-rest%2Bspecial-guests/szxlely/",
     "soldOut": false
   },
@@ -55,7 +65,7 @@
     "city": "Pec pod Sněžkou",
     "venue": "Klondike Music Club",
     "type": "club",
-    "note": "REST",
+    "note": "REST · začátek 21:30",
     "ticketUrl": "https://www.ticketportal.cz/event/Rest",
     "soldOut": false
   }

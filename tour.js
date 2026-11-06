@@ -44,67 +44,76 @@
 
   const FALLBACK_CONCERTS = [
     {
-      id: 'plzen-beseda-2026-03',
-      date: '2026-03-22',
-      city: 'Plzeň',
-      venue: 'Měšťanská Beseda',
-      type: 'club',
-      note: null,
-      ticketUrl: null,
-      soldOut: false,
+      "id": "liberec-lidove-sady-2026-09",
+      "date": "2026-09-25",
+      "city": "Liberec",
+      "venue": "Lidové sady | Velký sál",
+      "type": "club",
+      "note": "REST – samostatný koncert",
+      "ticketUrl": "https://www.ticketlive.cz/cs/event/rest-lidove-sady-liberec-25-09-2026",
+      "soldOut": false
     },
     {
-      id: 'trutnov-openair-2026-06',
-      date: '2026-06-27',
-      city: 'Trutnov',
-      venue: 'Open Air Festival',
-      type: 'festival',
-      note: 'Main Stage 21:30',
-      ticketUrl: null,
-      soldOut: false,
+      "id": "mlada-boleslav-dum-kultury-2026-10",
+      "date": "2026-10-09",
+      "city": "Mladá Boleslav",
+      "venue": "Dům kultury Mladá Boleslav",
+      "type": "club",
+      "note": "REST",
+      "ticketUrl": null,
+      "soldOut": false
     },
     {
-      id: 'hhk-hradec-2026-07',
-      date: '2026-07-02',
-      city: 'Hradec Králové',
-      venue: 'Hip Hop Kemp',
-      type: 'festival',
-      note: 'Forest Stage',
-      ticketUrl: null,
-      soldOut: false,
+      "id": "praha-roxy-past-fotr-2026-10",
+      "date": "2026-10-22",
+      "city": "Praha",
+      "venue": "ROXY",
+      "type": "club",
+      "note": "P/\\ST: křest alba FOTR – REST jako host",
+      "ticketUrl": "https://goout.net/en/pst-krest-alba-fotr/szybkky/",
+      "soldOut": false
     },
     {
-      id: 'brno-fleda-2026-09',
-      date: '2026-09-12',
-      city: 'Brno',
-      venue: 'Fléda',
-      type: 'club',
-      note: 'Tlak II Tour',
-      ticketUrl: 'https://goout.net/',
-      soldOut: false,
+      "id": "ceske-budejovice-k2-2026-10-31",
+      "date": "2026-10-31",
+      "city": "České Budějovice",
+      "venue": "K2",
+      "type": "club",
+      "note": "REST",
+      "ticketUrl": null,
+      "soldOut": false
     },
     {
-      id: 'ostrava-barak-2026-10',
-      date: '2026-10-04',
-      city: 'Ostrava',
-      venue: 'Barrák Music Club',
-      type: 'club',
-      note: 'Support: DJ Herby',
-      ticketUrl: 'https://ticketstream.cz/',
-      soldOut: false,
+      "id": "praha-akropolis-pulz-2026-11-13",
+      "date": "2026-11-13",
+      "city": "Praha",
+      "venue": "Palác Akropolis",
+      "type": "club",
+      "note": "REST + special guests · návrat do Akropole · začátek 19:30",
+      "ticketUrl": "https://goout.net/en/pulz-rest%2Bspecial-guests/szylely/",
+      "soldOut": false
     },
     {
-      id: 'praha-lucerna-2026-11',
-      date: '2026-11-15',
-      city: 'Praha',
-      venue: 'Lucerna Music Bar',
-      type: 'club',
-      note: 'Vyprodáno za 4 dny',
-      ticketUrl: null,
-      soldOut: true,
+      "id": "praha-akropolis-pulz-2026-11-14",
+      "date": "2026-11-14",
+      "city": "Praha",
+      "venue": "Palác Akropolis",
+      "type": "club",
+      "note": "REST + special guests · návrat do Akropole · začátek 19:30",
+      "ticketUrl": "https://goout.net/en/pulz-rest%2Bspecial-guests/szxlely/",
+      "soldOut": false
     },
+    {
+      "id": "pec-pod-snezkou-klondike-2027-03",
+      "date": "2027-03-05",
+      "city": "Pec pod Sněžkou",
+      "venue": "Klondike Music Club",
+      "type": "club",
+      "note": "REST · začátek 21:30",
+      "ticketUrl": "https://www.ticketportal.cz/event/Rest",
+      "soldOut": false
+    }
   ];
-
   /* ── DATUM: bezpečný parser + česky formátovaný výstup ─────────────────────
      Důvod ručního parsování: new Date('2026-09-12') vytváří UTC půlnoc.
      V CZ/SK časovém pásmu (UTC+2) by to vrátilo 11. 9. — o den dřív.
@@ -304,7 +313,7 @@
       headers: { 'Accept': 'application/json' },
       // 'default': respektuje HTTP Cache-Control hlavičky nastavené serverem.
       // Pro okamžité čerstvé data při každé návštěvě změň na 'no-cache'.
-      cache: 'default',
+      cache: 'no-cache',
     })
       .then(res => {
         if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
@@ -335,4 +344,4 @@
   }
 
   init();
-})();
+})();
