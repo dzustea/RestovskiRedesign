@@ -109,7 +109,7 @@
       "city": "Pec pod Sněžkou",
       "venue": "Klondike Music Club",
       "type": "club",
-      "note": "REST",
+      "note": "REST · začátek 21:30",
       "ticketUrl": "https://www.ticketportal.cz/event/Rest",
       "soldOut": false
     }
