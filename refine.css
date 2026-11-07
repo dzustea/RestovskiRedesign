@@ -521,3 +521,82 @@ details[open] .chev::after { transform: rotate(180deg); }
     padding-right: max(2.5rem, calc((100% - 1360px) / 2));
   }
 }
+
+/* ═══ POHYB — jen transform/opacity, nic neběží mimo obrazovku ═══════ */
+
+/* obrysové slovo v nadpisu se „dokreslí“ zleva, když sekce najede */
+.reveal .h-outline,
+.h-section.reveal .h-outline {
+  display: inline-block;
+  clip-path: inset(-15% 0 -15% 0);
+  transition: clip-path 1.1s cubic-bezier(0.7, 0, 0.2, 1) 0.25s;
+}
+.reveal:not(.in) .h-outline { clip-path: inset(-15% 100% -15% 0); }
+
+/* koncerty: řádky najedou postupně (i při přepnutí filtru) */
+.gig { animation: rise 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.gig:nth-child(2) { animation-delay: 0.06s; }
+.gig:nth-child(3) { animation-delay: 0.12s; }
+.gig:nth-child(4) { animation-delay: 0.18s; }
+.gig:nth-child(n + 5) { animation-delay: 0.24s; }
+.gig .gig-dm { transition: transform 0.4s var(--ease-out); }
+.gig:not(.is-past):hover .gig-dm { transform: translateX(6px); }
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } }
+
+/* crew: řádky postupně */
+.liner.reveal > div { opacity: 0; transform: translateY(12px); transition: opacity 0.6s, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.liner.reveal.in > div { opacity: 1; transform: none; }
+.liner.reveal.in > div:nth-child(2) { transition-delay: 0.08s; }
+.liner.reveal.in > div:nth-child(3) { transition-delay: 0.16s; }
+.liner.reveal.in > div:nth-child(4) { transition-delay: 0.24s; }
+
+/* ── DISKOGRAFIE: deska vyjede z řádku a točí se ── */
+.disc-row { grid-template-columns: var(--year-w) minmax(0, 1fr) auto auto; }
+.disc-row > div p:first-child { transition: transform 0.45s var(--ease-out); }
+.disc-row:hover > div p:first-child { transform: translateX(8px); }
+.disc-vinyl {
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, #f2f0e8 0 6%, #0d0d0c 6.5% 9%, #f2f0e8 9.5% 29%, transparent 29.5%),
+    repeating-radial-gradient(circle, #0b0b0a 0 1.5px, #24231f 2px 3px);
+  box-shadow: 0 0 0 1px var(--line), 0 8px 18px -8px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transform: translateX(-1.75rem) rotate(-140deg) scale(0.6);
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.35s;
+}
+.disc-vinyl::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(from 20deg, transparent 0 12%, rgba(255, 255, 255, 0.14) 16%, transparent 22% 62%, rgba(255, 255, 255, 0.1) 66%, transparent 72%);
+}
+.disc-row:hover .disc-vinyl,
+details[open] .disc-vinyl { opacity: 1; transform: none; }
+details[open] .disc-vinyl { animation: spin 1.9s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* tracklist naskočí skladba po skladbě */
+details[open] .disc-body li { animation: rise 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+details[open] .disc-body li:nth-child(2) { animation-delay: 0.05s; }
+details[open] .disc-body li:nth-child(3) { animation-delay: 0.1s; }
+details[open] .disc-body li:nth-child(4) { animation-delay: 0.15s; }
+details[open] .disc-body li:nth-child(n + 5) { animation-delay: 0.2s; }
+details[open] .disc-body .flex { animation: rise 0.45s 0.22s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+
+@media (max-width: 639px) {
+  .disc-vinyl { width: 2.4rem; height: 2.4rem; }
+  .disc-row { gap: 0.9rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal .h-outline { transition: none; clip-path: none !important; }
+  .gig, details[open] .disc-body li, details[open] .disc-body .flex { animation: none; }
+  details[open] .disc-vinyl { animation: none; }
+  .liner.reveal > div { opacity: 1; transform: none; transition: none; }
+}
+.disc-body li { border-color: var(--line) !important; }
+@media (min-width: 640px) { .disc-vinyl { width: 4rem; height: 4rem; } }

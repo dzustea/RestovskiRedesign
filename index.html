@@ -325,17 +325,27 @@
         </p>
       </div>
 
-      <!-- ── STORY: kariéra jako jeden odstavec — roky v obrysu, názvy plné, poznámky drobně (story.css) ── -->
-      <p class="saga reveal">
-          <span class="saga-item"><span class="saga-head"><span class="saga-y">2003</span>&nbsp;<b>Divnej Postoy</b></span> <span class="saga-n">vstupuje do skupiny</span></span>
-          <span class="saga-item"><span class="saga-head"><span class="saga-y">2008</span>&nbsp;<b>Art Attack</b></span> <span class="saga-n">vyhrává freestyle battle</span></span>
-          <span class="saga-item"><span class="saga-head"><span class="saga-y">2010</span>&nbsp;<b>Premiéra</b></span> <span class="saga-n">deska s DJ Fattem, comeback trueschoolu</span></span>
-          <span class="saga-item"><span class="saga-head"><span class="saga-y">2013</span>&nbsp;<b>Střepy</b></span> <span class="saga-n">znovu s DJ Fattem</span></span>
-          <span class="saga-item"><span class="saga-head"><span class="saga-y">2018</span>&nbsp;<b>Restart</b></span> <span class="saga-n">nový životní rozměr</span></span>
-          <span class="saga-item"><span class="saga-head"><span class="saga-y">2022</span>&nbsp;<b>Tlak</b></span> <span class="saga-n">s DJ Wichem, nominace Anděl</span></span>
-          <span class="saga-item"><span class="saga-head"><span class="saga-y">2024</span>&nbsp;<b>A)TÝM</b></span> <span class="saga-n">s Katem, plus „52 Řádků“</span></span>
-          <span class="saga-item saga-now"><span class="saga-head"><span class="saga-y">2026</span>&nbsp;<b>Tour Tlak II</b></span> <span class="saga-n">pořád na pódiu</span></span>
-      </p>
+      <!-- ── STORY: rok jako mechanické počítadlo — číslice se protáčí mezi milníky (story.css + story.js) ── -->
+      <div class="odo reveal" data-odo>
+        <div class="odo-main">
+          <p class="odo-year" aria-hidden="true"><span class="odo-col"><span class="odo-strip"><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i><i>7</i><i>8</i><i>9</i></span></span><span class="odo-col"><span class="odo-strip"><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i><i>7</i><i>8</i><i>9</i></span></span><span class="odo-col"><span class="odo-strip"><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i><i>7</i><i>8</i><i>9</i></span></span><span class="odo-col"><span class="odo-strip"><i>0</i><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i><i>7</i><i>8</i><i>9</i></span></span></p>
+          <div class="odo-info" aria-live="polite">
+            <p class="odo-tag" data-odo-tag>Crew</p>
+            <p class="odo-title" data-odo-title>Divnej Postoy</p>
+            <p class="odo-desc" data-odo-desc>Vstupuje do skupiny Divnej Postoy. Tady to celé začíná.</p>
+          </div>
+        </div>
+        <ol class="odo-steps" aria-label="Milníky kariéry">
+            <li><button type="button" class="odo-step" data-title="Divnej Postoy" data-tag="Crew" data-desc="Vstupuje do skupiny Divnej Postoy. Tady to celé začíná." aria-label="2003: Divnej Postoy">2003</button></li>
+            <li><button type="button" class="odo-step" data-title="Art Attack" data-tag="Battle" data-desc="Vyhrává Art Attack Freestyle Battle." aria-label="2008: Art Attack">2008</button></li>
+            <li><button type="button" class="odo-step" data-title="Premiéra" data-tag="Album" data-desc="Deska s DJ Fattem. Comeback trueschoolu." aria-label="2010: Premiéra">2010</button></li>
+            <li><button type="button" class="odo-step" data-title="Střepy" data-tag="Album" data-desc="Druhá deska, znovu s DJ Fattem." aria-label="2013: Střepy">2013</button></li>
+            <li><button type="button" class="odo-step" data-title="Restart" data-tag="Album" data-desc="Restart — nový životní rozměr." aria-label="2018: Restart">2018</button></li>
+            <li><button type="button" class="odo-step" data-title="Tlak" data-tag="Album" data-desc="S DJ Wichem. Nominace Anděl." aria-label="2022: Tlak">2022</button></li>
+            <li><button type="button" class="odo-step" data-title="A)TÝM" data-tag="Projekt" data-desc="Společná deska s Katem. Plus singl „52 Řádků“." aria-label="2024: A)TÝM">2024</button></li>
+            <li><button type="button" class="odo-step" data-title="Tour Tlak II" data-tag="Live" data-desc="Současnost. Pořád na pódiu." aria-label="2026: Tour Tlak II">2026</button></li>
+        </ol>
+      </div>
 
       <blockquote
         class="reveal quote"
@@ -416,6 +426,7 @@
                 s Katem (Prago Union) · Společná deska
               </p>
             </div>
+            <span class="disc-vinyl" aria-hidden="true"></span>
             <span class="chev" aria-hidden="true"></span>
           </summary>
           <div class="disc-body">
@@ -480,6 +491,7 @@
                 s DJ Wichem · Nominace Anděl 2022
               </p>
             </div>
+            <span class="disc-vinyl" aria-hidden="true"></span>
             <span class="chev" aria-hidden="true"></span>
           </summary>
           <div class="disc-body">
@@ -538,6 +550,7 @@
                 Sólo · více producentů
               </p>
             </div>
+            <span class="disc-vinyl" aria-hidden="true"></span>
             <span class="chev" aria-hidden="true"></span>
           </summary>
           <div class="disc-body">
@@ -601,6 +614,7 @@
                 s DJ Fatte
               </p>
             </div>
+            <span class="disc-vinyl" aria-hidden="true"></span>
             <span class="chev" aria-hidden="true"></span>
           </summary>
           <div class="disc-body">
@@ -665,6 +679,7 @@
                 s DJ Fatte · Debut
               </p>
             </div>
+            <span class="disc-vinyl" aria-hidden="true"></span>
             <span class="chev" aria-hidden="true"></span>
           </summary>
           <div class="disc-body">
@@ -1060,6 +1075,7 @@
     <script src="tour.js"></script>
     <script src="main.js"></script>
     <script src="refine.js"></script>
+    <script src="story.js"></script>
 
     <!-- ── CART BACKDROP ──────────────────────────────────────────── -->
     <div

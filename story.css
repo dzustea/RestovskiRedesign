@@ -1,72 +1,145 @@
 /* ─────────────────────────────────────────────────────────────
-   STORY — kariéra jako jeden odstavec (editorial run-in)
-   Rok v obrysu, název plně, krátká poznámka drobným monem.
-   Vejde se do pár řádků a čte se jako text, ne jako widget.
+   STORY — rok jako mechanické počítadlo (odometr)
+   Číslice se protáčí mezi milníky, vedle název a popis,
+   pod tím řada roků s ukazatelem průběhu. Jen transform → rychlé.
    ───────────────────────────────────────────────────────────── */
 
-.saga {
-  margin: 0;
-  max-width: 68rem;
-  padding-top: 1.75rem;
+.odo {
+  padding-top: 1.5rem;
   border-top: 1px solid var(--ink);
+}
+.odo-main {
+  display: grid;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+/* počítadlo */
+.odo-year {
+  display: flex;
+  margin: 0;
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(1.45rem, 3vw, 2.5rem);
-  line-height: 1.32;
-  letter-spacing: -0.01em;
-  text-transform: uppercase;
-  text-wrap: pretty;
+  font-size: clamp(5.5rem, 17vw, 12.5rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  user-select: none;
 }
-.saga-item { transition: opacity 0.3s var(--ease-out); }
-.saga-head { white-space: nowrap; }
-.saga-item:not(:last-child)::after {
-  content: "/";
-  margin: 0 0.3em 0 0.25em;
-  font-weight: 300;
-  color: var(--line);
+.odo-col {
+  --d: 0;
+  display: block;
+  height: 0.92em;
+  overflow: hidden;
+  -webkit-mask: linear-gradient(transparent, #000 14%, #000 86%, transparent);
+          mask: linear-gradient(transparent, #000 14%, #000 86%, transparent);
 }
-.saga-y {
+.odo-strip {
+  display: block;
+  transform: translateY(calc(var(--d) * -1em - 0.04em));
+  transition: transform 0.95s cubic-bezier(0.7, 0, 0.2, 1);
+}
+.odo-col:nth-child(1) .odo-strip { transition-delay: 0s; }
+.odo-col:nth-child(2) .odo-strip { transition-delay: 0.05s; }
+.odo-col:nth-child(3) .odo-strip { transition-delay: 0.1s; }
+.odo-col:nth-child(4) .odo-strip { transition-delay: 0.16s; }
+.odo-strip i {
+  display: block;
+  height: 1em;
+  font-style: normal;
+  line-height: 1;
+}
+/* „20“ v obrysu, poslední dvě číslice plné — stejný jazyk jako nadpisy */
+.odo-col:nth-child(-n + 2) i {
   color: var(--sect-bg, var(--bg-soft));
-  -webkit-text-stroke: 2.5px var(--ink-dim);
+  -webkit-text-stroke: 3px var(--ink-dim);
   paint-order: stroke fill;
-  transition: -webkit-text-stroke-color 0.3s;
 }
-.saga b { font-weight: 800; color: var(--ink); }
-.saga-n {
+
+/* popis */
+.odo-tag {
+  margin: 0;
   font-family: var(--font-mono);
-  font-weight: 400;
-  font-size: 0.34em;
-  letter-spacing: 0;
-  text-transform: none;
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+}
+.odo-tag::before { content: "# "; }
+.odo-title {
+  margin: 0.35rem 0 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.7rem, 3.4vw, 2.9rem);
+  line-height: 0.98;
+  text-transform: uppercase;
+}
+.odo-desc {
+  margin: 0.6rem 0 0;
+  max-width: 38ch;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.6;
   color: var(--ink-dim);
-  vertical-align: 0.35em;
-  white-space: nowrap;
+}
+.odo-info.is-swap > * {
+  animation: odo-in 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.odo-info.is-swap > :nth-child(2) { animation-delay: 0.06s; }
+.odo-info.is-swap > :nth-child(3) { animation-delay: 0.12s; }
+@keyframes odo-in {
+  from { opacity: 0; transform: translateY(0.6em); }
 }
 
-/* najetí na milník ztlumí ostatní → čte se jeden po druhém */
-@media (hover: hover) {
-  .saga:hover .saga-item { opacity: 0.35; }
-  .saga:hover .saga-item:hover { opacity: 1; }
-  .saga-item:hover .saga-y { -webkit-text-stroke-color: var(--ink); }
+/* řada roků + průběh */
+.odo-steps {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  margin: 1.75rem 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
 }
-
-/* současnost: tečka „live“ */
-.saga-now .saga-n::after {
+.odo-step {
+  position: relative;
+  width: 100%;
+  padding: 0.75rem 0 0.2rem;
+  border: 0;
+  background: none;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  text-align: left;
+  color: var(--ink-faint);
+  cursor: pointer;
+  transition: color 0.25s;
+}
+.odo-step::before {
   content: "";
-  display: inline-block;
-  width: 0.5em;
-  height: 0.5em;
-  margin-left: 0.5em;
-  border-radius: 50%;
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0.5rem;
+  height: 2px;
   background: var(--ink);
-  animation: saga-live 1.6s ease-in-out infinite;
+  transform: scaleX(0);
+  transform-origin: left;
 }
-@keyframes saga-live { 50% { opacity: 0.2; } }
+.odo-step:hover,
+.odo-step.is-past { color: var(--ink-dim); }
+.odo-step.is-on { color: var(--ink); }
+.odo-step.is-on::before { transform: scaleX(1); }
+.odo.is-auto .odo-step.is-on.is-run::before {
+  transform: scaleX(0);
+  animation: odo-fill var(--dur, 3.4s) linear forwards;
+}
+@keyframes odo-fill { to { transform: scaleX(1); } }
 
+@media (min-width: 900px) {
+  .odo-main { grid-template-columns: auto minmax(0, 1fr); gap: clamp(2rem, 5vw, 4.5rem); }
+}
 @media (max-width: 639px) {
-  .saga { line-height: 1.38; }
-  .saga-n { font-size: 0.48em; white-space: normal; }
+  .odo-step { font-size: 0.62rem; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .saga-now .saga-n::after { animation: none; }
+  .odo-strip { transition: none; }
+  .odo-info.is-swap > * { animation: none; }
 }
