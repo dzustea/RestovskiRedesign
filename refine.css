@@ -491,3 +491,33 @@ details[open] .chev::after { transform: rotate(180deg); }
 .mail-big:hover { text-decoration-color: var(--ink); }
 #kontakt input:user-invalid { border-bottom-color: var(--ink-dim); }
 #kontakt .space-y-9 .flex { gap: 0.6rem 1.4rem; }
+
+/* ── ŠIROKÉ MONITORY: obsah v kontejneru, hero vycentrovaný ─────────── */
+#hero > div { width: 100%; max-width: 1360px; margin-inline: auto; }
+#hero .h-hero { font-size: clamp(3.2rem, 7vw, 6.75rem); }
+/* háček nad Ž se ořezával o overflow:hidden řádku s animací */
+#hero h1 > span { padding-top: 0.14em; margin-top: -0.14em; }
+@media (min-width: 1024px) {
+  #hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 7rem;
+    padding-bottom: 5rem;
+  }
+  #hero > .grid {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+    gap: clamp(3rem, 6vw, 6rem);
+  }
+  #hero .md\:max-w-\[26rem\] { max-width: min(32rem, 100%); }
+  #hero h1 .text-stroke { white-space: nowrap; }
+  #hero .next-show { max-width: 30rem; }
+}
+@media (min-width: 768px) {
+  section[id]:not(#hero),
+  footer,
+  body > nav:first-of-type {
+    padding-left: max(2.5rem, calc((100% - 1360px) / 2));
+    padding-right: max(2.5rem, calc((100% - 1360px) / 2));
+  }
+}

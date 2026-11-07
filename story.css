@@ -1,209 +1,72 @@
 /* ─────────────────────────────────────────────────────────────
-   STORY — kariéra jako jedna stopa: 2003 → 2026 = 00:00 → 23:00
-   Waveform přes celou šířku, milníky jako komentáře v čase.
-   Řízeno story.js: --p (0–1) = pozice přehrávací hlavy.
+   STORY — kariéra jako jeden odstavec (editorial run-in)
+   Rok v obrysu, název plně, krátká poznámka drobným monem.
+   Vejde se do pár řádků a čte se jako text, ne jako widget.
    ───────────────────────────────────────────────────────────── */
 
-.track {
-  --p: 0;
-  position: relative;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--ink);
-}
-
-/* ── hlavička: ovládání + „právě hraje“ ── */
-.track-head {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 1rem 1.5rem;
-  align-items: start;
-  min-height: 9.5rem;
-}
-.track-ctrl {
-  display: flex;
-  gap: 0.35rem;
-  padding-top: 0.2rem;
-}
-.track-btn {
-  display: grid;
-  place-items: center;
-  width: 2.6rem;
-  height: 2.6rem;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  background: none;
-  color: var(--ink);
-  font-size: 0.8rem;
-  line-height: 1;
-  cursor: pointer;
-  transition: border-color 0.2s, background 0.2s, color 0.2s, transform 0.15s;
-}
-.track-btn:hover { border-color: var(--ink); }
-.track-btn:active { transform: scale(0.93); }
-.track-play {
-  width: 3.2rem;
-  height: 3.2rem;
-  background: var(--ink);
-  border-color: var(--ink);
-  color: var(--invert);
-  font-size: 0.95rem;
-}
-.track-play:hover { background: none; color: var(--ink); }
-
-.track-meta {
-  display: flex;
-  align-items: baseline;
-  gap: 0.2rem;
+.saga {
   margin: 0;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  font-variant-numeric: tabular-nums;
-  color: var(--ink);
-}
-.track-len { color: var(--ink-faint); }
-.track-tag {
-  margin-left: 0.9rem;
-  color: var(--ink-faint);
-}
-.track-tag::before { content: "#"; }
-.track-title {
-  margin: 0.45rem 0 0;
+  max-width: 68rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--ink);
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(1.7rem, 4vw, 3rem);
-  line-height: 0.95;
-  text-transform: uppercase;
+  font-size: clamp(1.45rem, 3vw, 2.5rem);
+  line-height: 1.32;
   letter-spacing: -0.01em;
+  text-transform: uppercase;
+  text-wrap: pretty;
 }
-.track-title [data-year] {
+.saga-item { transition: opacity 0.3s var(--ease-out); }
+.saga-head { white-space: nowrap; }
+.saga-item:not(:last-child)::after {
+  content: "/";
+  margin: 0 0.3em 0 0.25em;
+  font-weight: 300;
+  color: var(--line);
+}
+.saga-y {
   color: var(--sect-bg, var(--bg-soft));
-  -webkit-text-stroke: 3px var(--ink);
+  -webkit-text-stroke: 2.5px var(--ink-dim);
   paint-order: stroke fill;
-  margin-right: 0.15em;
+  transition: -webkit-text-stroke-color 0.3s;
 }
-.track-desc {
-  margin: 0.55rem 0 0;
-  max-width: 46ch;
+.saga b { font-weight: 800; color: var(--ink); }
+.saga-n {
   font-family: var(--font-mono);
-  font-size: 0.82rem;
-  line-height: 1.6;
+  font-weight: 400;
+  font-size: 0.34em;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--ink-dim);
-}
-.track-now.is-swap > * { animation: track-swap 0.4s var(--ease-out); }
-@keyframes track-swap {
-  from { opacity: 0; transform: translateY(6px); }
+  vertical-align: 0.35em;
+  white-space: nowrap;
 }
 
-/* ── waveform ── */
-.track-wave {
-  position: relative;
-  height: clamp(4.5rem, 10vw, 7.5rem);
-  margin-top: 1.75rem;
-  cursor: pointer;
-  touch-action: pan-y;
+/* najetí na milník ztlumí ostatní → čte se jeden po druhém */
+@media (hover: hover) {
+  .saga:hover .saga-item { opacity: 0.35; }
+  .saga:hover .saga-item:hover { opacity: 1; }
+  .saga-item:hover .saga-y { -webkit-text-stroke-color: var(--ink); }
 }
-.track-bars {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  gap: 2px;
-}
-.track-bars i {
-  flex: 1;
-  height: calc(var(--h) * 100%);
-  min-height: 2px;
-  background: var(--line);
-  border-radius: 1px;
-}
-.track-bars.is-played { clip-path: inset(0 calc(100% - var(--p) * 100%) 0 0); }
-.track-bars.is-played i { background: var(--ink); }
-.track-head-line {
-  position: absolute;
-  top: -0.4rem;
-  bottom: -0.4rem;
-  left: calc(var(--p) * 100%);
-  width: 1px;
-  background: var(--ink);
-}
-.track-head-line::before {
+
+/* současnost: tečka „live“ */
+.saga-now .saga-n::after {
   content: "";
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 7px;
-  height: 7px;
+  display: inline-block;
+  width: 0.5em;
+  height: 0.5em;
+  margin-left: 0.5em;
+  border-radius: 50%;
   background: var(--ink);
-  transform: translate(-50%, -50%) rotate(45deg);
+  animation: saga-live 1.6s ease-in-out infinite;
 }
-.track.is-seeking .track-bars.is-played { transition: clip-path 0.7s var(--ease-out); }
-.track.is-seeking .track-head-line { transition: left 0.7s var(--ease-out); }
-.track-wave:hover .track-bars:not(.is-played) i { background: var(--ink-faint); }
+@keyframes saga-live { 50% { opacity: 0.2; } }
 
-/* ── komentáře (milníky) pod vlnou ── */
-.track-pins {
-  position: relative;
-  height: 2.6rem;
-  margin-top: 0.6rem;
-}
-.pin {
-  position: absolute;
-  top: 0;
-  left: var(--x);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 1.6rem;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--ink-faint);
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-variant-numeric: tabular-nums;
-  transform: translateX(-50%);
-  cursor: pointer;
-  transition: color 0.2s;
-}
-.pin::before {
-  content: "";
-  width: 9px;
-  height: 9px;
-  margin-bottom: 0.45rem;
-  border: 1px solid currentColor;
-  background: var(--sect-bg, var(--bg-soft));
-  transition: background 0.2s, transform 0.3s var(--ease-spring);
-}
-.pin:first-child { align-items: flex-start; transform: none; }
-.pin:last-child { align-items: flex-end; transform: translateX(-100%); }
-.pin:hover,
-.pin.is-passed { color: var(--ink-dim); }
-.pin.is-passed::before { background: var(--ink-dim); }
-.pin.is-active { color: var(--ink); }
-.pin.is-active::before { background: var(--ink); transform: scale(1.35); }
-
-.track-foot {
-  display: flex;
-  justify-content: space-between;
-  margin: 0.75rem 0 0;
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--line);
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--ink-faint);
-}
-
-/* mobil: roky jen u aktivního komentáře, jinak čtverečky (jsou blízko u sebe) */
 @media (max-width: 639px) {
-  .track-head { grid-template-columns: 1fr; min-height: 12rem; }
-  .track-ctrl { order: 2; }
-  .pin { min-width: 1.75rem; height: 2.4rem; }
-  .pin span { opacity: 0; transition: opacity 0.2s; }
-  .pin.is-active span { opacity: 1; }
+  .saga { line-height: 1.38; }
+  .saga-n { font-size: 0.48em; white-space: normal; }
 }
-
 @media (prefers-reduced-motion: reduce) {
-  .track-now.is-swap > * { animation: none; }
-  .track.is-seeking .track-bars.is-played,
-  .track.is-seeking .track-head-line { transition: none; }
+  .saga-now .saga-n::after { animation: none; }
 }
