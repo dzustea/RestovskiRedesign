@@ -1,0 +1,259 @@
+/* ─────────────────────────────────────────────────────────────
+   NOVÝ SINGL — GO! (Rest feat. Masta Ace, prod. Idea)
+   Kazeta z 90. let: klik → cívky se roztočí, kazeta se „zasune“
+   a pod ní se otevře klip. YouTube se načte až po kliknutí.
+   ───────────────────────────────────────────────────────────── */
+
+.single {
+  display: grid;
+  gap: 3rem;
+  align-items: center;
+}
+.single-k {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0 0 1.1rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--ink-dim);
+}
+.single-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--ink);
+  animation: single-blink 1.6s ease-in-out infinite;
+}
+@keyframes single-blink { 50% { opacity: 0.2; } }
+.single-title {
+  font-size: clamp(4.5rem, 14vw, 10rem);
+  line-height: 0.85;
+  letter-spacing: -0.03em;
+}
+.single-who {
+  margin: 0.9rem 0 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.4rem, 2.6vw, 2.1rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+.single-who i {
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.45em;
+  text-transform: none;
+  color: var(--ink-faint);
+  vertical-align: 0.35em;
+  margin: 0 0.25em;
+}
+.single-lede {
+  max-width: 34ch;
+  margin: 1rem 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--ink-dim);
+}
+.single-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  margin-top: 2rem;
+}
+
+/* ── kazeta ── */
+.tape {
+  --spin: paused;
+  justify-self: center;
+  width: min(100%, 31rem);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  transform: rotate(-4deg);
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.tape:hover { --spin: running; transform: rotate(-1.5deg) translateY(-6px); }
+.tape:active { transform: rotate(-1.5deg) translateY(-2px) scale(0.985); }
+.single.is-playing .tape { --spin: running; transform: rotate(0deg) translateY(10px) scale(0.94); }
+
+.tape-shell {
+  position: relative;
+  display: block;
+  aspect-ratio: 1.58;
+  padding: 7% 6% 0;
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 30%),
+    #1b1a17;
+  border: 1px solid #34322c;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 30px 60px -25px rgba(0, 0, 0, 0.75);
+}
+html[data-theme="light"] .tape-shell { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 30px 60px -28px rgba(40, 30, 10, 0.45); }
+.tape-screw {
+  position: absolute;
+  width: 3.2%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, #0c0c0b 0 22%, #4a473f 26% 100%);
+}
+.tape-screw::after {
+  content: "";
+  position: absolute;
+  inset: 45% 15%;
+  background: #0c0c0b;
+  transform: rotate(35deg);
+}
+.s1 { top: 4%; left: 2.6%; }
+.s2 { top: 4%; right: 2.6%; }
+.s3 { bottom: 5%; left: 2.6%; }
+.s4 { bottom: 5%; right: 2.6%; }
+
+/* štítek */
+.tape-label {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto 1fr;
+  column-gap: 0.7rem;
+  height: 74%;
+  padding: 4.5% 5% 0;
+  border-radius: 6px;
+  background:
+    repeating-linear-gradient(180deg, transparent 0 21px, rgba(0, 0, 0, 0.07) 21px 22px),
+    #efeadc;
+  color: #151411;
+  text-align: left;
+}
+.tape-side {
+  grid-row: 1 / span 2;
+  display: grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border: 2px solid #151411;
+  border-radius: 50%;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.05rem;
+}
+.tape-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.4rem, 3.4vw, 2rem);
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+.tape-credit {
+  grid-column: 2;
+  font-family: var(--font-mono);
+  font-size: clamp(0.58rem, 1.4vw, 0.72rem);
+  color: #4f4b40;
+}
+/* okénko s cívkami */
+.tape-window {
+  grid-column: 1 / -1;
+  align-self: center;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 46%;
+  margin: 0 11%;
+  padding: 0 6%;
+  border-radius: 999px;
+  background: #121110;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+.tape-band {
+  position: absolute;
+  left: 22%;
+  right: 22%;
+  top: 30%;
+  bottom: 30%;
+  background: linear-gradient(90deg, #3a2f26, #2a221c 50%, #3a2f26);
+  opacity: 0.9;
+}
+.tape-reel {
+  position: relative;
+  z-index: 1;
+  height: 78%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, #121110 0 18%, transparent 19%),
+    repeating-conic-gradient(#efeadc 0 10deg, #c9c3b3 10deg 20deg, transparent 20deg 60deg),
+    radial-gradient(circle, #efeadc 0 46%, #2a221c 47% 100%);
+  animation: tape-spin 2.2s linear infinite;
+  animation-play-state: var(--spin);
+}
+.tape-reel:last-child { animation-duration: 1.6s; }
+@keyframes tape-spin { to { transform: rotate(360deg); } }
+/* spodní lišta s otvory */
+.tape-foot {
+  position: absolute;
+  left: 22%;
+  right: 22%;
+  bottom: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 16%;
+  border-radius: 8px 8px 0 0;
+  background: #24221e;
+  clip-path: polygon(6% 0, 94% 0, 100% 100%, 0 100%);
+}
+.tape-foot i {
+  width: 7%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #0c0c0b;
+}
+
+/* ── přehrávač ── */
+.single-player {
+  grid-column: 1 / -1;
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  max-width: 64rem;
+  justify-self: center;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #000;
+  box-shadow: var(--shadow);
+  animation: single-open 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.single-player iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+@keyframes single-open {
+  from { opacity: 0; transform: translateY(24px) scale(0.98); }
+}
+
+@media (min-width: 900px) {
+  .single { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tape, .single-player { transition: none; animation: none; }
+  .tape-reel, .single-dot { animation: none; }
+}
+
+/* hero odkaz na singl */
+.hero-new {
+  color: var(--ink);
+  text-decoration: underline 1px var(--ink-faint);
+  text-underline-offset: 4px;
+}
+.hero-new:hover { text-decoration-color: var(--ink); }

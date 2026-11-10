@@ -1,5 +1,55 @@
 [
   {
+    "id": "praha-cross-open-air-2026-06",
+    "date": "2026-06-06",
+    "city": "Praha",
+    "venue": "Cross Club — Cross Open Air",
+    "type": "festival",
+    "note": "REST",
+    "ticketUrl": null,
+    "soldOut": false
+  },
+  {
+    "id": "plzen-rest-michajlov-2026-06",
+    "date": "2026-06-12",
+    "city": "Plzeň",
+    "venue": "Plzeňský Prazdroj",
+    "type": "club",
+    "note": "Rest & Michajlov",
+    "ticketUrl": null,
+    "soldOut": false
+  },
+  {
+    "id": "frymburk-lipno-rap-night-2026-07",
+    "date": "2026-07-10",
+    "city": "Frymburk",
+    "venue": "Lipno Rap Night vol. 2",
+    "type": "festival",
+    "note": "REST",
+    "ticketUrl": null,
+    "soldOut": false
+  },
+  {
+    "id": "krinice-bigbos-2026-07",
+    "date": "2026-07-25",
+    "city": "Křinice u Broumova",
+    "venue": "Bigboš Křinice 2026",
+    "type": "festival",
+    "note": "REST",
+    "ticketUrl": null,
+    "soldOut": false
+  },
+  {
+    "id": "zermanice-zatoka-2026-08",
+    "date": "2026-08-15",
+    "city": "Žermanická přehrada",
+    "venue": "Zátoka Beach Club",
+    "type": "festival",
+    "note": "REST",
+    "ticketUrl": null,
+    "soldOut": false
+  },
+  {
     "id": "liberec-lidove-sady-2026-09",
     "date": "2026-09-25",
     "city": "Liberec",
@@ -45,7 +95,7 @@
     "city": "Praha",
     "venue": "Palác Akropolis",
     "type": "club",
-    "note": "REST + special guests · návrat do Akropole · začátek 19:30",
+    "note": "Pulz: REST + August Ocean, Idea a special guests · začátek 19:30",
     "ticketUrl": "https://goout.net/en/pulz-rest%2Bspecial-guests/szylely/",
     "soldOut": false
   },
@@ -55,7 +105,7 @@
     "city": "Praha",
     "venue": "Palác Akropolis",
     "type": "club",
-    "note": "REST + special guests · návrat do Akropole · začátek 19:30",
+    "note": "Pulz: REST + August Ocean, Idea a special guests · začátek 19:30",
     "ticketUrl": "https://goout.net/en/pulz-rest%2Bspecial-guests/szxlely/",
     "soldOut": false
   },
