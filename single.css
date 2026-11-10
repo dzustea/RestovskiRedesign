@@ -6,7 +6,7 @@
    ───────────────────────────────────────────────────────────── */
 
 .single {
-  --thumb: url("https://i.ytimg.com/vi/cgaWhMa4zRw/hqdefault.jpg");
+  --thumb: none; /* záběr dosadí single.js v nejlepším dostupném rozlišení */
 }
 .single-top {
   display: flex;
@@ -60,6 +60,10 @@
   filter: grayscale(1) contrast(1.25);
   animation: single-pan 18s ease-in-out infinite alternate;
   transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), letter-spacing 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+/* plné rozlišení (1280×720, bez černých pruhů) — nastaví single.js, když existuje */
+.single.is-hd .single-go {
+  background-size: auto, cover;
 }
 @keyframes single-pan {
   from { background-position: center 45%, 20% 40%; }
