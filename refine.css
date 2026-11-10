@@ -607,3 +607,25 @@ details[open] .disc-body .flex { animation: rise 0.45s 0.22s cubic-bezier(0.2, 0
 }
 .disc-body li { border-color: var(--line) !important; }
 @media (min-width: 640px) { .disc-vinyl { width: 4rem; height: 4rem; } }
+
+/* ── MERCH na mobilu: 2 produkty vedle sebe ─────────────────────────── */
+@media (max-width: 639px) {
+  #product-grid.shelf {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem 0.75rem;
+  }
+  .shelf .product-card__body { padding-top: 0.7rem; gap: 0.6rem; }
+  .shelf .product-card__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+    padding-bottom: 0.55rem;
+  }
+  .shelf .product-card__name { font-size: 0.85rem; line-height: 1.15; }
+  .shelf .product-card__price { font-size: 0.75rem; }
+  .shelf .product-card__badge { padding: 0.3rem 0.45rem; font-size: 0.58rem; }
+  .shelf .size-label { font-size: 0.62rem; margin-bottom: 0.25rem; }
+  .shelf .size-selector { gap: 0.15rem 0.7rem; }
+  .shelf .size-btn { font-size: 0.72rem; padding: 0.3rem 0; }
+  .shelf .add-to-cart { font-size: 0.7rem; padding: 0.7rem 0.4rem; letter-spacing: 0; }
+}
