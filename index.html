@@ -220,19 +220,28 @@
       </div>
     </section>
 
-    <!-- ── NOVÝ SINGL: kazeta, klip se načte až po kliknutí (single.css + single.js) ── -->
+    <!-- ── NOVÝ SINGL: obří GO! vyplněné záběrem z klipu, po kliknutí se rozevře do přehrávače (single.css + single.js) ── -->
     <section
       id="singl"
       class="relative px-5 md:px-10 py-20 md:py-28 border-b border-[var(--line)]"
     >
       <div class="single" data-single data-yt="cgaWhMa4zRw">
-        <div class="single-copy reveal">
-          <p class="single-k"><span class="single-dot" aria-hidden="true"></span>Nový singl · Praha × Brooklyn</p>
-          <h2 class="font-display h-section uppercase single-title">Go<span class="h-outline">!</span></h2>
+        <div class="single-top reveal">
+          <p><span class="single-dot" aria-hidden="true"></span>Nový singl</p>
+          <p>Praha × Brooklyn</p>
+        </div>
+
+        <div class="single-stage">
+          <button type="button" class="single-word reveal" data-single-play aria-label="Pustit klip GO! — Rest feat. Masta Ace">
+            <span class="single-go" aria-hidden="true">GO!</span>
+            <span class="single-hint" aria-hidden="true">▶ Pustit klip</span>
+          </button>
+          <div class="single-player" data-single-player hidden></div>
+        </div>
+
+        <div class="single-bottom reveal">
           <p class="single-who">Rest <i>feat.</i> Masta Ace</p>
-          <p class="single-lede">
-            Produkce Idea. Rest a legenda newyorského oldschoolu na jednom beatu.
-          </p>
+          <p class="single-lede">Produkce Idea. Rest a legenda newyorského oldschoolu na jednom beatu.</p>
           <div class="single-actions">
             <button type="button" class="btn-primary text-lg px-7 py-4" data-single-play>
               <span data-single-label>Pustit klip</span> <span aria-hidden="true">▶</span>
@@ -245,28 +254,6 @@
             >Na YouTube ↗</a>
           </div>
         </div>
-
-        <button type="button" class="tape reveal" data-single-play aria-label="Pustit klip GO! — Rest feat. Masta Ace">
-          <span class="tape-shell">
-            <span class="tape-screw s1" aria-hidden="true"></span>
-            <span class="tape-screw s2" aria-hidden="true"></span>
-            <span class="tape-screw s3" aria-hidden="true"></span>
-            <span class="tape-screw s4" aria-hidden="true"></span>
-            <span class="tape-label">
-              <span class="tape-side">A</span>
-              <span class="tape-name">GO!</span>
-              <span class="tape-credit">Rest feat. Masta Ace · prod. Idea</span>
-              <span class="tape-window" aria-hidden="true">
-                <span class="tape-reel"></span>
-                <span class="tape-band"></span>
-                <span class="tape-reel"></span>
-              </span>
-            </span>
-            <span class="tape-foot" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-          </span>
-        </button>
-
-        <div class="single-player" data-single-player hidden></div>
       </div>
     </section>
 
