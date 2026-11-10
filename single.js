@@ -23,7 +23,7 @@
     player.hidden = false;
     root.classList.add('is-playing');
     if (label) label.textContent = 'Hraje';
-    setTimeout(() => player.scrollIntoView({ behavior: 'smooth', block: 'center' }), 250);
+    player.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
   root.querySelectorAll('[data-single-play]').forEach((b) => b.addEventListener('click', open));
